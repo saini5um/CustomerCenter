@@ -1,0 +1,927 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<Form version="1.0" type="org.netbeans.modules.form.forminfo.JPanelFormInfo">
+  <Properties>
+    <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
+      <Dimension value="[650, 550]"/>
+    </Property>
+  </Properties>
+  <AuxValues>
+    <AuxValue name="FormSettings_generateMnemonicsCode" type="java.lang.Boolean" value="false"/>
+    <AuxValue name="FormSettings_listenerGenerationStyle" type="java.lang.Integer" value="0"/>
+    <AuxValue name="FormSettings_variablesLocal" type="java.lang.Boolean" value="false"/>
+    <AuxValue name="FormSettings_variablesModifier" type="java.lang.Integer" value="2"/>
+    <AuxValue name="designerSize" type="java.awt.Dimension" value="-84,-19,0,5,115,114,0,18,106,97,118,97,46,97,119,116,46,68,105,109,101,110,115,105,111,110,65,-114,-39,-41,-84,95,68,20,2,0,2,73,0,6,104,101,105,103,104,116,73,0,5,119,105,100,116,104,120,112,0,0,2,43,0,0,2,-29"/>
+  </AuxValues>
+
+  <Layout class="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout">
+    <Property name="useNullLayout" type="boolean" value="true"/>
+  </Layout>
+  <SubComponents>
+    <Container class="javax.swing.JPanel" name="jPanel11">
+      <Properties>
+        <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
+          <Border info="org.netbeans.modules.form.compat2.border.TitledBorderInfo">
+            <TitledBorder title="&lt;User Code&gt;">
+              <Connection PropertyName="titleX" code="ResourceManager.getString( &quot;AccountBillingNameAndAddress.title.BillingNameAndAddress&quot; )" type="code"/>
+            </TitledBorder>
+          </Border>
+        </Property>
+        <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
+          <Dimension value="[650, 270]"/>
+        </Property>
+      </Properties>
+      <Constraints>
+        <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
+          <AbsoluteConstraints x="5" y="5" width="635" height="190"/>
+        </Constraint>
+      </Constraints>
+
+      <Layout class="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout">
+        <Property name="useNullLayout" type="boolean" value="true"/>
+      </Layout>
+      <SubComponents>
+        <Container class="javax.swing.JPanel" name="jPanel5">
+          <Constraints>
+            <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
+              <AbsoluteConstraints x="320" y="20" width="300" height="160"/>
+            </Constraint>
+          </Constraints>
+
+          <Layout class="org.netbeans.modules.form.compat2.layouts.DesignFlowLayout">
+            <Property name="alignment" type="int" value="0"/>
+          </Layout>
+          <SubComponents>
+            <Component class="com.csgsystems.igpa.controls.CSGLabel" name="lblCompanyName">
+              <Properties>
+                <Property name="localizationKey" type="java.lang.String" value="AccountBillingNameAndAddress.lblCompanyName"/>
+              </Properties>
+            </Component>
+            <Component class="com.csgsystems.igpa.controls.CSGEdit" name="edtCompanyName">
+              <Properties>
+                <Property name="attributeName" type="java.lang.String" value="BillCompany"/>
+                <Property name="domainName" type="java.lang.String" value="Account"/>
+              </Properties>
+            </Component>
+            <Component class="com.csgsystems.igpa.controls.CSGLabel" name="lblPhoneDay">
+              <Properties>
+                <Property name="localizationKey" type="java.lang.String" value="AccountBillingNameAndAddress.lblPhoneDay"/>
+              </Properties>
+            </Component>
+            <Component class="com.csgsystems.igpa.controls.CSGEdit" name="edtPhoneDay">
+              <Properties>
+                <Property name="attributeName" type="java.lang.String" value="CustPhone1"/>
+                <Property name="domainName" type="java.lang.String" value="Account"/>
+              </Properties>
+            </Component>
+            <Container class="com.csgsystems.igpa.controls.CSGLabel" name="lblPhoneNight">
+              <Properties>
+                <Property name="localizationKey" type="java.lang.String" value="AccountBillingNameAndAddress.lblPhoneNight"/>
+              </Properties>
+
+              <Layout class="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout">
+                <Property name="useNullLayout" type="boolean" value="true"/>
+              </Layout>
+            </Container>
+            <Component class="com.csgsystems.igpa.controls.CSGEdit" name="edtPhoneNight">
+              <Properties>
+                <Property name="attributeName" type="java.lang.String" value="CustPhone2"/>
+                <Property name="domainName" type="java.lang.String" value="Account"/>
+              </Properties>
+            </Component>
+            <Container class="com.csgsystems.igpa.controls.CSGLabel" name="lblLanguage">
+              <Properties>
+                <Property name="localizationKey" type="java.lang.String" value="AccountBillingNameAndAddress.lblLanguage"/>
+              </Properties>
+
+              <Layout class="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout">
+                <Property name="useNullLayout" type="boolean" value="true"/>
+              </Layout>
+            </Container>
+            <Component class="com.csgsystems.igpa.controls.CSGComboBox" name="cbLanguage">
+              <Properties>
+                <Property name="attributeName" type="java.lang.String" value="LanguageCode"/>
+                <Property name="domainName" type="java.lang.String" value="Account"/>
+              </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="cbLanguageActionPerformed"/>
+              </Events>
+            </Component>
+            <Container class="com.csgsystems.igpa.controls.CSGLabel" name="lblVipCode">
+              <Properties>
+                <Property name="localizationKey" type="java.lang.String" value="AccountSummaryDetail.vm.label.VIPCode"/>
+              </Properties>
+
+              <Layout class="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout">
+                <Property name="useNullLayout" type="boolean" value="true"/>
+              </Layout>
+            </Container>
+            <Component class="com.csgsystems.igpa.controls.CSGComboBox" name="cbVipCode">
+              <Properties>
+                <Property name="attributeName" type="java.lang.String" value="VipCode"/>
+                <Property name="domainName" type="java.lang.String" value="Account"/>
+              </Properties>
+            </Component>
+            <Container class="com.csgsystems.igpa.controls.CSGLabel" name="lblGlobalContractStatus">
+              <Properties>
+                <Property name="localizationKey" type="java.lang.String" value="AccountSummaryDetail.vm.label.GlobalContractStatus"/>
+              </Properties>
+
+              <Layout class="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout">
+                <Property name="useNullLayout" type="boolean" value="true"/>
+              </Layout>
+            </Container>
+            <Component class="com.csgsystems.igpa.controls.CSGCheckBox" name="chkGlobalContractStatus">
+              <Properties>
+                <Property name="attributeName" type="java.lang.String" value="GlobalContractStatus"/>
+                <Property name="domainName" type="java.lang.String" value="Account"/>
+                <Property name="falseValue" type="java.lang.String" value="0"/>
+                <Property name="trueValue" type="java.lang.String" value="1"/>
+              </Properties>
+            </Component>
+          </SubComponents>
+        </Container>
+        <Container class="javax.swing.JPanel" name="jPanel4">
+          <Constraints>
+            <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
+              <AbsoluteConstraints x="10" y="20" width="300" height="160"/>
+            </Constraint>
+          </Constraints>
+
+          <Layout class="org.netbeans.modules.form.compat2.layouts.DesignFlowLayout"/>
+          <SubComponents>
+            <Container class="com.csgsystems.igpa.controls.CSGLabel" name="lblAccountID">
+              <Properties>
+                <Property name="localizationKey" type="java.lang.String" value="AccountBillingNameAndAddress.lblAccountID"/>
+              </Properties>
+
+              <Layout class="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout">
+                <Property name="useNullLayout" type="boolean" value="true"/>
+              </Layout>
+            </Container>
+            <Component class="com.csgsystems.igpa.controls.CSGEdit" name="edtAccountID">
+              <Properties>
+                <Property name="editable" type="boolean" value="false"/>
+                <Property name="attributeName" type="java.lang.String" value="AccountExternalId"/>
+                <Property name="domainName" type="java.lang.String" value="Account"/>
+                <Property name="enabled" type="boolean" value="false"/>
+              </Properties>
+            </Component>
+            <Component class="com.csgsystems.igpa.controls.CSGLabel" name="lblBillTitle">
+              <Properties>
+                <Property name="localizationKey" type="java.lang.String" value="AccountBillingNameAndAddress.lblBillTitle"/>
+              </Properties>
+            </Component>
+            <Component class="com.csgsystems.igpa.controls.CSGComboBox" name="cSGComboBox1">
+              <Properties>
+                <Property name="attributeName" type="java.lang.String" value="BillTitle"/>
+                <Property name="domainName" type="java.lang.String" value="Account"/>
+              </Properties>
+            </Component>
+            <Component class="com.csgsystems.igpa.controls.CSGLabel" name="lblFirstName">
+              <Properties>
+                <Property name="localizationKey" type="java.lang.String" value="AccountBillingNameAndAddress.lblFirstName"/>
+              </Properties>
+            </Component>
+            <Component class="com.csgsystems.igpa.controls.CSGEdit" name="edtFirstName">
+              <Properties>
+                <Property name="attributeName" type="java.lang.String" value="BillFname"/>
+                <Property name="domainName" type="java.lang.String" value="Account"/>
+              </Properties>
+            </Component>
+            <Component class="com.csgsystems.igpa.controls.CSGLabel" name="lblMiddleName">
+              <Properties>
+                <Property name="localizationKey" type="java.lang.String" value="AccountBillingNameAndAddress.lblMiddleName"/>
+              </Properties>
+            </Component>
+            <Component class="com.csgsystems.igpa.controls.CSGEdit" name="edtMiddleName">
+              <Properties>
+                <Property name="attributeName" type="java.lang.String" value="BillMinit"/>
+                <Property name="domainName" type="java.lang.String" value="Account"/>
+              </Properties>
+            </Component>
+            <Component class="com.csgsystems.igpa.controls.CSGLabel" name="lblLastName">
+              <Properties>
+                <Property name="localizationKey" type="java.lang.String" value="AccountBillingNameAndAddress.lblLastName"/>
+              </Properties>
+            </Component>
+            <Component class="com.csgsystems.igpa.controls.CSGEdit" name="edtLastName">
+              <Properties>
+                <Property name="attributeName" type="java.lang.String" value="BillLname"/>
+                <Property name="domainName" type="java.lang.String" value="Account"/>
+              </Properties>
+            </Component>
+            <Component class="com.csgsystems.igpa.controls.CSGLabel" name="lblFax">
+              <Properties>
+                <Property name="localizationKey" type="java.lang.String" value="AccountSummaryDetail.vm.label.StatementFaxNumber"/>
+              </Properties>
+            </Component>
+            <Component class="com.csgsystems.igpa.controls.CSGEdit" name="edtFax">
+              <Properties>
+                <Property name="atomName" type="java.lang.String" value="StatementToFaxno"/>
+                <Property name="domainName" type="java.lang.String" value="Account"/>
+              </Properties>
+            </Component>
+          </SubComponents>
+        </Container>
+      </SubComponents>
+    </Container>
+    <Container class="javax.swing.JPanel" name="jPanel3">
+      <Properties>
+        <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
+          <Border info="org.netbeans.modules.form.compat2.border.TitledBorderInfo">
+            <TitledBorder title="&lt;User Code&gt;">
+              <Connection PropertyName="titleX" code="ResourceManager.getString( &quot;AccountBillingNameAndAddress.title.BillingAddress&quot; )" type="code"/>
+            </TitledBorder>
+          </Border>
+        </Property>
+      </Properties>
+      <Constraints>
+        <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
+          <AbsoluteConstraints x="5" y="200" width="315" height="350"/>
+        </Constraint>
+      </Constraints>
+
+      <Layout class="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout">
+        <Property name="useNullLayout" type="boolean" value="true"/>
+      </Layout>
+      <SubComponents>
+        <Component class="com.csgsystems.igpa.controls.CSGLabel" name="lblAddressLine11">
+          <Properties>
+            <Property name="localizationKey" type="java.lang.String" value="AccountBillingNameAndAddress.lblAddressLine1"/>
+          </Properties>
+          <Constraints>
+            <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
+              <AbsoluteConstraints x="10" y="20" width="140" height="20"/>
+            </Constraint>
+          </Constraints>
+        </Component>
+        <Component class="com.csgsystems.igpa.controls.CSGLabel" name="lblCity1">
+          <Properties>
+            <Property name="localizationKey" type="java.lang.String" value="AccountBillingNameAndAddress.lblCity"/>
+          </Properties>
+          <Constraints>
+            <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
+              <AbsoluteConstraints x="10" y="120" width="140" height="20"/>
+            </Constraint>
+          </Constraints>
+        </Component>
+        <Component class="com.csgsystems.igpa.controls.CSGLabel" name="lblStateProv1">
+          <Properties>
+            <Property name="localizationKey" type="java.lang.String" value="AccountBillingNameAndAddress.lblStateProv"/>
+          </Properties>
+          <Constraints>
+            <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
+              <AbsoluteConstraints x="10" y="145" width="140" height="20"/>
+            </Constraint>
+          </Constraints>
+        </Component>
+        <Component class="com.csgsystems.igpa.controls.CSGLabel" name="lblCountry1">
+          <Properties>
+            <Property name="localizationKey" type="java.lang.String" value="AccountBillingNameAndAddress.lblCountry"/>
+          </Properties>
+          <Constraints>
+            <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
+              <AbsoluteConstraints x="10" y="170" width="140" height="20"/>
+            </Constraint>
+          </Constraints>
+        </Component>
+        <Component class="com.csgsystems.igpa.controls.CSGLabel" name="lblFranchise1">
+          <Properties>
+            <Property name="localizationKey" type="java.lang.String" value="AccountBillingNameAndAddress.lblFranchise"/>
+          </Properties>
+          <Constraints>
+            <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
+              <AbsoluteConstraints x="10" y="195" width="140" height="20"/>
+            </Constraint>
+          </Constraints>
+        </Component>
+        <Component class="com.csgsystems.igpa.controls.CSGEdit" name="edtAddressLine21">
+          <Properties>
+            <Property name="attributeName" type="java.lang.String" value="BillAddress2"/>
+            <Property name="domainName" type="java.lang.String" value="Account"/>
+          </Properties>
+          <Events>
+            <EventHandler event="keyTyped" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="edtAddressLine21KeyTyped"/>
+          </Events>
+          <Constraints>
+            <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
+              <AbsoluteConstraints x="155" y="45" width="150" height="20"/>
+            </Constraint>
+          </Constraints>
+        </Component>
+        <Component class="com.csgsystems.igpa.controls.CSGEdit" name="cSGEdit11">
+          <Properties>
+            <Property name="atomName" type="java.lang.String" value="BillAddress3"/>
+            <Property name="domainName" type="java.lang.String" value="Account"/>
+          </Properties>
+          <Events>
+            <EventHandler event="keyTyped" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="cSGEdit11KeyTyped"/>
+          </Events>
+          <Constraints>
+            <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
+              <AbsoluteConstraints x="155" y="70" width="150" height="20"/>
+            </Constraint>
+          </Constraints>
+        </Component>
+        <Component class="com.csgsystems.igpa.controls.CSGEdit" name="edtCity1">
+          <Properties>
+            <Property name="attributeName" type="java.lang.String" value="BillCity"/>
+            <Property name="domainName" type="java.lang.String" value="Account"/>
+            <Property name="enabled" type="boolean" value="false"/>
+          </Properties>
+          <Constraints>
+            <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
+              <AbsoluteConstraints x="155" y="120" width="150" height="20"/>
+            </Constraint>
+          </Constraints>
+        </Component>
+        <Component class="com.csgsystems.igpa.controls.CSGEdit" name="edtStateProv1">
+          <Properties>
+            <Property name="attributeName" type="java.lang.String" value="BillState"/>
+            <Property name="domainName" type="java.lang.String" value="Account"/>
+            <Property name="enabled" type="boolean" value="false"/>
+          </Properties>
+          <Constraints>
+            <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
+              <AbsoluteConstraints x="155" y="145" width="150" height="20"/>
+            </Constraint>
+          </Constraints>
+        </Component>
+        <Component class="com.csgsystems.igpa.controls.CSGComboBox" name="cbCountry1">
+          <Properties>
+            <Property name="attributeName" type="java.lang.String" value="BillCountryCode"/>
+            <Property name="domainName" type="java.lang.String" value="Account"/>
+          </Properties>
+          <Constraints>
+            <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
+              <AbsoluteConstraints x="155" y="170" width="150" height="20"/>
+            </Constraint>
+          </Constraints>
+        </Component>
+        <Component class="com.csgsystems.igpa.controls.CSGComboBox" name="cbFranchise1">
+          <Properties>
+            <Property name="attributeName" type="java.lang.String" value="BillFranchiseTaxCode"/>
+            <Property name="domainName" type="java.lang.String" value="Account"/>
+          </Properties>
+          <Constraints>
+            <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
+              <AbsoluteConstraints x="155" y="195" width="150" height="20"/>
+            </Constraint>
+          </Constraints>
+        </Component>
+        <Component class="com.csgsystems.igpa.controls.CSGEdit" name="edtAddressLine11">
+          <Properties>
+            <Property name="attributeName" type="java.lang.String" value="BillAddress1"/>
+            <Property name="domainName" type="java.lang.String" value="Account"/>
+          </Properties>
+          <Events>
+            <EventHandler event="keyTyped" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="edtAddressLine11KeyTyped"/>
+          </Events>
+          <Constraints>
+            <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
+              <AbsoluteConstraints x="155" y="20" width="150" height="20"/>
+            </Constraint>
+          </Constraints>
+        </Component>
+        <Component class="com.csgsystems.igpa.controls.CSGEdit" name="edtZipPostalCode1">
+          <Properties>
+            <Property name="attributeName" type="java.lang.String" value="BillZip"/>
+            <Property name="domainName" type="java.lang.String" value="Account"/>
+          </Properties>
+          <Events>
+            <EventHandler event="focusLost" listener="java.awt.event.FocusListener" parameters="java.awt.event.FocusEvent" handler="lostFocusHandler"/>
+          </Events>
+          <Constraints>
+            <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
+              <AbsoluteConstraints x="155" y="95" width="-1" height="20"/>
+            </Constraint>
+          </Constraints>
+        </Component>
+        <Component class="com.csgsystems.igpa.controls.CSGLabel" name="lblZipPostalCode1">
+          <Properties>
+            <Property name="localizationKey" type="java.lang.String" value="AccountBillingNameAndAddress.lblZipPostalCode"/>
+          </Properties>
+          <Constraints>
+            <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
+              <AbsoluteConstraints x="10" y="95" width="140" height="20"/>
+            </Constraint>
+          </Constraints>
+        </Component>
+        <Component class="com.csgsystems.igpa.controls.CSGEdit" name="edtEMail1">
+          <Properties>
+            <Property name="attributeName" type="java.lang.String" value="CustEmail"/>
+            <Property name="domainName" type="java.lang.String" value="Account"/>
+          </Properties>
+          <Constraints>
+            <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
+              <AbsoluteConstraints x="155" y="220" width="150" height="20"/>
+            </Constraint>
+          </Constraints>
+        </Component>
+        <Component class="com.csgsystems.igpa.controls.CSGLabel" name="lblEMail1">
+          <Properties>
+            <Property name="localizationKey" type="java.lang.String" value="AccountSummaryDetail.vm.label.Email"/>
+          </Properties>
+          <Constraints>
+            <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
+              <AbsoluteConstraints x="10" y="220" width="140" height="20"/>
+            </Constraint>
+          </Constraints>
+        </Component>
+      </SubComponents>
+    </Container>
+    <Container class="javax.swing.JPanel" name="jPanel1">
+      <Properties>
+        <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
+          <Border info="org.netbeans.modules.form.compat2.border.TitledBorderInfo">
+            <TitledBorder title="&lt;User Code&gt;">
+              <Connection PropertyName="titleX" code="ResourceManager.getString( &quot;AccountAlternateAddress.title.AlternateAddress&quot; )" type="code"/>
+            </TitledBorder>
+          </Border>
+        </Property>
+        <Property name="minimumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
+          <Dimension value="[315, 265]"/>
+        </Property>
+        <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
+          <Dimension value="[315, 265]"/>
+        </Property>
+      </Properties>
+      <Constraints>
+        <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
+          <AbsoluteConstraints x="325" y="200" width="315" height="350"/>
+        </Constraint>
+      </Constraints>
+
+      <Layout class="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout">
+        <Property name="useNullLayout" type="boolean" value="true"/>
+      </Layout>
+      <SubComponents>
+        <Component class="com.csgsystems.igpa.controls.CSGLabel" name="lblAddressLine1">
+          <Properties>
+            <Property name="localizationKey" type="java.lang.String" value="AccountAlternateAddress.lblAddressLine1"/>
+          </Properties>
+          <Constraints>
+            <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
+              <AbsoluteConstraints x="10" y="20" width="140" height="20"/>
+            </Constraint>
+          </Constraints>
+        </Component>
+        <Component class="com.csgsystems.igpa.controls.CSGEdit" name="edtAddressLine1">
+          <Properties>
+            <Property name="attributeName" type="java.lang.String" value="CustAddress1"/>
+            <Property name="domainName" type="java.lang.String" value="Account"/>
+          </Properties>
+          <Events>
+            <EventHandler event="keyTyped" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="edtAddressLine1KeyTyped"/>
+          </Events>
+          <Constraints>
+            <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
+              <AbsoluteConstraints x="150" y="20" width="150" height="-1"/>
+            </Constraint>
+          </Constraints>
+        </Component>
+        <Component class="com.csgsystems.igpa.controls.CSGEdit" name="edtAddressLine2">
+          <Properties>
+            <Property name="attributeName" type="java.lang.String" value="CustAddress2"/>
+            <Property name="domainName" type="java.lang.String" value="Account"/>
+          </Properties>
+          <Events>
+            <EventHandler event="keyTyped" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="edtAddressLine2KeyTyped"/>
+          </Events>
+          <Constraints>
+            <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
+              <AbsoluteConstraints x="150" y="45" width="150" height="-1"/>
+            </Constraint>
+          </Constraints>
+        </Component>
+        <Component class="com.csgsystems.igpa.controls.CSGEdit" name="edtCity">
+          <Properties>
+            <Property name="attributeName" type="java.lang.String" value="CustCity"/>
+            <Property name="domainName" type="java.lang.String" value="Account"/>
+          </Properties>
+          <Constraints>
+            <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
+              <AbsoluteConstraints x="150" y="120" width="150" height="-1"/>
+            </Constraint>
+          </Constraints>
+        </Component>
+        <Component class="com.csgsystems.igpa.controls.CSGEdit" name="edtStateProv">
+          <Properties>
+            <Property name="attributeName" type="java.lang.String" value="CustState"/>
+            <Property name="domainName" type="java.lang.String" value="Account"/>
+          </Properties>
+          <Constraints>
+            <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
+              <AbsoluteConstraints x="150" y="145" width="150" height="-1"/>
+            </Constraint>
+          </Constraints>
+        </Component>
+        <Component class="com.csgsystems.igpa.controls.CSGLabel" name="lblCity">
+          <Properties>
+            <Property name="localizationKey" type="java.lang.String" value="AccountAlternateAddress.lblCity"/>
+          </Properties>
+          <Constraints>
+            <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
+              <AbsoluteConstraints x="10" y="120" width="140" height="20"/>
+            </Constraint>
+          </Constraints>
+        </Component>
+        <Component class="com.csgsystems.igpa.controls.CSGLabel" name="lblStateProv">
+          <Properties>
+            <Property name="localizationKey" type="java.lang.String" value="AccountAlternateAddress.lblStateProv"/>
+          </Properties>
+          <Constraints>
+            <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
+              <AbsoluteConstraints x="10" y="145" width="140" height="20"/>
+            </Constraint>
+          </Constraints>
+        </Component>
+        <Component class="com.csgsystems.igpa.controls.CSGLabel" name="lblCountry">
+          <Properties>
+            <Property name="localizationKey" type="java.lang.String" value="AccountAlternateAddress.lblCountry"/>
+          </Properties>
+          <Constraints>
+            <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
+              <AbsoluteConstraints x="10" y="170" width="140" height="20"/>
+            </Constraint>
+          </Constraints>
+        </Component>
+        <Component class="com.csgsystems.igpa.controls.CSGLabel" name="lblFranchise">
+          <Properties>
+            <Property name="localizationKey" type="java.lang.String" value="AccountAlternateAddress.lblFranchise"/>
+          </Properties>
+          <Constraints>
+            <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
+              <AbsoluteConstraints x="10" y="195" width="140" height="20"/>
+            </Constraint>
+          </Constraints>
+        </Component>
+        <Component class="com.csgsystems.igpa.controls.CSGComboBox" name="cbCountry">
+          <Properties>
+            <Property name="attributeName" type="java.lang.String" value="CustCountryCode"/>
+            <Property name="domainName" type="java.lang.String" value="Account"/>
+          </Properties>
+          <Constraints>
+            <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
+              <AbsoluteConstraints x="150" y="170" width="150" height="20"/>
+            </Constraint>
+          </Constraints>
+        </Component>
+        <Component class="com.csgsystems.igpa.controls.CSGComboBox" name="cbFranchise">
+          <Properties>
+            <Property name="attributeName" type="java.lang.String" value="CustFranchiseTaxCode"/>
+            <Property name="domainName" type="java.lang.String" value="Account"/>
+          </Properties>
+          <Constraints>
+            <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
+              <AbsoluteConstraints x="150" y="195" width="150" height="20"/>
+            </Constraint>
+          </Constraints>
+        </Component>
+        <Component class="com.csgsystems.igpa.controls.CSGEdit" name="cSGEdit1">
+          <Properties>
+            <Property name="attributeName" type="java.lang.String" value="CustAddress3"/>
+            <Property name="domainName" type="java.lang.String" value="Account"/>
+          </Properties>
+          <Events>
+            <EventHandler event="keyTyped" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="cSGEdit1KeyTyped"/>
+          </Events>
+          <Constraints>
+            <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
+              <AbsoluteConstraints x="150" y="70" width="150" height="20"/>
+            </Constraint>
+          </Constraints>
+        </Component>
+        <Container class="javax.swing.JPanel" name="jPanel2">
+          <Properties>
+            <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
+              <Border info="org.netbeans.modules.form.compat2.border.TitledBorderInfo">
+                <TitledBorder title="&lt;User Code&gt;">
+                  <Connection PropertyName="titleX" code="ResourceManager.getString( &quot;AccountAlternateAddress.title.AlternateAddress&quot; )" type="code"/>
+                </TitledBorder>
+              </Border>
+            </Property>
+            <Property name="minimumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
+              <Dimension value="[315, 265]"/>
+            </Property>
+          </Properties>
+          <Constraints>
+            <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
+              <AbsoluteConstraints x="325" y="195" width="315" height="265"/>
+            </Constraint>
+          </Constraints>
+
+          <Layout class="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout">
+            <Property name="useNullLayout" type="boolean" value="true"/>
+          </Layout>
+          <SubComponents>
+            <Component class="com.csgsystems.igpa.controls.CSGLabel" name="lblAddressLine2">
+              <Properties>
+                <Property name="localizationKey" type="java.lang.String" value="AccountAlternateAddress.lblAddressLine1"/>
+              </Properties>
+              <Constraints>
+                <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
+                  <AbsoluteConstraints x="10" y="20" width="140" height="20"/>
+                </Constraint>
+              </Constraints>
+            </Component>
+            <Component class="com.csgsystems.igpa.controls.CSGEdit" name="edtAddressLine3">
+              <Properties>
+                <Property name="attributeName" type="java.lang.String" value="CustAddress1"/>
+                <Property name="domainName" type="java.lang.String" value="Account"/>
+              </Properties>
+              <Constraints>
+                <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
+                  <AbsoluteConstraints x="150" y="20" width="150" height="-1"/>
+                </Constraint>
+              </Constraints>
+            </Component>
+            <Component class="com.csgsystems.igpa.controls.CSGEdit" name="edtAddressLine4">
+              <Properties>
+                <Property name="attributeName" type="java.lang.String" value="CustAddress2"/>
+                <Property name="domainName" type="java.lang.String" value="Account"/>
+              </Properties>
+              <Constraints>
+                <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
+                  <AbsoluteConstraints x="150" y="45" width="150" height="-1"/>
+                </Constraint>
+              </Constraints>
+            </Component>
+            <Component class="com.csgsystems.igpa.controls.CSGEdit" name="edtCity2">
+              <Properties>
+                <Property name="attributeName" type="java.lang.String" value="CustCity"/>
+                <Property name="domainName" type="java.lang.String" value="Account"/>
+              </Properties>
+              <Constraints>
+                <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
+                  <AbsoluteConstraints x="150" y="95" width="150" height="-1"/>
+                </Constraint>
+              </Constraints>
+            </Component>
+            <Component class="com.csgsystems.igpa.controls.CSGEdit" name="edtStateProv2">
+              <Properties>
+                <Property name="attributeName" type="java.lang.String" value="CustState"/>
+                <Property name="domainName" type="java.lang.String" value="Account"/>
+              </Properties>
+              <Constraints>
+                <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
+                  <AbsoluteConstraints x="150" y="120" width="150" height="-1"/>
+                </Constraint>
+              </Constraints>
+            </Component>
+            <Component class="com.csgsystems.igpa.controls.CSGLabel" name="lblCity2">
+              <Properties>
+                <Property name="localizationKey" type="java.lang.String" value="AccountAlternateAddress.lblCity"/>
+              </Properties>
+              <Constraints>
+                <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
+                  <AbsoluteConstraints x="10" y="95" width="140" height="20"/>
+                </Constraint>
+              </Constraints>
+            </Component>
+            <Component class="com.csgsystems.igpa.controls.CSGLabel" name="lblStateProv2">
+              <Properties>
+                <Property name="localizationKey" type="java.lang.String" value="AccountAlternateAddress.lblStateProv"/>
+              </Properties>
+              <Constraints>
+                <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
+                  <AbsoluteConstraints x="10" y="120" width="140" height="20"/>
+                </Constraint>
+              </Constraints>
+            </Component>
+            <Component class="com.csgsystems.igpa.controls.CSGLabel" name="lblZipPostalCode2">
+              <Properties>
+                <Property name="localizationKey" type="java.lang.String" value="AccountAlternateAddress.lblZipPostalCode"/>
+              </Properties>
+              <Constraints>
+                <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
+                  <AbsoluteConstraints x="10" y="145" width="140" height="20"/>
+                </Constraint>
+              </Constraints>
+            </Component>
+            <Component class="com.csgsystems.igpa.controls.CSGEdit" name="edtZipPostalCode2">
+              <Properties>
+                <Property name="attributeName" type="java.lang.String" value="CustZip"/>
+                <Property name="domainName" type="java.lang.String" value="Account"/>
+              </Properties>
+              <Constraints>
+                <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
+                  <AbsoluteConstraints x="150" y="145" width="150" height="-1"/>
+                </Constraint>
+              </Constraints>
+            </Component>
+            <Component class="com.csgsystems.igpa.controls.CSGLabel" name="lblCounty2">
+              <Properties>
+                <Property name="localizationKey" type="java.lang.String" value="AccountAlternateAddress.lblCounty"/>
+              </Properties>
+              <Constraints>
+                <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
+                  <AbsoluteConstraints x="10" y="220" width="140" height="20"/>
+                </Constraint>
+              </Constraints>
+            </Component>
+            <Component class="com.csgsystems.igpa.controls.CSGLabel" name="lblCountry2">
+              <Properties>
+                <Property name="localizationKey" type="java.lang.String" value="AccountAlternateAddress.lblCountry"/>
+              </Properties>
+              <Constraints>
+                <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
+                  <AbsoluteConstraints x="10" y="170" width="140" height="20"/>
+                </Constraint>
+              </Constraints>
+            </Component>
+            <Component class="com.csgsystems.igpa.controls.CSGLabel" name="lblFranchise2">
+              <Properties>
+                <Property name="localizationKey" type="java.lang.String" value="AccountAlternateAddress.lblFranchise"/>
+              </Properties>
+              <Constraints>
+                <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
+                  <AbsoluteConstraints x="10" y="195" width="140" height="20"/>
+                </Constraint>
+              </Constraints>
+            </Component>
+            <Component class="com.csgsystems.igpa.controls.CSGComboBox" name="cbCountry2">
+              <Properties>
+                <Property name="attributeName" type="java.lang.String" value="CustCountryCode"/>
+                <Property name="domainName" type="java.lang.String" value="Account"/>
+              </Properties>
+              <Constraints>
+                <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
+                  <AbsoluteConstraints x="150" y="170" width="150" height="20"/>
+                </Constraint>
+              </Constraints>
+            </Component>
+            <Component class="com.csgsystems.igpa.controls.CSGComboBox" name="cbFranchise2">
+              <Properties>
+                <Property name="attributeName" type="java.lang.String" value="CustFranchiseTaxCode"/>
+                <Property name="domainName" type="java.lang.String" value="Account"/>
+              </Properties>
+              <Constraints>
+                <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
+                  <AbsoluteConstraints x="150" y="195" width="150" height="20"/>
+                </Constraint>
+              </Constraints>
+            </Component>
+            <Component class="com.csgsystems.igpa.controls.CSGEdit" name="cSGEdit2">
+              <Properties>
+                <Property name="attributeName" type="java.lang.String" value="CustAddress3"/>
+                <Property name="domainName" type="java.lang.String" value="Account"/>
+              </Properties>
+              <Constraints>
+                <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
+                  <AbsoluteConstraints x="150" y="70" width="150" height="20"/>
+                </Constraint>
+              </Constraints>
+            </Component>
+            <Component class="com.csgsystems.igpa.controls.CSGCollectionComboBox" name="ccbCustCounty1">
+              <Properties>
+                <Property name="attributeName" type="java.lang.String" value="CustGeocode"/>
+                <Property name="contextObserver" type="boolean" value="true"/>
+                <Property name="domainName" type="java.lang.String" value="Account"/>
+                <Property name="enumCollectionName" type="java.lang.String" value="GeocodeList"/>
+                <Property name="enumCollectionSubtype" type="java.lang.String" value="Account-CustomerAddress"/>
+                <Property name="enumDisplayAttributeName" type="java.lang.String" value="VirtualCountyGeocode"/>
+                <Property name="enumKeyAttributeName" type="java.lang.String" value="Geocode"/>
+              </Properties>
+              <Constraints>
+                <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
+                  <AbsoluteConstraints x="150" y="220" width="150" height="20"/>
+                </Constraint>
+              </Constraints>
+            </Component>
+          </SubComponents>
+        </Container>
+        <Component class="com.csgsystems.igpa.controls.CSGEdit" name="edtZipPostalCode">
+          <Properties>
+            <Property name="attributeName" type="java.lang.String" value="CustZip"/>
+            <Property name="domainName" type="java.lang.String" value="Account"/>
+          </Properties>
+          <Events>
+            <EventHandler event="focusLost" listener="java.awt.event.FocusListener" parameters="java.awt.event.FocusEvent" handler="lostFocusHandler"/>
+          </Events>
+          <Constraints>
+            <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
+              <AbsoluteConstraints x="150" y="95" width="150" height="-1"/>
+            </Constraint>
+          </Constraints>
+        </Component>
+        <Component class="com.csgsystems.igpa.controls.CSGLabel" name="lblZipPostalCode">
+          <Properties>
+            <Property name="localizationKey" type="java.lang.String" value="AccountAlternateAddress.lblZipPostalCode"/>
+          </Properties>
+          <Constraints>
+            <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
+              <AbsoluteConstraints x="10" y="95" width="-1" height="-1"/>
+            </Constraint>
+          </Constraints>
+        </Component>
+        <Component class="com.csgsystems.igpa.controls.CSGLabel" name="cSGLabel1">
+          <Properties>
+            <Property name="localizationKey" type="java.lang.String" value="AccountSummaryDetail.vm.label.PrimaryContact"/>
+          </Properties>
+          <Constraints>
+            <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
+              <AbsoluteConstraints x="10" y="220" width="-1" height="-1"/>
+            </Constraint>
+          </Constraints>
+        </Component>
+        <Component class="com.csgsystems.igpa.controls.CSGLabel" name="cSGLabel2">
+          <Properties>
+            <Property name="localizationKey" type="java.lang.String" value="AccountSummaryDetail.vm.label.PrimaryPhone"/>
+          </Properties>
+          <Constraints>
+            <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
+              <AbsoluteConstraints x="10" y="245" width="-1" height="-1"/>
+            </Constraint>
+          </Constraints>
+        </Component>
+        <Component class="com.csgsystems.igpa.controls.CSGLabel" name="cSGLabel3">
+          <Properties>
+            <Property name="localizationKey" type="java.lang.String" value="AccountSummaryDetail.vm.label.SecondaryContact"/>
+          </Properties>
+          <Constraints>
+            <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
+              <AbsoluteConstraints x="10" y="270" width="-1" height="-1"/>
+            </Constraint>
+          </Constraints>
+        </Component>
+        <Component class="com.csgsystems.igpa.controls.CSGLabel" name="cSGLabel4">
+          <Properties>
+            <Property name="localizationKey" type="java.lang.String" value="AccountSummaryDetail.vm.label.SecondaryPhone"/>
+          </Properties>
+          <Constraints>
+            <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
+              <AbsoluteConstraints x="10" y="295" width="-1" height="-1"/>
+            </Constraint>
+          </Constraints>
+        </Component>
+        <Component class="com.csgsystems.igpa.controls.CSGEdit" name="cSGEdit3">
+          <Properties>
+            <Property name="attributeName" type="java.lang.String" value="Contact1Name"/>
+            <Property name="domainName" type="java.lang.String" value="Account"/>
+          </Properties>
+          <Constraints>
+            <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
+              <AbsoluteConstraints x="150" y="220" width="-1" height="-1"/>
+            </Constraint>
+          </Constraints>
+        </Component>
+        <Component class="com.csgsystems.igpa.controls.CSGEdit" name="cSGEdit4">
+          <Properties>
+            <Property name="atomName" type="java.lang.String" value="Contact1Phone"/>
+            <Property name="domainName" type="java.lang.String" value="Account"/>
+          </Properties>
+          <Constraints>
+            <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
+              <AbsoluteConstraints x="150" y="245" width="-1" height="-1"/>
+            </Constraint>
+          </Constraints>
+        </Component>
+        <Component class="com.csgsystems.igpa.controls.CSGEdit" name="cSGEdit5">
+          <Properties>
+            <Property name="atomName" type="java.lang.String" value="Contact2Name"/>
+            <Property name="domainName" type="java.lang.String" value="Account"/>
+          </Properties>
+          <Constraints>
+            <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
+              <AbsoluteConstraints x="150" y="270" width="-1" height="-1"/>
+            </Constraint>
+          </Constraints>
+        </Component>
+        <Component class="com.csgsystems.igpa.controls.CSGEdit" name="cSGEdit6">
+          <Properties>
+            <Property name="atomName" type="java.lang.String" value="Contact2Phone"/>
+            <Property name="domainName" type="java.lang.String" value="Account"/>
+          </Properties>
+          <Constraints>
+            <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
+              <AbsoluteConstraints x="150" y="295" width="-1" height="-1"/>
+            </Constraint>
+          </Constraints>
+        </Component>
+        <Component class="com.csgsystems.igpa.controls.CSGEdit" name="edtEMail2">
+          <Properties>
+            <Property name="attributeName" type="java.lang.String" value="StatementToEmail"/>
+            <Property name="domainName" type="java.lang.String" value="Account"/>
+          </Properties>
+          <Constraints>
+            <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
+              <AbsoluteConstraints x="150" y="320" width="150" height="20"/>
+            </Constraint>
+          </Constraints>
+        </Component>
+        <Component class="com.csgsystems.igpa.controls.CSGLabel" name="lblEMail2">
+          <Properties>
+            <Property name="localizationKey" type="java.lang.String" value="AccountSummaryDetail.vm.label.StatementEmail"/>
+          </Properties>
+          <Constraints>
+            <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
+              <AbsoluteConstraints x="10" y="320" width="140" height="20"/>
+            </Constraint>
+          </Constraints>
+        </Component>
+      </SubComponents>
+    </Container>
+  </SubComponents>
+</Form>

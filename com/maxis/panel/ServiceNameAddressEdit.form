@@ -1,0 +1,907 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<Form version="1.0" type="org.netbeans.modules.form.forminfo.JPanelFormInfo">
+  <Properties>
+    <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
+      <Dimension value="[360, 440]"/>
+    </Property>
+  </Properties>
+  <AuxValues>
+    <AuxValue name="designerSize" type="java.awt.Dimension" value="-84,-19,0,5,115,114,0,18,106,97,118,97,46,97,119,116,46,68,105,109,101,110,115,105,111,110,65,-114,-39,-41,-84,95,68,20,2,0,2,73,0,6,104,101,105,103,104,116,73,0,5,119,105,100,116,104,120,112,0,0,1,-2,0,0,4,84"/>
+  </AuxValues>
+
+  <Layout class="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout">
+    <Property name="useNullLayout" type="boolean" value="true"/>
+  </Layout>
+  <SubComponents>
+    <Container class="javax.swing.JTabbedPane" name="jTabbedPane1">
+      <Constraints>
+        <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
+          <AbsoluteConstraints x="5" y="5" width="350" height="430"/>
+        </Constraint>
+      </Constraints>
+
+      <Layout class="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout"/>
+      <SubComponents>
+        <Container class="javax.swing.JPanel" name="pnlNameAddress">
+          <Properties>
+            <Property name="name" type="java.lang.String" value="Name Address A"/>
+          </Properties>
+          <Constraints>
+            <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout" value="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout$JTabbedPaneConstraintsDescription">
+              <JTabbedPaneConstraints tabName="&lt;User Code&gt;">
+                <Property name="tabTitle" type="java.lang.String" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
+                  <Connection code="ResourceManager.getString( &quot;ServiceDetail.tab.AAddress&quot; )" type="code"/>
+                </Property>
+              </JTabbedPaneConstraints>
+            </Constraint>
+          </Constraints>
+
+          <Layout class="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout"/>
+          <SubComponents>
+            <Container class="javax.swing.JPanel" name="pnlANameAddress">
+              <Properties>
+                <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
+                  <Border info="org.netbeans.modules.form.compat2.border.EmptyBorderInfo">
+                    <EmptyBorder bottom="1" left="10" right="1" top="10"/>
+                  </Border>
+                </Property>
+                <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
+                  <Dimension value="[95, 50]"/>
+                </Property>
+              </Properties>
+              <Constraints>
+                <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout" value="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout$GridBagConstraintsDescription">
+                  <GridBagConstraints gridX="0" gridY="0" gridWidth="1" gridHeight="1" fill="1" ipadX="0" ipadY="0" insetsTop="0" insetsLeft="1" insetsBottom="1" insetsRight="1" anchor="10" weightX="1.0" weightY="1.0"/>
+                </Constraint>
+              </Constraints>
+
+              <Layout class="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout">
+                <Property name="useNullLayout" type="boolean" value="true"/>
+              </Layout>
+              <SubComponents>
+                <Container class="com.csgsystems.igpa.controls.CSGLabel" name="lblServiceFname">
+                  <Properties>
+                    <Property name="localizationKey" type="java.lang.String" value="ServiceDetail.label.ServiceFname"/>
+                  </Properties>
+                  <Constraints>
+                    <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
+                      <AbsoluteConstraints x="5" y="0" width="155" height="20"/>
+                    </Constraint>
+                  </Constraints>
+
+                  <Layout class="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout">
+                    <Property name="useNullLayout" type="boolean" value="true"/>
+                  </Layout>
+                </Container>
+                <Container class="com.csgsystems.igpa.controls.CSGLabel" name="lblServiceLname">
+                  <Properties>
+                    <Property name="localizationKey" type="java.lang.String" value="ServiceDetail.label.ServiceLame"/>
+                  </Properties>
+                  <Constraints>
+                    <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
+                      <AbsoluteConstraints x="5" y="25" width="155" height="20"/>
+                    </Constraint>
+                  </Constraints>
+
+                  <Layout class="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout">
+                    <Property name="useNullLayout" type="boolean" value="true"/>
+                  </Layout>
+                </Container>
+                <Container class="com.csgsystems.igpa.controls.CSGLabel" name="lblCompanyName">
+                  <Properties>
+                    <Property name="localizationKey" type="java.lang.String" value="ServiceDetail.label.CompanyName"/>
+                  </Properties>
+                  <Constraints>
+                    <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
+                      <AbsoluteConstraints x="5" y="50" width="155" height="20"/>
+                    </Constraint>
+                  </Constraints>
+
+                  <Layout class="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout">
+                    <Property name="useNullLayout" type="boolean" value="true"/>
+                  </Layout>
+                </Container>
+                <Container class="com.csgsystems.igpa.controls.CSGLabel" name="lblServiceAddress">
+                  <Properties>
+                    <Property name="localizationKey" type="java.lang.String" value="ServiceDetail.label.ServiceAddress"/>
+                  </Properties>
+                  <Constraints>
+                    <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
+                      <AbsoluteConstraints x="5" y="75" width="155" height="20"/>
+                    </Constraint>
+                  </Constraints>
+
+                  <Layout class="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout">
+                    <Property name="useNullLayout" type="boolean" value="true"/>
+                  </Layout>
+                </Container>
+                <Container class="com.csgsystems.igpa.controls.CSGLabel" name="lblServiceCity">
+                  <Properties>
+                    <Property name="localizationKey" type="java.lang.String" value="ServiceDetail.label.ServiceCity"/>
+                  </Properties>
+                  <Constraints>
+                    <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
+                      <AbsoluteConstraints x="5" y="150" width="155" height="20"/>
+                    </Constraint>
+                  </Constraints>
+
+                  <Layout class="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout">
+                    <Property name="useNullLayout" type="boolean" value="true"/>
+                  </Layout>
+                </Container>
+                <Container class="com.csgsystems.igpa.controls.CSGLabel" name="lblServiceState">
+                  <Properties>
+                    <Property name="localizationKey" type="java.lang.String" value="ServiceDetail.label.ServiceState"/>
+                  </Properties>
+                  <Constraints>
+                    <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
+                      <AbsoluteConstraints x="5" y="175" width="155" height="20"/>
+                    </Constraint>
+                  </Constraints>
+
+                  <Layout class="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout">
+                    <Property name="useNullLayout" type="boolean" value="true"/>
+                  </Layout>
+                </Container>
+                <Container class="com.csgsystems.igpa.controls.CSGLabel" name="lblSericeZip">
+                  <Properties>
+                    <Property name="localizationKey" type="java.lang.String" value="ServiceDetail.label.ServiceZip"/>
+                  </Properties>
+                  <Constraints>
+                    <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
+                      <AbsoluteConstraints x="5" y="200" width="155" height="20"/>
+                    </Constraint>
+                  </Constraints>
+
+                  <Layout class="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout">
+                    <Property name="useNullLayout" type="boolean" value="true"/>
+                  </Layout>
+                </Container>
+                <Container class="com.csgsystems.igpa.controls.CSGLabel" name="lblServiceCounty">
+                  <Properties>
+                    <Property name="localizationKey" type="java.lang.String" value="ServiceDetail.label.ServiceCounty"/>
+                  </Properties>
+                  <Constraints>
+                    <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
+                      <AbsoluteConstraints x="5" y="225" width="155" height="20"/>
+                    </Constraint>
+                  </Constraints>
+
+                  <Layout class="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout">
+                    <Property name="useNullLayout" type="boolean" value="true"/>
+                  </Layout>
+                </Container>
+                <Container class="com.csgsystems.igpa.controls.CSGLabel" name="lblServiceCountryCode">
+                  <Properties>
+                    <Property name="localizationKey" type="java.lang.String" value="ServiceDetail.label.ServiceCountryCode"/>
+                  </Properties>
+                  <Constraints>
+                    <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
+                      <AbsoluteConstraints x="5" y="275" width="155" height="20"/>
+                    </Constraint>
+                  </Constraints>
+
+                  <Layout class="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout">
+                    <Property name="useNullLayout" type="boolean" value="true"/>
+                  </Layout>
+                </Container>
+                <Container class="com.csgsystems.igpa.controls.CSGLabel" name="lblServiceFranchiseTaxCode">
+                  <Properties>
+                    <Property name="localizationKey" type="java.lang.String" value="ServiceDetail.label.ServiceFranchiseTaxCode"/>
+                  </Properties>
+                  <Constraints>
+                    <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
+                      <AbsoluteConstraints x="5" y="300" width="155" height="20"/>
+                    </Constraint>
+                  </Constraints>
+
+                  <Layout class="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout">
+                    <Property name="useNullLayout" type="boolean" value="true"/>
+                  </Layout>
+                </Container>
+                <Container class="com.csgsystems.igpa.controls.CSGLabel" name="lblBillRevRcvCostCtr">
+                  <Properties>
+                    <Property name="localizationKey" type="java.lang.String" value="ServiceDetail.label.RevRcvCostCtr"/>
+                  </Properties>
+                  <Constraints>
+                    <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
+                      <AbsoluteConstraints x="5" y="325" width="155" height="20"/>
+                    </Constraint>
+                  </Constraints>
+
+                  <Layout class="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout">
+                    <Property name="useNullLayout" type="boolean" value="true"/>
+                  </Layout>
+                </Container>
+                <Container class="com.csgsystems.igpa.controls.CSGLabel" name="lblServicedPhone">
+                  <Properties>
+                    <Property name="localizationKey" type="java.lang.String" value="ServiceDetail.label.ServicePhone"/>
+                  </Properties>
+                  <Constraints>
+                    <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
+                      <AbsoluteConstraints x="5" y="350" width="155" height="20"/>
+                    </Constraint>
+                  </Constraints>
+
+                  <Layout class="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout">
+                    <Property name="useNullLayout" type="boolean" value="true"/>
+                  </Layout>
+                </Container>
+                <Container class="com.csgsystems.igpa.controls.CSGLabel" name="lblServicePhone2">
+                  <Properties>
+                    <Property name="localizationKey" type="java.lang.String" value="ServiceDetail.label.ServicePhone2"/>
+                  </Properties>
+                  <Constraints>
+                    <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
+                      <AbsoluteConstraints x="5" y="375" width="155" height="20"/>
+                    </Constraint>
+                  </Constraints>
+
+                  <Layout class="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout">
+                    <Property name="useNullLayout" type="boolean" value="true"/>
+                  </Layout>
+                </Container>
+                <Component class="com.csgsystems.igpa.controls.CSGEdit" name="edtServiceFname">
+                  <Properties>
+                    <Property name="attributeName" type="java.lang.String" value="ServiceFname"/>
+                    <Property name="contextObserver" type="boolean" value="true"/>
+                    <Property name="domainName" type="java.lang.String" value="Service"/>
+                  </Properties>
+                  <Constraints>
+                    <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
+                      <AbsoluteConstraints x="165" y="0" width="165" height="20"/>
+                    </Constraint>
+                  </Constraints>
+                </Component>
+                <Component class="com.csgsystems.igpa.controls.CSGEdit" name="edtServiceLname">
+                  <Properties>
+                    <Property name="attributeName" type="java.lang.String" value="ServiceLname"/>
+                    <Property name="contextObserver" type="boolean" value="true"/>
+                    <Property name="domainName" type="java.lang.String" value="Service"/>
+                  </Properties>
+                  <Constraints>
+                    <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
+                      <AbsoluteConstraints x="165" y="25" width="165" height="20"/>
+                    </Constraint>
+                  </Constraints>
+                </Component>
+                <Component class="com.csgsystems.igpa.controls.CSGEdit" name="edtServiceCompany">
+                  <Properties>
+                    <Property name="attributeName" type="java.lang.String" value="ServiceCompany"/>
+                    <Property name="contextObserver" type="boolean" value="true"/>
+                    <Property name="domainName" type="java.lang.String" value="Service"/>
+                  </Properties>
+                  <Constraints>
+                    <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
+                      <AbsoluteConstraints x="165" y="50" width="165" height="20"/>
+                    </Constraint>
+                  </Constraints>
+                </Component>
+                <Component class="com.csgsystems.igpa.controls.CSGEdit" name="edtServiceAddress1">
+                  <Properties>
+                    <Property name="atomName" type="java.lang.String" value="ServiceAddress1"/>
+                    <Property name="contextObserver" type="boolean" value="true"/>
+                    <Property name="domainName" type="java.lang.String" value="Service"/>
+                  </Properties>
+                  <Constraints>
+                    <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
+                      <AbsoluteConstraints x="165" y="75" width="165" height="20"/>
+                    </Constraint>
+                  </Constraints>
+                </Component>
+                <Component class="com.csgsystems.igpa.controls.CSGEdit" name="edtServiceAddress2">
+                  <Properties>
+                    <Property name="attributeName" type="java.lang.String" value="ServiceAddress2"/>
+                    <Property name="contextObserver" type="boolean" value="true"/>
+                    <Property name="domainName" type="java.lang.String" value="Service"/>
+                  </Properties>
+                  <Constraints>
+                    <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
+                      <AbsoluteConstraints x="165" y="100" width="165" height="20"/>
+                    </Constraint>
+                  </Constraints>
+                </Component>
+                <Component class="com.csgsystems.igpa.controls.CSGEdit" name="edtServiceAddress3">
+                  <Properties>
+                    <Property name="attributeName" type="java.lang.String" value="ServiceAddress3"/>
+                    <Property name="contextObserver" type="boolean" value="true"/>
+                    <Property name="domainName" type="java.lang.String" value="Service"/>
+                  </Properties>
+                  <Constraints>
+                    <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
+                      <AbsoluteConstraints x="165" y="125" width="165" height="20"/>
+                    </Constraint>
+                  </Constraints>
+                </Component>
+                <Component class="com.csgsystems.igpa.controls.CSGEdit" name="edtServiceCity">
+                  <Properties>
+                    <Property name="attributeName" type="java.lang.String" value="ServiceCity"/>
+                    <Property name="contextObserver" type="boolean" value="true"/>
+                    <Property name="domainName" type="java.lang.String" value="Service"/>
+                  </Properties>
+                  <Constraints>
+                    <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
+                      <AbsoluteConstraints x="165" y="150" width="165" height="20"/>
+                    </Constraint>
+                  </Constraints>
+                </Component>
+                <Component class="com.csgsystems.igpa.controls.CSGEdit" name="edtServiceState">
+                  <Properties>
+                    <Property name="attributeName" type="java.lang.String" value="ServiceState"/>
+                    <Property name="contextObserver" type="boolean" value="true"/>
+                    <Property name="domainName" type="java.lang.String" value="Service"/>
+                  </Properties>
+                  <Constraints>
+                    <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
+                      <AbsoluteConstraints x="165" y="175" width="165" height="20"/>
+                    </Constraint>
+                  </Constraints>
+                </Component>
+                <Component class="com.csgsystems.igpa.controls.CSGEdit" name="edtServiceZip">
+                  <Properties>
+                    <Property name="attributeName" type="java.lang.String" value="ServiceZip"/>
+                    <Property name="contextObserver" type="boolean" value="true"/>
+                    <Property name="domainName" type="java.lang.String" value="Service"/>
+                  </Properties>
+                  <Constraints>
+                    <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
+                      <AbsoluteConstraints x="165" y="200" width="165" height="20"/>
+                    </Constraint>
+                  </Constraints>
+                </Component>
+                <Component class="com.csgsystems.igpa.controls.CSGCollectionComboBox" name="ccbServiceCounty">
+                  <Properties>
+                    <Property name="attributeName" type="java.lang.String" value="ServiceGeocode"/>
+                    <Property name="contextObserver" type="boolean" value="true"/>
+                    <Property name="domainName" type="java.lang.String" value="Service"/>
+                    <Property name="enumCollectionName" type="java.lang.String" value="GeocodeList"/>
+                    <Property name="enumCollectionSubtype" type="java.lang.String" value="Service-ServiceAddress"/>
+                    <Property name="enumDisplayAttributeName" type="java.lang.String" value="VirtualCountyGeocode"/>
+                    <Property name="enumKeyAttributeName" type="java.lang.String" value="Geocode"/>
+                  </Properties>
+                  <Events>
+                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="ccbServiceCountyActionPerformed"/>
+                  </Events>
+                  <Constraints>
+                    <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
+                      <AbsoluteConstraints x="165" y="225" width="165" height="20"/>
+                    </Constraint>
+                  </Constraints>
+                </Component>
+                <Component class="com.csgsystems.igpa.controls.CSGComboBox" name="cbServiceCountryCode">
+                  <Properties>
+                    <Property name="attributeName" type="java.lang.String" value="ServiceCountryCode"/>
+                    <Property name="contextObserver" type="boolean" value="true"/>
+                    <Property name="domainName" type="java.lang.String" value="Service"/>
+                  </Properties>
+                  <Constraints>
+                    <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
+                      <AbsoluteConstraints x="165" y="275" width="165" height="20"/>
+                    </Constraint>
+                  </Constraints>
+                </Component>
+                <Component class="com.csgsystems.igpa.controls.CSGComboBox" name="cbRevRcvCostCtr">
+                  <Properties>
+                    <Property name="attributeName" type="java.lang.String" value="RevRcvCostCtr"/>
+                    <Property name="contextObserver" type="boolean" value="true"/>
+                    <Property name="domainName" type="java.lang.String" value="Service"/>
+                  </Properties>
+                  <Constraints>
+                    <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
+                      <AbsoluteConstraints x="165" y="325" width="165" height="20"/>
+                    </Constraint>
+                  </Constraints>
+                </Component>
+                <Component class="com.csgsystems.igpa.controls.CSGComboBox" name="cbServiceFranchiseTaxCode">
+                  <Properties>
+                    <Property name="attributeName" type="java.lang.String" value="ServiceFranchiseTaxCode"/>
+                    <Property name="contextObserver" type="boolean" value="true"/>
+                    <Property name="domainName" type="java.lang.String" value="Service"/>
+                  </Properties>
+                  <Constraints>
+                    <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
+                      <AbsoluteConstraints x="165" y="300" width="165" height="20"/>
+                    </Constraint>
+                  </Constraints>
+                </Component>
+                <Component class="com.csgsystems.igpa.controls.CSGEdit" name="edtServicePhone">
+                  <Properties>
+                    <Property name="attributeName" type="java.lang.String" value="ServicePhone"/>
+                    <Property name="contextObserver" type="boolean" value="true"/>
+                    <Property name="domainName" type="java.lang.String" value="Service"/>
+                  </Properties>
+                  <Constraints>
+                    <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
+                      <AbsoluteConstraints x="165" y="350" width="165" height="20"/>
+                    </Constraint>
+                  </Constraints>
+                </Component>
+                <Component class="com.csgsystems.igpa.controls.CSGEdit" name="edtServicePhone2">
+                  <Properties>
+                    <Property name="attributeName" type="java.lang.String" value="ServicePhone2"/>
+                    <Property name="contextObserver" type="boolean" value="true"/>
+                    <Property name="domainName" type="java.lang.String" value="Service"/>
+                  </Properties>
+                  <Constraints>
+                    <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
+                      <AbsoluteConstraints x="165" y="375" width="165" height="20"/>
+                    </Constraint>
+                  </Constraints>
+                </Component>
+                <Component class="com.csgsystems.igpa.controls.CSGEdit" name="edtServiceCounty">
+                  <Properties>
+                    <Property name="atomName" type="java.lang.String" value="ServiceCounty"/>
+                    <Property name="domainName" type="java.lang.String" value="Service"/>
+                  </Properties>
+                  <Constraints>
+                    <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
+                      <AbsoluteConstraints x="165" y="225" width="165" height="20"/>
+                    </Constraint>
+                  </Constraints>
+                </Component>
+                <Container class="com.csgsystems.igpa.controls.CSGLabel" name="lblServiceGeocode">
+                  <Properties>
+                    <Property name="localizationKey" type="java.lang.String" value="ServiceDetail.label.ServiceGeocode"/>
+                  </Properties>
+                  <Constraints>
+                    <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
+                      <AbsoluteConstraints x="5" y="250" width="155" height="20"/>
+                    </Constraint>
+                  </Constraints>
+
+                  <Layout class="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout">
+                    <Property name="useNullLayout" type="boolean" value="true"/>
+                  </Layout>
+                </Container>
+                <Component class="com.csgsystems.igpa.controls.CSGEdit" name="edtServiceGeocode">
+                  <Properties>
+                    <Property name="atomName" type="java.lang.String" value="ServiceGeocode"/>
+                    <Property name="domainName" type="java.lang.String" value="Service"/>
+                    <Property name="focusable" type="boolean" value="false"/>
+                    <Property name="enabled" type="boolean" value="false"/>
+                  </Properties>
+                  <Constraints>
+                    <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
+                      <AbsoluteConstraints x="165" y="250" width="165" height="20"/>
+                    </Constraint>
+                  </Constraints>
+                </Component>
+              </SubComponents>
+            </Container>
+          </SubComponents>
+        </Container>
+      </SubComponents>
+    </Container>
+    <Container class="javax.swing.JPanel" name="pnlBNameAddress">
+      <Properties>
+        <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
+          <Border info="org.netbeans.modules.form.compat2.border.EmptyBorderInfo">
+            <EmptyBorder bottom="1" left="10" right="1" top="10"/>
+          </Border>
+        </Property>
+        <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
+          <Dimension value="[95, 50]"/>
+        </Property>
+      </Properties>
+      <Constraints>
+        <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
+          <AbsoluteConstraints x="480" y="50" width="375" height="410"/>
+        </Constraint>
+      </Constraints>
+
+      <Layout class="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout">
+        <Property name="useNullLayout" type="boolean" value="true"/>
+      </Layout>
+      <SubComponents>
+        <Container class="com.csgsystems.igpa.controls.CSGLabel" name="lblServiceFname1">
+          <Properties>
+            <Property name="localizationKey" type="java.lang.String" value="ServiceDetail.label.ServiceFname"/>
+          </Properties>
+          <Constraints>
+            <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
+              <AbsoluteConstraints x="5" y="0" width="155" height="-1"/>
+            </Constraint>
+          </Constraints>
+
+          <Layout class="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout">
+            <Property name="useNullLayout" type="boolean" value="true"/>
+          </Layout>
+        </Container>
+        <Container class="com.csgsystems.igpa.controls.CSGLabel" name="lblServiceLname1">
+          <Properties>
+            <Property name="localizationKey" type="java.lang.String" value="ServiceDetail.label.ServiceLame"/>
+          </Properties>
+          <Constraints>
+            <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
+              <AbsoluteConstraints x="5" y="25" width="155" height="-1"/>
+            </Constraint>
+          </Constraints>
+
+          <Layout class="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout">
+            <Property name="useNullLayout" type="boolean" value="true"/>
+          </Layout>
+        </Container>
+        <Container class="com.csgsystems.igpa.controls.CSGLabel" name="lblCompanyName1">
+          <Properties>
+            <Property name="localizationKey" type="java.lang.String" value="ServiceDetail.label.CompanyName"/>
+          </Properties>
+          <Constraints>
+            <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
+              <AbsoluteConstraints x="5" y="50" width="155" height="-1"/>
+            </Constraint>
+          </Constraints>
+
+          <Layout class="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout">
+            <Property name="useNullLayout" type="boolean" value="true"/>
+          </Layout>
+        </Container>
+        <Container class="com.csgsystems.igpa.controls.CSGLabel" name="lblServiceAddress1">
+          <Properties>
+            <Property name="localizationKey" type="java.lang.String" value="ServiceDetail.label.ServiceAddress"/>
+          </Properties>
+          <Constraints>
+            <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
+              <AbsoluteConstraints x="5" y="75" width="155" height="-1"/>
+            </Constraint>
+          </Constraints>
+
+          <Layout class="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout">
+            <Property name="useNullLayout" type="boolean" value="true"/>
+          </Layout>
+        </Container>
+        <Container class="com.csgsystems.igpa.controls.CSGLabel" name="lblServiceCity1">
+          <Properties>
+            <Property name="localizationKey" type="java.lang.String" value="ServiceDetail.label.ServiceCity"/>
+          </Properties>
+          <Constraints>
+            <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
+              <AbsoluteConstraints x="5" y="150" width="155" height="20"/>
+            </Constraint>
+          </Constraints>
+
+          <Layout class="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout">
+            <Property name="useNullLayout" type="boolean" value="true"/>
+          </Layout>
+        </Container>
+        <Container class="com.csgsystems.igpa.controls.CSGLabel" name="lblServiceState1">
+          <Properties>
+            <Property name="localizationKey" type="java.lang.String" value="ServiceDetail.label.ServiceState"/>
+          </Properties>
+          <Constraints>
+            <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
+              <AbsoluteConstraints x="5" y="175" width="155" height="20"/>
+            </Constraint>
+          </Constraints>
+
+          <Layout class="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout">
+            <Property name="useNullLayout" type="boolean" value="true"/>
+          </Layout>
+        </Container>
+        <Container class="com.csgsystems.igpa.controls.CSGLabel" name="lblSericeZip1">
+          <Properties>
+            <Property name="localizationKey" type="java.lang.String" value="ServiceDetail.label.ServiceZip"/>
+          </Properties>
+          <Constraints>
+            <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
+              <AbsoluteConstraints x="5" y="200" width="155" height="20"/>
+            </Constraint>
+          </Constraints>
+
+          <Layout class="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout">
+            <Property name="useNullLayout" type="boolean" value="true"/>
+          </Layout>
+        </Container>
+        <Container class="com.csgsystems.igpa.controls.CSGLabel" name="lblServiceCounty1">
+          <Properties>
+            <Property name="localizationKey" type="java.lang.String" value="ServiceDetail.label.ServiceCounty"/>
+          </Properties>
+          <Constraints>
+            <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
+              <AbsoluteConstraints x="5" y="225" width="155" height="20"/>
+            </Constraint>
+          </Constraints>
+
+          <Layout class="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout">
+            <Property name="useNullLayout" type="boolean" value="true"/>
+          </Layout>
+        </Container>
+        <Container class="com.csgsystems.igpa.controls.CSGLabel" name="lblServiceCountryCode1">
+          <Properties>
+            <Property name="localizationKey" type="java.lang.String" value="ServiceDetail.label.ServiceCountryCode"/>
+          </Properties>
+          <Constraints>
+            <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
+              <AbsoluteConstraints x="5" y="275" width="155" height="20"/>
+            </Constraint>
+          </Constraints>
+
+          <Layout class="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout">
+            <Property name="useNullLayout" type="boolean" value="true"/>
+          </Layout>
+        </Container>
+        <Container class="com.csgsystems.igpa.controls.CSGLabel" name="lblServiceFranchiseTaxCode1">
+          <Properties>
+            <Property name="localizationKey" type="java.lang.String" value="ServiceDetail.label.ServiceFranchiseTaxCode"/>
+          </Properties>
+          <Constraints>
+            <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
+              <AbsoluteConstraints x="5" y="300" width="155" height="-1"/>
+            </Constraint>
+          </Constraints>
+
+          <Layout class="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout">
+            <Property name="useNullLayout" type="boolean" value="true"/>
+          </Layout>
+        </Container>
+        <Container class="com.csgsystems.igpa.controls.CSGLabel" name="lblBillRevRcvCostCtr1">
+          <Properties>
+            <Property name="localizationKey" type="java.lang.String" value="ServiceDetail.label.RevRcvCostCtr"/>
+          </Properties>
+          <Constraints>
+            <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
+              <AbsoluteConstraints x="5" y="325" width="155" height="-1"/>
+            </Constraint>
+          </Constraints>
+
+          <Layout class="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout">
+            <Property name="useNullLayout" type="boolean" value="true"/>
+          </Layout>
+        </Container>
+        <Container class="com.csgsystems.igpa.controls.CSGLabel" name="lblServicedPhone1">
+          <Properties>
+            <Property name="localizationKey" type="java.lang.String" value="ServiceDetail.label.ServicePhone"/>
+          </Properties>
+          <Constraints>
+            <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
+              <AbsoluteConstraints x="5" y="350" width="155" height="-1"/>
+            </Constraint>
+          </Constraints>
+
+          <Layout class="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout">
+            <Property name="useNullLayout" type="boolean" value="true"/>
+          </Layout>
+        </Container>
+        <Container class="com.csgsystems.igpa.controls.CSGLabel" name="lblServicePhone21">
+          <Properties>
+            <Property name="localizationKey" type="java.lang.String" value="ServiceDetail.label.ServicePhone2"/>
+          </Properties>
+          <Constraints>
+            <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
+              <AbsoluteConstraints x="5" y="375" width="155" height="-1"/>
+            </Constraint>
+          </Constraints>
+
+          <Layout class="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout">
+            <Property name="useNullLayout" type="boolean" value="true"/>
+          </Layout>
+        </Container>
+        <Component class="com.csgsystems.igpa.controls.CSGEdit" name="edtServiceFname1">
+          <Properties>
+            <Property name="atomName" type="java.lang.String" value="BServiceFname"/>
+            <Property name="contextObserver" type="boolean" value="true"/>
+            <Property name="domainName" type="java.lang.String" value="Service"/>
+          </Properties>
+          <Constraints>
+            <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
+              <AbsoluteConstraints x="165" y="0" width="165" height="20"/>
+            </Constraint>
+          </Constraints>
+        </Component>
+        <Component class="com.csgsystems.igpa.controls.CSGEdit" name="edtServiceLname1">
+          <Properties>
+            <Property name="attributeName" type="java.lang.String" value="BServiceLname"/>
+            <Property name="contextObserver" type="boolean" value="true"/>
+            <Property name="domainName" type="java.lang.String" value="Service"/>
+          </Properties>
+          <Constraints>
+            <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
+              <AbsoluteConstraints x="165" y="25" width="165" height="20"/>
+            </Constraint>
+          </Constraints>
+        </Component>
+        <Component class="com.csgsystems.igpa.controls.CSGEdit" name="edtServiceCompany1">
+          <Properties>
+            <Property name="attributeName" type="java.lang.String" value="BServiceCompany"/>
+            <Property name="contextObserver" type="boolean" value="true"/>
+            <Property name="domainName" type="java.lang.String" value="Service"/>
+          </Properties>
+          <Constraints>
+            <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
+              <AbsoluteConstraints x="165" y="50" width="165" height="20"/>
+            </Constraint>
+          </Constraints>
+        </Component>
+        <Component class="com.csgsystems.igpa.controls.CSGEdit" name="edtServiceAddress11">
+          <Properties>
+            <Property name="atomName" type="java.lang.String" value="BServiceAddress1"/>
+            <Property name="contextObserver" type="boolean" value="true"/>
+            <Property name="domainName" type="java.lang.String" value="Service"/>
+          </Properties>
+          <Constraints>
+            <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
+              <AbsoluteConstraints x="165" y="75" width="165" height="20"/>
+            </Constraint>
+          </Constraints>
+        </Component>
+        <Component class="com.csgsystems.igpa.controls.CSGEdit" name="edtServiceAddress21">
+          <Properties>
+            <Property name="attributeName" type="java.lang.String" value="BServiceAddress2"/>
+            <Property name="contextObserver" type="boolean" value="true"/>
+            <Property name="domainName" type="java.lang.String" value="Service"/>
+          </Properties>
+          <Constraints>
+            <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
+              <AbsoluteConstraints x="165" y="100" width="165" height="20"/>
+            </Constraint>
+          </Constraints>
+        </Component>
+        <Component class="com.csgsystems.igpa.controls.CSGEdit" name="edtServiceAddress31">
+          <Properties>
+            <Property name="attributeName" type="java.lang.String" value="BServiceAddress3"/>
+            <Property name="contextObserver" type="boolean" value="true"/>
+            <Property name="domainName" type="java.lang.String" value="Service"/>
+          </Properties>
+          <Constraints>
+            <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
+              <AbsoluteConstraints x="165" y="125" width="165" height="20"/>
+            </Constraint>
+          </Constraints>
+        </Component>
+        <Component class="com.csgsystems.igpa.controls.CSGEdit" name="edtServiceCity1">
+          <Properties>
+            <Property name="attributeName" type="java.lang.String" value="BServiceCity"/>
+            <Property name="contextObserver" type="boolean" value="true"/>
+            <Property name="domainName" type="java.lang.String" value="Service"/>
+          </Properties>
+          <Constraints>
+            <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
+              <AbsoluteConstraints x="165" y="150" width="165" height="20"/>
+            </Constraint>
+          </Constraints>
+        </Component>
+        <Component class="com.csgsystems.igpa.controls.CSGEdit" name="edtServiceState1">
+          <Properties>
+            <Property name="attributeName" type="java.lang.String" value="BServiceState"/>
+            <Property name="contextObserver" type="boolean" value="true"/>
+            <Property name="domainName" type="java.lang.String" value="Service"/>
+          </Properties>
+          <Constraints>
+            <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
+              <AbsoluteConstraints x="165" y="175" width="165" height="20"/>
+            </Constraint>
+          </Constraints>
+        </Component>
+        <Component class="com.csgsystems.igpa.controls.CSGEdit" name="edtServiceZip1">
+          <Properties>
+            <Property name="attributeName" type="java.lang.String" value="BServiceZip"/>
+            <Property name="contextObserver" type="boolean" value="true"/>
+            <Property name="domainName" type="java.lang.String" value="Service"/>
+          </Properties>
+          <Constraints>
+            <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
+              <AbsoluteConstraints x="165" y="200" width="165" height="20"/>
+            </Constraint>
+          </Constraints>
+        </Component>
+        <Component class="com.csgsystems.igpa.controls.CSGCollectionComboBox" name="ccbServiceCounty1">
+          <Properties>
+            <Property name="attributeName" type="java.lang.String" value="BServiceGeocode"/>
+            <Property name="contextObserver" type="boolean" value="true"/>
+            <Property name="domainName" type="java.lang.String" value="Service"/>
+            <Property name="enumCollectionName" type="java.lang.String" value="GeocodeList"/>
+            <Property name="enumCollectionSubtype" type="java.lang.String" value="Service-BServiceAddress"/>
+            <Property name="enumDisplayAttributeName" type="java.lang.String" value="VirtualCountyGeocode"/>
+            <Property name="enumKeyAttributeName" type="java.lang.String" value="Geocode"/>
+          </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="ccbBServiceCountyActionPerformed"/>
+          </Events>
+          <Constraints>
+            <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
+              <AbsoluteConstraints x="165" y="225" width="165" height="20"/>
+            </Constraint>
+          </Constraints>
+        </Component>
+        <Component class="com.csgsystems.igpa.controls.CSGComboBox" name="cbServiceCountryCode1">
+          <Properties>
+            <Property name="attributeName" type="java.lang.String" value="BServiceCountryCode"/>
+            <Property name="contextObserver" type="boolean" value="true"/>
+            <Property name="domainName" type="java.lang.String" value="Service"/>
+          </Properties>
+          <Constraints>
+            <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
+              <AbsoluteConstraints x="165" y="275" width="165" height="20"/>
+            </Constraint>
+          </Constraints>
+        </Component>
+        <Component class="com.csgsystems.igpa.controls.CSGComboBox" name="cbRevRcvCostCtr1">
+          <Properties>
+            <Property name="attributeName" type="java.lang.String" value="BRevRcvCostCtr"/>
+            <Property name="contextObserver" type="boolean" value="true"/>
+            <Property name="domainName" type="java.lang.String" value="Service"/>
+          </Properties>
+          <Constraints>
+            <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
+              <AbsoluteConstraints x="165" y="325" width="165" height="20"/>
+            </Constraint>
+          </Constraints>
+        </Component>
+        <Component class="com.csgsystems.igpa.controls.CSGComboBox" name="cbServiceFranchiseTaxCode1">
+          <Properties>
+            <Property name="atomName" type="java.lang.String" value="BServiceFranchiseTaxCode"/>
+            <Property name="contextObserver" type="boolean" value="true"/>
+            <Property name="domainName" type="java.lang.String" value="Service"/>
+          </Properties>
+          <Constraints>
+            <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
+              <AbsoluteConstraints x="165" y="300" width="165" height="20"/>
+            </Constraint>
+          </Constraints>
+        </Component>
+        <Component class="com.csgsystems.igpa.controls.CSGEdit" name="edtServicePhone1">
+          <Properties>
+            <Property name="attributeName" type="java.lang.String" value="BServicePhone"/>
+            <Property name="contextObserver" type="boolean" value="true"/>
+            <Property name="domainName" type="java.lang.String" value="Service"/>
+          </Properties>
+          <Constraints>
+            <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
+              <AbsoluteConstraints x="165" y="350" width="165" height="20"/>
+            </Constraint>
+          </Constraints>
+        </Component>
+        <Component class="com.csgsystems.igpa.controls.CSGEdit" name="edtServicePhone21">
+          <Properties>
+            <Property name="attributeName" type="java.lang.String" value="BServicePhone2"/>
+            <Property name="contextObserver" type="boolean" value="true"/>
+            <Property name="domainName" type="java.lang.String" value="Service"/>
+          </Properties>
+          <Constraints>
+            <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
+              <AbsoluteConstraints x="165" y="375" width="165" height="20"/>
+            </Constraint>
+          </Constraints>
+        </Component>
+        <Component class="com.csgsystems.igpa.controls.CSGEdit" name="edtBServiceCounty">
+          <Properties>
+            <Property name="atomName" type="java.lang.String" value="ServiceCounty"/>
+            <Property name="domainName" type="java.lang.String" value="Service"/>
+          </Properties>
+          <Constraints>
+            <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
+              <AbsoluteConstraints x="165" y="225" width="165" height="20"/>
+            </Constraint>
+          </Constraints>
+        </Component>
+        <Container class="com.csgsystems.igpa.controls.CSGLabel" name="lblBServiceGeocode">
+          <Properties>
+            <Property name="localizationKey" type="java.lang.String" value="ServiceDetail.label.ServiceGeocode"/>
+          </Properties>
+          <Constraints>
+            <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
+              <AbsoluteConstraints x="5" y="250" width="155" height="20"/>
+            </Constraint>
+          </Constraints>
+
+          <Layout class="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout">
+            <Property name="useNullLayout" type="boolean" value="true"/>
+          </Layout>
+        </Container>
+        <Component class="com.csgsystems.igpa.controls.CSGEdit" name="edtBServiceGeocode">
+          <Properties>
+            <Property name="atomName" type="java.lang.String" value="BServiceGeocode"/>
+            <Property name="domainName" type="java.lang.String" value="Service"/>
+            <Property name="focusable" type="boolean" value="false"/>
+            <Property name="enabled" type="boolean" value="false"/>
+          </Properties>
+          <Constraints>
+            <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
+              <AbsoluteConstraints x="165" y="250" width="165" height="20"/>
+            </Constraint>
+          </Constraints>
+        </Component>
+      </SubComponents>
+    </Container>
+  </SubComponents>
+</Form>
