@@ -1,0 +1,225 @@
+##################################################
+## Configure constants and global variables
+##################################################  
+## constants
+
+#set ($accountLocateListDisplayRowsPerPage = 0)
+#set ($accountLocateListDisplayMaxPages = 0)
+
+## domain data for this screen
+#set ($accountLocateList = $domainContext.getObject("AccountLocateList"))
+##$accountLocateList.sortByFormattedData("AccountInternalId", false)
+#set ($accountLocateCount = $accountLocateList.getCount())
+#set ($overflow = false)
+#set ($overflow = $accountLocateList.getError())
+#set ($accountLocateListDisplayRowsPerPage = $accountLocateList.getAttributeDataAsInteger("DisplayRowsPerPage"))
+#set ($accountLocateListDisplayMaxPages = $accountLocateList.getAttributeDataAsInteger("DisplayPages"))    
+#set ($page = 1)
+#set ($start = 0)
+#set ($end = 0)
+#set ($pageCount = 0)
+#set ($displayEndRow = 0)
+#set ($displayStartRow = 0)    
+
+## screen pagination 
+#if ($session.containsKey("page"))
+    #set ($page = $session.get("page"))
+    #set ($displayStartRow = $accountLocateListDisplayRowsPerPage * ($page - 1))
+#else
+    ## first page
+    #set ($displayStartRow = 0)
+    #set ($page = 1)    
+#end
+#set ($displayEndRow = $displayStartRow + $accountLocateListDisplayRowsPerPage)
+
+## number of pages of data
+#if ($accountLocateCount > 0)
+    #set ($pageCount = $accountLocateCount / $accountLocateListDisplayRowsPerPage)
+    #if (($pageCount * $accountLocateListDisplayRowsPerPage) < $accountLocateCount)
+        ## remainder of records not on full page
+        #set ($pageCount = $pageCount + 1)
+        
+        ## last page
+        #if ($pageCount == $page)
+            #set ($displayEndRow = $accountLocateCount)
+        #end
+    #end
+    
+    #set ($start = $displayStartRow )
+    #set ($end = $displayEndRow - 1)
+#end
+
+
+##################################################
+## Main - start of html
+##################################################  
+<html>
+<head>
+    <title>$!resourceManager.getString("AccountLocate.vm.title")</title>
+    #defaultStylesheet( $filenameLocalizationUtil )
+</head>
+<body>  
+    <table width="100%" cellspacing="0" cellpadding="0">
+    #if( $accountLocateCount > 0 && $accountLocateList.getAttribute("MXSMasa").getDataAsBoolean() )
+        #if( $accountLocateList.getAttribute("MasaFraudCount").getDataAsInteger() > 0 )
+        	$!resourceManager.getString("AccountLocate.vm.text.NotAllAccountsHasBeenDisplayed")
+        #end
+    #end
+    <tr>
+        <td class="title" width="100%">
+            #if ( $accountLocateCount > 0 ) 
+                #set ($displayStartRow = $displayStartRow + 1)
+                #if ($displayStartRow == $displayEndRow)
+                    ##Accounts ($displayEndRow of $accountLocateCount)
+                    #set( $array = [ $displayEndRow, $accountLocateCount] )
+                    $!resourceManager.formatStringResource( "AccountLocate.vm.title.AccountsSingle", $array.toArray() )
+                #else
+                    ##Accounts ($displayStartRow - $displayEndRow of $accountLocateCount)
+                    #set( $array = [ $displayStartRow, $displayEndRow, $accountLocateCount] )
+                    $!resourceManager.formatStringResource( "AccountLocate.vm.title.AccountsMultiple", $array.toArray() )
+                #end
+            #else
+                $!resourceManager.getString("AccountLocate.vm.title.Accounts")
+            #end
+        </td>
+    </tr>
+    </table>
+    #if ( $accountLocateCount > 0 ) 
+            ##################################################
+            ## Display header and data rows
+            ##################################################        
+            <table width="100%" cellspacing="1" cellpadding="1">
+                <tr>
+                <td class="header" align="left">$!resourceManager.getString("AccountLocate.vm.header.Account")</td>
+                <td class="header" align="left">$!resourceManager.getString("AccountLocate.vm.header.Company")</td>
+                <td class="header" align="left">$!resourceManager.getString("AccountLocate.vm.header.Address")</td>
+                <td class="header" align="left">$!resourceManager.getString("AccountLocate.vm.header.DateDisplay")</td>               
+                <td class="header" align="left">$!resourceManager.getString("Generic.vm.link.Actions")</td>                  
+                </tr>    
+                #set ( $indexRange = [ ${start}..${end} ] )
+                #foreach ( $index in $indexRange )
+                    #set ( $item = $accountLocateList.getAt($index))
+                    ##set($acct = $item.getObject("Account", "AccountLocate"))
+                    ## if CollectionStatus == 3 IN_FRAUD
+                    ##if(!($acct.getAttributeData("CollectionStatus") == 3 && $accountLocateList.getAttribute("MXSMasa").getDataAsBoolean()))
+                    #if($item.getAttribute("MXSDisplay").getDataAsBoolean())
+                    <tr>
+                        <td class="datalabel">
+                            #if ($item.getAttribute("MXSAction").getDataAsBoolean())
+                                <a alt="View Account Summary" id="$index" href="http://www.csgsystems.com?object=AccountLocate&index=$index&action=display-customer-care-navbar">
+                                    ## $!item.getAttribute("AccountExternalId").getFormattedData()
+                                    ## $!item.getAttribute("AccountInternalId").getFormattedData()
+                                    ## to remove the comma eg: 1,002
+##                                              $!item.getObject("Account", "AccountLocate").getAttribute("AccountExternalId").getDataAsString()
+                                              $!item.getAttribute("CheckDigitAcctNum").getDataAsString()
+                                </a>
+                            #else
+##                            $!item.getObject("Account", "AccountLocate").getAttribute("AccountExternalId").getDataAsString()
+                            $!item.getAttribute("CheckDigitAcctNum").getDataAsString()
+                            #end
+                        </td>                         
+                        <td class="data">
+                            ##$!item.getAttributeData("AccountDisplayName")
+                            $!item.getAttribute("MXSName").getDataAsString()
+                            </td>
+                        <td class="data">
+                            ##$item.getAttributeData("AddressDisplayValue")
+                            $!item.getAttribute("MXSAddress").getDataAsString()
+                            </td>
+                        <td class="data">
+                            ##$!item.getAttribute("DateDisplay").getData()  
+                            $!item.getAttribute("MXSDate").getDataAsString()
+                            </td>
+                        <td class="data">
+                            #if ($item.getAttribute("MXSAction").getDataAsBoolean())
+                                <a id="$index" href="http://www.csgsystems.com?type=popup&object=AccountLocate&index=$index">
+                                    $!resourceManager.getString("Generic.vm.link.Actions")
+                                </a>
+                            #else
+                            *****
+                            #end
+                        </td>                           
+                    </tr> 
+                    #end
+                #end
+            </table>
+            ##################################################
+            ## Display pagination
+            ##################################################
+            #DisplayPagination($accountLocateCount $resourceManager $pageCount $accountLocateListDisplayMaxPages $page)     
+        #elseif ($overflow)                        
+			$overflow.getErrorMessage()
+        #else
+            ######## No Records Found #########
+            <table  width="100%" cellspacing="0" cellpadding="0">
+            <tr>
+                <td width="100%">
+                    <br>$!resourceManager.getString("AccountLocate.vm.text.NoAccountsFound")
+                </td>
+            </tr>        
+            </table>    
+        #end
+        ##################################################
+        ## Display additional links
+        ##################################################
+        <br>
+        <table  width="100%" cellspacing="0" cellpadding="0">
+            <tr>
+                <td class="title" width="100%" colspan="2">$!resourceManager.getString("AccountLocate.vm.title.Shortcuts")</td>
+            </tr>
+            <tr>
+                <td width="50%" valign="top">
+                    <table class="white"  width="100%" cellspacing="1" cellpadding="1">
+                        <tr>
+                            <td width="100%" align="left">
+                                <img border="0"  src="memory:/images/arrow_link.gif"  >&nbsp;
+                                <a class="gray" href="http://www.csgsystems.com?action=begin-new-cust-acq-wizard">$!resourceManager.getString("AccountLocate.vm.link.NewCustomer")</a>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td width="100%" align="left">
+                               <img border="0"  src="memory:/images/arrow_link.gif"  >&nbsp;                            
+                               <a class="gray" href="http://www.csgsystems.com?action=decision-one-step-connect">$!resourceManager.getString("AccountLocate.vm.link.Connect")</a>    
+                            </td>
+                        </tr>
+                        <tr>
+	                        <td width="50%" align="left">
+					            <img border="0"  src="memory:/images/arrow_link.gif"  >&nbsp;
+					            <a class="gray" href="http://www.csgsystems.com?action=mxs-inv-search-view">$!resourceManager.getString( "MXSInvsearch.vm.url.name" )</a>    
+					        </td>
+					    </tr>
+					    <tr>
+	            			<td width="50%" align="left">
+	            				<img border="0"  src="memory:/images/arrow_link.gif"  >&nbsp;
+	            				<a class="gray" href="http://www.csgsystems.com?action=launch-liu-gui">Lockbox Investigation Unit</a> 
+	            			</td>
+	            		</tr>
+                    </table>                
+                </td>
+                <td width="50%" valign="top">
+                    <table class="white"  width="100%" cellspacing="1" cellpadding="1">
+                        <tr>
+                            <td width="100%" align="left">
+                                <img border="0"  src="memory:/images/arrow_link.gif"  >&nbsp;
+                                <a class="gray" href="http://www.csgsystems.com?action=global-contracts-view">$!resourceManager.getString("AccountLocate.vm.link.GlobalContract")</a>    
+                            </td>
+                        </tr>
+                        <tr>
+                            <td width="100%" align="left">
+                                <img border="0"  src="memory:/images/arrow_link.gif"  >&nbsp;
+                                <a class="gray" href="http://www.csgsystems.com?action=hq-contracts-view">$!resourceManager.getString("AccountLocate.vm.link.HQContract")</a>    
+                            </td>
+                        </tr>
+                        <tr>
+                            <td width="50%" align="left">
+                                <img border="0"  src="memory:/images/arrow_link.gif"  >&nbsp;
+                                <a class="gray" href="http://www.csgsystems.com?action=launch-supervisor-gui">Supervisor Approvals</a>
+                            </td>
+                        </tr>
+                    </table>                 
+                </td>
+            </tr>            
+        </table>      
+
+</BODY>
+</HTML>

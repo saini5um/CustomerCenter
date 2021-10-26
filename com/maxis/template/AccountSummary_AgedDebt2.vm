@@ -1,0 +1,74 @@
+##################################################
+## Configure constants and global variables
+##################################################  
+
+## domain data for this screen
+#set ( $Account = $domainContext.getObject("Account") )
+
+##################################################
+## Main - start of html
+##################################################  
+<html>
+    <head>
+        <title>$!resourceManager.getString( "AccountSummary_AgedDebt.vm.title.AgedDebt" )</title>
+        #defaultStylesheet()
+    </head>
+	Valid Date year 2000 - Current
+    <body>
+
+        <table  width="100%" cellspacing="0" cellpadding="0">
+        ##################################################
+        ## balance info
+        ##################################################   
+        <tr>
+            <td class="title" width="100%" colspan="2">
+                $!resourceManager.getString("AccountSummary_AgeDebt.vm.title.AgedDebt")
+            </td>
+        </tr>        
+        <tr>
+            <td class="header" colspan="2">$!resourceManager.getString("AccountSummaryNavigation.vm.header.BalanceInformation")</td>
+        </tr> 
+        #if ($Account.getAttributeData("SumBalance"))
+            <tr>
+                <td class="datalabel">$!resourceManager.getString("AccountSummaryNavigation.vm.label.BalanceDue")</td>
+                <td class="data">$!Account.getAttribute("SumBalance").getFormattedData()</td>
+            </tr>
+        #end
+        #if ($Account.getAttributeData("PastDueDays1To30"))                        
+            <tr>
+                <td class="datalabel">$!resourceManager.getString("AccountSummary_AgedDebt.vm.label.30days")</td>
+                <td class="data">$!Account.getAttribute("PastDueDays1To30").getFormattedData()</td>
+            </tr>     
+        #end
+        #if ($Account.getAttributeData("PastDueDays31To60"))                                
+            <tr>
+                <td class="datalabel">$!resourceManager.getString("AccountSummaryNavigation.vm.label.60DaysDue")</td>
+                <td class="data">$!Account.getAttribute("PastDueDays31To60").getFormattedData()</td>
+            </tr>
+        #end
+        #if ($Account.getAttributeData("PastDueDays61To90"))                                
+            <tr>
+                <td class="datalabel">$!resourceManager.getString("AccountSummaryNavigation.vm.label.90DaysDue")</td>
+                <td class="data">$!Account.getAttribute("PastDueDays61To90").getFormattedData()</td>
+            </tr>
+        #end
+        #if ($Account.getAttributeData("PastDueDays91To120"))                                
+            <tr>
+                <td class="datalabel">$!resourceManager.getString("AccountSummaryNavigation.vm.label.120DaysDue")</td>
+                <td class="data">$!Account.getAttribute("PastDueDays91To120").getFormattedData()</td>
+            </tr>
+        #end
+        #if ($Account.getAttributeData("PastDueDaysGt120"))                                
+            <tr>
+                <td class="datalabel">$!resourceManager.getString("AccountSummary_AgedDebt.vm.label.grtrThan120days")</td>
+                <td class="data">$!Account.getAttribute("PastDueDaysGt120").getFormattedData()</td>
+            </tr>
+        #end
+    </table>
+        
+        
+    </body>
+</html>
+
+
+

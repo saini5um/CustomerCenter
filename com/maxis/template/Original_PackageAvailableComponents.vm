@@ -1,0 +1,111 @@
+##################################################
+## Configure constants and global variables
+##################################################  
+## constants
+
+## domain data for this screen
+#set ($packageComponentDefList = false)
+#set ($packageComponentDefList = $domainContext.getCollection("PackageComponentDefList","AvailablePackageComponents"))
+
+#if ($packageComponentDefList)
+    #set ($packageComponentDefListDisplayRowsPerPage = $packageComponentDefList.getAttributeDataAsInteger("DisplayRowsPerPage"))
+    #set ($packageComponentDefListDisplayMaxPages = $packageComponentDefList.getAttributeDataAsInteger("DisplayPages"))
+
+    #if (!$packageComponentDefList.isFaulted()) 
+        $packageComponentDefList.reset()
+    #end 
+    #set ($packageComponentDefCount = $packageComponentDefList.getCount() - 1)
+#else
+    #set ($packageComponentDefCount = -1)
+#end
+
+##################################################
+## Main - start of html
+##################################################  
+<HTML>
+  <HEAD>
+    <TITLE>$!resourceManager.getString("PackageAvailableComponents.vm.title")</title>
+    #defaultStylesheet( $filenameLocalizationUtil )
+  </HEAD>
+  <BODY>
+
+    <TABLE  width="100%" cellspacing="2" cellpadding="2"><TR><TD class="white" width="100%">
+        <TABLE  width="100%" cellspacing="0" cellpadding="0">
+            ##################################################
+            ## Display title row with add link
+            ##################################################    
+            <TR>
+                <TD class="white" width="100%" colspan="2" >
+                    <TABLE  width="100%" cellspacing="0" cellpadding="0">
+                        <TR>
+                            <TD class="title" align="left" width="50%">
+                                $!resourceManager.getString( "PackageAvailableComponents.vm.title" )
+                            </TD>
+                            <TD class="title" align="right" width="50%">
+                                <IMG border="0"  src="memory:/images/arrow_search.gif">&nbsp;                            
+                                <a class="title" href="http://www.csgsystems.com?collection=PackageComponentDefList&subtype=AvailablePackageComponents&event=add-components">
+                                    Select/Deselect All
+                                </a>
+                                <IMG border="0"  src="memory:/images/arrow_search.gif">&nbsp;                            
+                                <a class="title" href="http://www.csgsystems.com?collection=PackageComponentDefList&subtype=AvailablePackageComponents&event=add-components">
+                                    $!resourceManager.getString( "Generic.vm.link.Add" )
+                                </a>
+                            </TD>
+                        </TR>
+                    </TABLE>
+                </TD>
+            </TR>
+            ##################################################
+            ## Display header and data rows
+            ##################################################                 
+            <TR>
+                <TD width="100%" colspan="2" >
+                    <TABLE class="white" width="100%" cellspacing="1" cellpadding="1">
+                        <TR>
+                            <TD class="header" align="left" width="5%"></TD> 
+                            <TD class="header" align="left" width="65%">$resourceManager.getString("PackageAvailableComponents.vm.header.Description")</TD>
+                            <TD class="header" align="center" width="15%">$resourceManager.getString("PackageAvailableComponents.vm.header.MinMax")</TD> 
+                            <TD class="header" align="center" width="15%">$resourceManager.getString("PackageAvailableComponents.vm.header.Level")</TD> 
+                        </TR>
+    
+                        #if ($packageComponentDefCount >= 0)             
+                            #set ($indexRange = [0..$packageComponentDefCount])
+                            #foreach ($index in $indexRange)
+                                #set ($packageComponentDef = $packageComponentDefList.getAt($index))
+                                <TR>
+                                    <TD class="data" align="center" width="5%">
+                                        #if ($packageComponentDef.getAttributeDataAsInteger("MinimumRequired") > 0)
+                                                <IMG border="0" src="memory:/images/checkbox_selected_disabled.gif">&nbsp;                            
+                                        #elseif ($packageComponentDef.getAttributeDataAsBoolean("IsSelected"))
+                                            <a href="http://www.csgsystems.com?collection=PackageComponentDefList&subtype=AvailablePackageComponents&event=unselect-component&index=$index">
+                                                <IMG border="0" src="memory:/images/checkbox_selected.gif">&nbsp;
+                                            </a>
+                                        #else
+                                            <a href="http://www.csgsystems.com?collection=PackageComponentDefList&subtype=AvailablePackageComponents&event=select-component&index=$index">
+                                                <IMG border="0" src="memory:/images/checkbox_unselected.gif">&nbsp;
+                                            </a>
+                                        #end
+                                    </TD>
+                                    <TD class="datalabel" align="left" width="65%">
+                                        $packageComponentDef.getFormattedAttributeData("DisplayValue")
+                                    </TD>
+                                    <TD class="datalabel" align="right" width="15%">
+                                        $packageComponentDef.getFormattedAttributeData("MinMaxDisplay")
+                                    </TD>
+                                    <TD class="datalabel" align="left" width="15%">
+                                        $packageComponentDef.getFormattedAttributeData("ComponentLevelDisplay")
+                                    </TD>
+                                </TR>                        
+                            #end
+		                    </TABLE>  
+                        #else
+		                    </TABLE>  
+                            ##<br>
+                            $!resourceManager.getString("PackageAvailableComponents.vm.text.NoComponentsFound")
+                        #end
+                </TD>
+            </TR>
+        </TABLE>
+    </TD></TR></TABLE>
+  </BODY>
+</HTML>

@@ -1,0 +1,191 @@
+##################################################
+## Configure constants and global variables
+##################################################  
+## constants
+#set ($DisplayRowsPerPage = 0)
+#set ($DisplayMaxPages = 0)
+
+## domain data for this screen
+#set ($serviceList = $domainContext.getObject("ServiceList", "Account"))
+#set ($serviceCount = $serviceList.getCount())
+#set ($inactiveList = $domainContext.getObject("ServiceList", "ResultSet"))
+#set ($inactiveCount = $inactiveList.getCount())
+#set ($DisplayRowsPerPage = $serviceList.getAttributeDataAsInteger("DisplayRowsPerPage"))
+#set ($DisplayMaxPages = $serviceList.getAttributeDataAsInteger("DisplayPages"))    
+#set ($page = 1)
+#set ($start = 0)
+#set ($end = 0)
+#set ($pageCount = 0)
+#set ($displayEndRow = 0)
+#set ($displayStartRow = 0)    
+
+## screen pagination 
+#if ($session.containsKey("page"))
+    #set ($page = $session.get("page"))
+    #set ($displayStartRow = $DisplayRowsPerPage * ($page - 1))
+#else
+    ## first page
+    #set ($displayStartRow = 0)
+    #set ($page = 1)    
+#end
+#set ($displayEndRow = $displayStartRow + $DisplayRowsPerPage)
+
+## number of pages of data
+#if ($serviceCount > 0)
+    #set ($pageCount = $serviceCount / $DisplayRowsPerPage)
+    #if (($pageCount * $DisplayRowsPerPage) < $serviceCount)
+        ## remainder of records not on full page
+        #set ($pageCount = $pageCount + 1)
+        
+        ## last page
+        #if ($pageCount == $page)
+            #set ($displayEndRow = $serviceCount)
+        #end
+    #end
+    
+    #set ($start = $displayStartRow )
+    #set ($end = $displayEndRow - 1)
+#end
+
+
+## domain data for this screen
+##################################################
+## Main - start of html
+##################################################  
+<html>
+    <head>
+        <title>Services</title>
+        #defaultStylesheet( $filenameLocalizationUtil )
+    </head>
+    <table width="100%" cellspacing="0" cellpadding="0">
+    <tr>
+        <td class="title" width="100%">
+            #if ( $serviceCount > 0 ) 
+                #set ($displayStartRow = $displayStartRow + 1)
+                #if ($displayStartRow == $displayEndRow)
+                    #set( $array = [ $displayEndRow, $serviceCount] )
+                    Active Service
+                #else
+                    #set( $array = [ $displayStartRow, $displayEndRow, $serviceCount] )
+                    Active Services
+                #end
+            #else
+                Services
+
+            #end
+        </td>
+    </tr>
+    </table>
+    #if ( $serviceCount > 0 ) 
+            ##################################################
+            ## Display header and data rows
+            ##################################################        
+            <table width="100%" cellspacing="1" cellpadding="1">
+                <tr>
+                <td class="header" align="left">$!resourceManager.getString("ServiceWorkingSet.vm.header.Identifier")</td>
+                <td class="header" align="left">$!resourceManager.getString("ServiceWorkingSet.vm.header.ServiceType")</td>
+                <td class="header" align="left">Status</td>
+                <td class="header" align="left">Reason</td>               
+                </tr>    
+                #set ( $indexRange = [ ${start}..${end} ] )
+                #foreach ( $index in $indexRange )
+                    #set ( $statusDisplay = "None" )
+                    #set ( $service = $serviceList.getAt($index) )
+                    #set ( $statusList = $service.getObject("ServiceStatusList", "Service") )
+                    #set ( $statusCount = $statusList.getCount() )
+                    #set ( $rangeEnd = $statusCount - 1 )
+                    #foreach ( $i in [ 0..${rangeEnd} ] )
+                       #set ( $status = $statusList.getAt($i) )
+                       #set ( $statusDisplay = $service.getAttribute("StatusReasonId").getFormattedData() )
+                       #if ( $status.getAttribute("InactiveDt").isEmpty() )
+                           #set ( $statusDisplay = $status.getAttribute("StatusReasonId").getFormattedData() )
+                       #end
+                    #end
+                    <tr>
+                        <td class="datalabel">
+                                $!service.getAttribute("ServiceExternalId").getFormattedData()
+                        </td>                         
+                        <td class="data">
+                        $!service.getAttribute("EmfConfigId").getFormattedData()
+                        </td>
+                        <td class="data">
+                        $!service.getAttribute("StatusId").getFormattedData()
+                        </td>
+                        <td class="data">$!statusDisplay</td>
+                    </tr>      
+                #end
+            </table>
+            ##################################################
+            ## Display pagination
+            ##################################################
+            #DisplayPagination($serviceCount $resourceManager $pageCount $DisplayMaxPages $page)     
+        #else
+            ######## No Records Found #########
+            <table  width="100%" cellspacing="0" cellpadding="0">
+            <tr>
+                <td width="100%">
+                    No Active Services Found
+                </td>
+            </tr>        
+            </table>    
+        #end
+
+    <table width="100%" cellspacing="0" cellpadding="0">
+    <tr>
+        <td class="title" width="100%">
+            Inactive Services
+        </td>
+    </tr>
+    </table>
+    #if ( $inactiveCount > 0 ) 
+            ##################################################
+            ## Display header and data rows
+            ##################################################        
+            <table width="100%" cellspacing="1" cellpadding="1">
+                <tr>
+                <td class="header" align="left">$!resourceManager.getString("ServiceWorkingSet.vm.header.Identifier")</td>
+                <td class="header" align="left">$!resourceManager.getString("ServiceWorkingSet.vm.header.ServiceType")</td>
+                <td class="header" align="left">Status</td>
+                <td class="header" align="left">Reason</td>               
+                </tr>
+                #set ( $end = $inactiveCount - 1 )    
+                #foreach ( $index in [0..${end}] )
+                    #set ( $service = $inactiveList.getAt($index))
+                    #set ( $statusDisplay = "None" )
+                    #set ( $statusList = $service.getObject("ServiceStatusList", "Service") )
+                    #set ( $statusCount = $statusList.getCount() )
+                    #set ( $rangeEnd = $statusCount - 1 )
+                    #foreach ( $i in [ 0..${rangeEnd} ] )
+                       #set ( $status = $statusList.getAt($i) )
+                       #set ( $statusDisplay = $service.getAttribute("StatusReasonId").getFormattedData() )
+                       #if ( $status.getAttribute("InactiveDt").isEmpty() )
+                           #set ( $statusDisplay = $status.getAttribute("StatusReasonId").getFormattedData() )
+                       #end
+                    #end
+                    <tr>
+                        <td class="datalabel">
+                                $!service.getAttribute("ServiceExternalId").getFormattedData()
+                        </td>                         
+                        <td class="data">
+                        $!service.getAttribute("EmfConfigId").getFormattedData()
+                        </td>
+                        <td class="data">
+                        $!service.getAttribute("StatusId").getFormattedData()
+                        </td>
+                        <td class="data">$!statusDisplay</td>
+                    </tr>      
+                #end
+            </table>
+        #else
+            ######## No Records Found #########
+            <table  width="100%" cellspacing="0" cellpadding="0">
+            <tr>
+                <td width="100%">
+                    No Inactive Services Found
+                </td>
+            </tr>        
+            </table>    
+        #end
+
+</BODY>
+</html>

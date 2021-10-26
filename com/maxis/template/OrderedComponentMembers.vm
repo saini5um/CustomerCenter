@@ -1,0 +1,175 @@
+##################################################
+## Configure constants and global variables
+##################################################  
+## constants
+
+#set ($componentMemberListDisplayRowsPerPage = 0)
+#set ($componentMemberListDisplayMaxPages = 0)
+#set ($page = 1)
+#set ($start = 0)
+#set ($end = 0)
+#set ($pageCount = 0)
+#set ($displayEndRow = 0)
+#set ($displayStartRow = 0) 
+
+## domain data for this screen
+#set ($componentMemberList = false)
+#set ($componentDomain = false)
+#set ($componentDomain = $domainContext.getObject("PackageComponentDef"))
+#if ($componentDomain)
+    #set ($componentMemberList = $componentDomain.getCollection("PackageComponentMemberList","PackageComponentDef"))
+#end
+
+#set ($provisioningPanel = false)
+#if ($session.containsKey("ProvisioningPanel"))
+    #set ($provisioningPanel = $session.get("ProvisioningPanel"))
+#end
+
+#if ($componentMemberList)
+    #set ($componentMemberListDisplayRowsPerPage = $componentMemberList.getAttributeDataAsInteger("DisplayRowsPerPage"))
+    #set ($componentMemberListDisplayMaxPages = $componentMemberList.getAttributeDataAsInteger("DisplayPages"))
+
+    #if (!$componentMemberList.isFaulted()) 
+        $componentMemberList.reset()
+    #end 
+    #set ($componentMemberCount = $componentMemberList.getCount())
+#else
+    #set ($componentMemberCount = 0)
+#end
+
+## screen pagination 
+#if ($session.containsKey("page"))
+    #set ($page = $session.get("page"))
+    #set ($displayStartRow = $componentMemberListDisplayRowsPerPage * ($page - 1))
+#end
+#set ($displayEndRow = $displayStartRow + $componentMemberListDisplayRowsPerPage )
+    
+## number of pages of data
+#if ($componentMemberCount > 0)
+    #set ($pageCount = $componentMemberCount / $componentMemberListDisplayRowsPerPage)
+    #if (($pageCount * $componentMemberListDisplayRowsPerPage ) < $componentMemberCount)
+        ## remainder of records not on full page
+        #set ($pageCount = $pageCount + 1)
+        
+        ## last page
+        #if ($pageCount == $page)
+            #set ($displayEndRow = $componentMemberCount)
+        #end
+    #end
+    
+    #set ($start = $displayStartRow)
+    #set ($end = $displayEndRow - 1)
+#end
+
+##################################################
+## Main - start of html
+##################################################  
+<HTML>
+  <HEAD>
+    <TITLE>$!resourceManager.getString("OrderedComponentMembers.vm.title")</title>
+    #defaultStylesheet( $filenameLocalizationUtil )
+  </HEAD>
+  <BODY>
+
+    <TABLE  width="100%" cellspacing="2" cellpadding="2"><TR><TD class="white" width="100%">
+        <TABLE  width="100%" cellspacing="0" cellpadding="0">
+            ##################################################
+            ## Display title row with view/search links
+            ##################################################    
+            <TR>
+                <TD class="white" width="100%" colspan="2" >
+                    <TABLE  width="100%" cellspacing="0" cellpadding="0">
+                        <TR>
+                            <TD class="title" width="100%">
+                                #if ($componentMemberCount > 0)
+                                    #set ($displayStartRow = $displayStartRow + 1)
+                                    #if ($displayStartRow == $displayEndRow)
+                                        ## ComponentMembers ( $displayEndRow of $componentMemberCount )
+                                        #set($array = [$displayEndRow, $componentMemberCount])
+                                        $!resourceManager.formatStringResource("OrderedComponentMembers.vm.title.ComponentMembersSingle", $array.toArray())
+                                    #else
+                                        ## ComponentMembers ( $displayStartRow - $displayEndRow of $componentMemberCount )
+                                        #set($array = [$displayStartRow, $displayEndRow, $componentMemberCount])
+                                        $!resourceManager.formatStringResource("OrderedComponentMembers.vm.title.ComponentMembersMultiple", $array.toArray())
+                                    #end
+                                #else
+                                    ## ComponentMembers
+                                    Component Details
+
+                                #end
+                            </TD>
+                        </TR>
+                    </TABLE>
+                </TD>
+            </TR>
+            ##################################################
+            ## Display header and data rows
+            ##################################################                 
+            <TR>
+                <TD width="100%" colspan="2" >
+                    <TABLE class="white"  width="100%" cellspacing="1" cellpadding="1">
+                        <TR>
+                            <TD class="header" align="left" width="80%">$resourceManager.getString("OrderedComponentMembers.vm.header.ComponentMember")</TD>
+                            <TD class="header" align="center" width="20%">$resourceManager.getString("OrderedComponentMembers.vm.header.Type")</TD> 
+                        </TR>
+    
+                        #if ($componentMemberCount > 0)             
+                            #set ($indexRange = [${start}..${end}])
+                            #foreach ($index in $indexRange)
+                                #set ($componentMember = $componentMemberList.getAt($index))
+                                #set ($memberType = $componentMember.getAttributeDataAsInteger("MemberType"))
+
+                                #if ($memberType == 0 || $memberType == 1)
+                                    ## Product
+                                    #set ($productElement = $componentMember.getObject("ProductElement", "PackageComponentMember"))
+                                    #if ($productElement)
+                                        ## Display the Product    
+                                        <TR>
+                                            <TD class="datalabel" align="left" width="80%">
+                                                $productElement.getFormattedAttributeData("DescriptionText")
+                                            </TD>
+                                            <TD class="data" align="left" width="20%">
+                                                $resourceManager.getString("OrderedComponentMembers.vm.text.Product")
+                                            </TD>
+                                        </TR>
+                                    #end
+                                #elseif ($memberType == 2)
+                                    ## Contract
+                                    #set ($contractType = $componentMember.getObject("ContractType", "PackageComponentMember"))
+                                    #if ($contractType)
+                                        ## Display the Contract
+                                        <TR>
+                                            <TD class="datalabel" align="left" width="80%">
+                                                #if ($provisioningPanel == false)
+                                                    <a href="http://www.csgsystems.com?collection=PackageComponentMemberList&subtype=PackageComponentDef&action=ordered-contract-element-view-dlg&event=link&index=$index">
+                                                        $contractType.getFormattedAttributeData("DescriptionText")
+                                                    </a>
+                                                #else
+                                                    <a href="http://www.csgsystems.com?object=PackageComponentMember&subtype=PackageComponentDef&refresh=true&postProcessing=true&index=$index">
+                                                        $contractType.getFormattedAttributeData("DescriptionText")
+                                                    </a>
+                                                #end
+                                            </TD>
+                                            <TD class="data" align="left" width="20%">
+                                                $resourceManager.getString("OrderedComponentMembers.vm.text.Contract")
+                                            </TD>
+                                        </TR>
+                                    #end
+                                #end                        
+                            #end
+                        #else
+                            <br>
+                            $!resourceManager.getString("OrderedComponentMembers.vm.text.NoComponentMembersFound")
+                        #end
+                    </TABLE>  
+                </TD>
+            </TR>
+        </TABLE>
+    </TD></TR></TABLE>
+
+    ##################################################
+    ## Display pagination
+    ##################################################
+    #DisplayPagination($componentMemberCount $resourceManager $pageCount $componentMemberListDisplayMaxPages $page)
+  </BODY>
+</HTML>

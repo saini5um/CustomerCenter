@@ -1,0 +1,51 @@
+##  $obj : Object section of column URL (i.e. Payment)
+##  $objSubType : Sub type object of domainContext.getObject (i.e. Account)
+##  $objList : List object of domainContext.getObject (i.e. PaymentList)
+##  $SingleTitle : Text displayed for single record (i.e. AccountSummary_PaymentList.vm.title.PaymentsSingle)
+##  $MultipleTitle : Text displayed for multiple records (i.e. AccountSummary_PaymentList.vm.title.PaymentsMultiple)
+##  $ItemTitle : Title text displayed (i.e. AccountSummary_PaymentList.vm.title.Payments)
+##  $LinkAction : Array of actions, action section of the links URL (i.e. "acct-payment-add-dlg", "acct-payment-search-dlg")
+##  $LinkURL : Array of URL's, URL for the links minus the "&action=" section (i.e. "type=add&object=PaymentList&subtype=Account", "type=search&object=PaymentList&subtype=Account")
+##  $LinkSrc : Array of image files (i.e. "arrow_add.gif", "arrow_search.gif")
+##  $LinkText : Array of text to be displayed (i.e. "AccountSummary_PaymentList.vm.link.AddInvoicePayment", "Generic.vm.link.Search")
+##  $Message : Text to be displayed if no records are found (i.e. "AccountSummary_PaymentList.vm.text.NoneFound")
+##  $UseSelectedRow : Array of flags used to determine if column should be highlighted and defaulted (i.e. ["false", "false"] = do not highlight row and do not default, ["true", "false"] = highlight row but do not default, ["true", "true"] = highlight row and default)
+##  $columnHeadings : Array of text to be displayed for the column heading (i.e. "AccountSummary_PaymentList.vm.header.Type", "AccountSummary_PaymentList.vm.header.PostDate")
+##  $columnAttributeNames : Array of attributes to be displayed and/or custom macros (i.e. "MACRO", "PostDate")
+##  $columnActions : Array of actions, action section of the column URL unless a custom macro is used for URL's not in the standard format (i.e. "decision-payment-viewmodify", "null")
+##  $columnMacros : Array of custom macros to be used to display the columns data (i.e. "pTTDescription", "null")
+##  $columnMacroObjects : Array of objects to be passed to the custom macro (i.e. $paymentTransTypeDescription, "null")
+##  $columnWidth : Array of column widths, total should equal 100 (i.e. "50", "50")
+##  $ObjectArray : Should not be modified - additional objects can be added to the end of the array if needed
+##  #ExecuteListRender : Call to main macro located in CollectionList.vm
+
+##################################################
+## Configure constants passed to macro
+##################################################  
+#set ($obj = "Corridor")
+#set ($objSubType = "Service")
+#set ($objList = "CorridorList")
+ 
+#set ($SingleTitle = "ServiceSummary_CorridorList.vm.title.CorridorsSingle")
+#set ($MultipleTitle = "ServiceSummary_CorridorList.vm.title.CorridorsMultiple")
+#set ($ItemTitle = "ServiceSummary_CorridorList.vm.title.Corridors")
+
+#set ($LinkAction = ["service-corridor-create-dlg", "service-corridor-create-dlg", "service-corridor-create-dlg", "service-corridor-create-dlg", "service-corridor-search-dlg"])
+#set ($LinkURL = ["type=add&object=Service", "type=add&object=Service", "type=add&object=Service", "type=add&object=Service", "type=search&object=CorridorList&subtype=Service"])
+#set ($LinkSrc = ["arrow_add.gif", "arrow_add.gif", "arrow_add.gif", "arrow_add.gif", "arrow_search.gif"])
+#set ($LinkText = ["Add Special IDD", "Add Home Zone", "Add FnF", "Add Others", "Generic.vm.link.Search"])
+
+#set ($Message = "ServiceSummary_CorridorList.vm.text.NoCorridorsFound")
+
+#set ($UseSelectedRow = ["false","false"])
+
+#set ($columnHeadings = ["ServiceSummary_CorridorList.vm.header.Description", "Point Target", "ServiceSummary_CorridorList.vm.header.ActiveDate", "ServiceSummary_CorridorList.vm.header.InactiveDate", "Added/Removed By", "ServiceSummary_CorridorList.vm.header.Actions"])
+#set ($columnAttributeNames = ["DisplayValue", "PointTarget", "ActiveDt", "InactiveDt", "ChgWho", "MACRO"])
+#set ($columnActions = ["corridor-detail-dlg", "null", "null", "null", "null", "null"])
+#set ($columnMacros = ["null", "null", "null", "null", "null", "isServiceCorridor"])
+#set ($columnMacroObjects = ["null", "null", "null", "null", "null"])
+#set ($columnWidth = ["15", "20", "17", "17", "19", "12"])
+
+#set ($ObjectArray = [$domainContext, $session, $filenameLocalizationUtil, $securityMgr, $resourceManager, $TemplateUtility, $strUtils])
+
+#ExecuteListRender($ObjectArray $obj $objSubType $objList $SingleTitle $MultipleTitle $ItemTitle $LinkAction $LinkURL $LinkSrc $LinkText $Message $columnHeadings $columnAttributeNames $columnActions $columnMacros $columnMacroObjects $columnWidth $UseSelectedRow)

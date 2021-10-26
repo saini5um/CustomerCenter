@@ -1,0 +1,497 @@
+##################################################
+## Configure constants and global variables
+##################################################  
+## constants
+#set ( $showExtendedData = false )
+#if ($configManager.containsKey("customer_center.account-summary-navigation.showExtendedData") )
+    #set ( $showExtendedDataLink = $configManager.getBoolean("customer_center.account-summary-navigation.showExtendedData") )
+#else
+    #set ( $showExtendedDataLink = false )
+#end
+
+#if ($configManager.containsKey("customer_center.account-summary-detail.showExtendedData") )
+    #set ( $showExtendedData = $configManager.getBoolean("customer_center.account-summary-detail.showExtendedData") )
+#end    
+
+
+## domain data for this screen
+#set ( $Account = $domainContext.getObject("Account") )
+#set ( $AccountExtendedAttributes = $Account.getExtendedAttributes() )
+##################################################
+## Main - start of html
+##################################################  
+<html>
+    <head>
+        <title>$!resourceManager.getString("NewCustAcqAccountDetails.vm.title")</title>
+        #defaultStylesheet( $filenameLocalizationUtil )
+    </head>
+
+    <body>
+        <table  width="100%" cellspacing="2" cellpadding="2">
+            <tr>
+                <td width="50%" cellspacing="0" cellpadding="0" valign="top">        
+                    ##################################################
+                    ## Name and Address
+                    ##################################################  
+                    <table  width="100%" cellspacing="0" cellpadding="0">
+                        <tr>
+                            <td class="title" width="50%">
+                                $!resourceManager.getString("NewCustAcqAccountDetails.vm.title.NameAndAddress")
+                            </td>
+                            <td class="title" width="50%" align="right">
+                            	#if ($TemplateUtility.isWorkflowActionAuthorized("new-cust-acq-account-address-edit-dlg") == true)
+	                                <a class="title" href="http://www.csgsystems.com?object=Account&action=new-cust-acq-account-address-edit-dlg">
+	                                <img border="0"  src="memory:/images/arrow_edit.gif"  >&nbsp;
+	                                $!resourceManager.getStringResource("NewCustAcq.link.Edit")
+                                	</a>
+                                #end
+                            </td>
+                        </tr>
+                    </table>
+                    <table class="white"  width="100%" cellspacing="1" cellpadding="1">
+                        <tr>
+                            <td class="header" width="100%" colspan="2">$!resourceManager.getString("NewCustAcqAccountDetails.vm.header.BillingAddress")</td>
+                        </tr>
+                        <tr>
+                            <td class="fieldlabel" width="50%">$!resourceManager.getStringResource("AccountBillingNameAndAddress.lblName")</td>
+                            <td class="fieldvalue" width="50%">$!Account.getAttribute("BillFullName").getFormattedData()</td>
+                        </tr>
+                        <tr>
+                            <td class="fieldlabel" width="50%">$!resourceManager.getStringResource("AccountBillingNameAndAddress.lblCompanyName")</td>
+                            <td class="fieldvalue" width="50%">$!Account.getAttribute("BillCompany").getFormattedData()</td>
+                        </tr>
+                        <tr>
+                            <td class="fieldlabel" width="50%">$!resourceManager.getStringResource("AccountBillingNameAndAddress.lblBillTitle")</td>
+                            <td class="fieldvalue" width="50%">$!Account.getAttribute("BillTitle").getFormattedData()</td>
+                        </tr>
+                        <tr>
+                            <td class="fieldlabel" width="50%">$!resourceManager.getStringResource("AccountBillingNameAndAddress.lblAddressLine1")</td>
+                            <td class="fieldvalue" width="50%">
+                            $!Account.getAttribute("FormattedBillingAddress").getFormattedData()
+                            </td>
+                        </tr>       
+                        <tr>
+                            <td class="fieldlabel" width="50%">$!resourceManager.getStringResource("AccountBillingNameAndAddress.lblFranchise")</td>
+                            <td class="fieldvalue" width="50%">$!Account.getAttribute("BillFranchiseTaxCode").getFormattedData()</td>
+                        </tr>
+                        <tr>
+                            <td class="fieldlabel" width="50%">$!resourceManager.getStringResource("AccountBillingNameAndAddress.lblPhoneDay")</td>
+                            <td class="fieldvalue" width="50%">$!Account.getAttribute("CustPhone1").getFormattedData()</td>
+                        </tr>                        
+                        <tr>
+                            <td class="fieldlabel" width="50%">$!resourceManager.getStringResource("AccountBillingNameAndAddress.lblPhoneNight")</td>
+                            <td class="fieldvalue" width="50%">$!Account.getAttribute("CustPhone2").getFormattedData()</td>
+                        </tr>  
+                        <tr>
+                            <td class="fieldlabel" width="50%">$!resourceManager.getString("NewCustAcqAccountDetails.vm.label.Language")</td>
+                            <td class="fieldvalue" width="50%">$!Account.getAttribute("LanguageCode").getFormattedData()</td>
+                        </tr>                          
+                        <tr>
+                            <td class="header" width="100%" colspan="2">$!resourceManager.getString("NewCustAcqAccountDetails.vm.label.AlternateAddress")</td>
+                        </tr>     
+                        <tr>
+                            <td class="fieldlabel" width="50%">$!resourceManager.getStringResource("AccountBillingNameAndAddress.lblAddressLine1")</td>
+                            <td class="fieldvalue" width="50%">
+                            $!Account.getAttribute("FormattedCustomerAddress").getFormattedData()
+                            </td>
+                        </tr>       
+                        <tr>
+                            <td class="fieldlabel" width="50%">$!resourceManager.getStringResource("AccountBillingNameAndAddress.lblFranchise")</td>
+                            <td class="fieldvalue" width="50%">$!Account.getAttribute("BillFranchiseTaxCode").getFormattedData()</td>
+                        </tr>                        
+                      </table>  
+                
+                </td>
+                <td width="50%" cellspacing="0" cellpadding="0"  valign="top"> 
+                    ##################################################
+                    ## account detail
+                    ##################################################  
+                    <table  width="100%" cellspacing="0" cellpadding="0">
+                        <tr>
+                            <td class="title" width="50%">
+                                $!resourceManager.getString("NewCustAcqAccountDetails.vm.header.Detail")
+                            </td>
+                            <td class="title" width="50%" align="right">
+                            	#if ($TemplateUtility.isWorkflowActionAuthorized("new-cust-acq-account-detail-edit-dlg") == true)
+	                                <a class="title" href="http://www.csgsystems.com?object=Account&action=new-cust-acq-account-detail-edit-dlg">
+	                                <img border="0"  src="memory:/images/arrow_edit.gif"  >&nbsp;
+	                                $!resourceManager.getStringResource("NewCustAcq.link.Edit")
+                                	</a>
+                                #end
+                            </td>
+                        </tr>
+                    </table>                    
+                   <table class="white"  width="100%" cellspacing="1" cellpadding="1">
+                        <tr>
+                            <td class="header" width="100%" colspan="2">$!resourceManager.getString("NewCustAcqAccountDetails.vm.header.AccountDetails")</td>
+                        </tr>
+                        <tr>
+                            <td class="fieldlabel" width="50%">$!resourceManager.getStringResource("AccountDetails.lblStartDate")</td>
+                            <td class="fieldvalue" width="50%">$!Account.getAttribute("DateActive").getFormattedData()</td>
+                        </tr>
+                        <tr>
+                            <td class="fieldlabel" width="50%">$!resourceManager.getStringResource("AccountDetails.lblParentID")</td>
+                            <td class="fieldvalue" width="50%">$!Account.getAttribute("ParentAccountExternalId").getFormattedData()</td>
+                        </tr>                          
+                        <tr>
+                            <td class="fieldlabel" width="50%">$!resourceManager.getStringResource("AccountDetails.lblAccountCategory")</td>
+                            <td class="fieldvalue" width="50%">$!Account.getAttribute("AccountCategory").getFormattedData()</td>
+                        </tr>                        
+                        <tr>
+                            <td class="fieldlabel" width="50%">$!resourceManager.getStringResource("AccountDetails.lblAccountSegment")</td>
+                            <td class="fieldvalue" width="50%">$!Account.getAttribute("AcctSegId").getFormattedData()</td>
+                        </tr> 
+                        <tr>
+                            <td class="fieldlabel" width="50%">$!resourceManager.getStringResource("AccountDetails.lblPrepaidPostpaid")</td>
+                            <td class="fieldvalue" width="50%">$!Account.getAttribute("PrePaidPostPaidDisplay").getFormattedData()</td>
+                        </tr>
+                        <tr>
+                            <td class="fieldlabel" width="50%">$!resourceManager.getString("NewCustAcqAccountDetails.vm.label.AccountType")</td>
+                            <td class="fieldvalue" width="50%">$!Account.getAttribute("AccountType").getFormattedData()</td>
+                        </tr>                            
+                        <tr>
+                            <td class="fieldlabel" width="50%">$!resourceManager.getStringResource("AccountDetails.lblMarketCode")</td>
+                            <td class="fieldvalue" width="50%">$!Account.getAttribute("MktCode").getFormattedData()</td>
+                        </tr>
+                        <tr>
+                            <td class="fieldlabel" width="50%">$!resourceManager.getStringResource("AccountDetails.lblRateClassDefault")</td>
+                            <td class="fieldvalue" width="50%">$!Account.getAttribute("RateClassDefault").getFormattedData()</td>
+                        </tr>                        
+                        <tr>
+                            <td class="fieldlabel" width="50%">$!resourceManager.getStringResource("AccountDetails.lblRegulatoryAuthority")</td>
+                            <td class="fieldvalue" width="50%">$!Account.getAttribute("RegulatoryId").getFormattedData()</td>
+                        </tr>                          
+                        <tr>
+                            <td class="header" width="100%" colspan="2">$!resourceManager.getString("NewCustAcqAccountDetails.vm.header.PaymentMethod")</td>
+                        </tr>
+                        <tr>
+                            <td class="fieldlabel" width="50%">$!resourceManager.getStringResource("AccountPaymentMethod.lblPaymentMethod")</td>
+                            <td class="fieldvalue" width="50%">$!Account.getAttribute("PayMethod").getFormattedData()</td>
+                        </tr>
+                        #set ($payMethod = $Account.getAttributeData("PayMethod"))
+                        #if ( $payMethod == 1)
+                            <!-- check -->
+                        #elseif ( $payMethod == 2)
+                            <!-- credit card -->
+                            <tr>
+                                <td class="fieldlabel" width="50%">$!resourceManager.getStringResource("AccountPaymentMethod.lblCreditCardType")</td>
+                                <td class="fieldvalue" width="50%">$!Account.getAttribute("CcardCarrier").getFormattedData()</td>
+                            </tr>
+                            <tr>
+                                <td class="fieldlabel" width="50%">$!resourceManager.getStringResource("AccountPaymentMethod.lblCreditCardNumber")</td>
+                                <td class="fieldvalue" width="50%">$!Account.getAttribute("CcardAccount").getFormattedData()</td>
+                            </tr>                        
+                            <tr>
+                                <td class="fieldlabel" width="50%">$!resourceManager.getStringResource("AccountPaymentMethod.lblHolderName")</td>
+                                <td class="fieldvalue" width="50%">$!Account.getAttribute("CcardOwnrName").getFormattedData()</td>
+                            </tr>                          
+                            <tr>
+                                <td class="fieldlabel" width="50%">$!resourceManager.getStringResource("AccountPaymentMethod.lblExpirationDate")</td>
+                                <td class="fieldvalue" width="50%">$!Account.getAttribute("CcardExpire").getFormattedData()</td>
+                            </tr>  
+                            <tr>
+                                <td class="fieldlabel" width="50%">$!resourceManager.getStringResource("AccountPaymentMethod.lblClearingHouse")</td>
+                                <td class="fieldvalue" width="50%">$!Account.getAttribute("CcardClearingHouseId").getFormattedData()</td>
+                            </tr>                        
+                        #elseif ( $payMethod == 3)
+                            <!-- direct debit -->
+                            <tr>
+                                <td class="fieldlabel" width="50%">$!resourceManager.getStringResource("AccountPaymentMethod.lblBankAccount")</td>
+                                <td class="fieldvalue" width="50%">$!Account.getAttribute("CustBankAccNum").getFormattedData()</td>
+                            </tr>
+                            <tr>
+                                <td class="fieldlabel" width="50%">$!resourceManager.getStringResource("AccountPaymentMethod.lblBankName")</td>
+                                <td class="fieldvalue" width="50%">$!Account.getAttribute("CustBankAccName").getFormattedData()</td>
+                            </tr>                        
+                            <tr>
+                                <td class="fieldlabel" width="50%">$!resourceManager.getStringResource("AccountPaymentMethod.lblBankRoutingNumber")</td>
+                                <td class="fieldvalue" width="50%">$!Account.getAttribute("CustBankSortCode").getFormattedData()</td>
+                            </tr>                          
+                            <tr>
+                                <td class="fieldlabel" width="50%">$!resourceManager.getStringResource("AccountPaymentMethod.lblBankAgencyName")</td>
+                                <td class="fieldvalue" width="50%">$!Account.getAttribute("BankAgencyName").getFormattedData()</td>
+                            </tr>  
+                            <tr>
+                                <td class="fieldlabel" width="50%">$!resourceManager.getStringResource("AccountPaymentMethod.lblBankAgencyCode")</td>
+                                <td class="fieldvalue" width="50%">$!Account.getAttribute("BankAgencyCode").getFormattedData()</td>
+                            </tr>                        
+                            <tr>
+                                <td class="fieldlabel" width="50%">$!resourceManager.getStringResource("AccountPaymentMethod.lblAlternateBank")</td>
+                                <td class="fieldvalue" width="50%">$!Account.getAttribute("AltBankAccNum").getFormattedData()</td>
+                            </tr>                          
+                            <tr>
+                                <td class="fieldlabel" width="50%">$!resourceManager.getStringResource("AccountPaymentMethod.lblClearingHouse")</td>
+                                <td class="fieldvalue" width="50%">$!Account.getAttribute("ClearingHouseId").getFormattedData()</td>
+                            </tr>  
+                        #end
+                      </table>  
+                </td>
+            </tr>
+            
+            <tr>
+                <td width="50%" cellspacing="0" cellpadding="0" valign="top">   
+                    ##################################################
+                    ## Contact and Service Center Info
+                    ##################################################                  
+                    <table class="white"  width="100%" cellspacing="0" cellpadding="0">
+                        <tr>
+                            <td class="title" width="50%">
+                                $!resourceManager.getString("NewCustAcqAccountDetails.vm.title.ContactAndServiceCenters")
+                            </td>
+                            <td class="title" align="right">
+                            	#if ($TemplateUtility.isWorkflowActionAuthorized("new-cust-acq-account-contact-edit-dlg") == true)
+	                                <a class="title" href="http://www.csgsystems.com?object=Account&action=new-cust-acq-account-contact-edit-dlg">
+	                                <img border="0"  src="memory:/images/arrow_edit.gif"  >&nbsp;
+	                                $!resourceManager.getStringResource("NewCustAcq.link.Edit")                                
+                                	</a>
+                                #end
+                            </td>
+                        </tr>
+                    </table>
+                    <table  width="100%" cellspacing="1" cellpadding="1">
+                        <tr>
+                            <td class="header" width="100%" colspan="2">$!resourceManager.getString("NewCustAcqAccountDetails.vm.header.ContactInfo")</td>
+                        </tr>
+                        <tr>
+                            <td class="fieldlabel" width="50%">$!resourceManager.getStringResource("AccountContact.lblFaxNumber")</td>
+                            <td class="fieldvalue" width="50%">$!Account.getAttribute("CustFaxno").getFormattedData()</td>
+                        </tr>            
+                        <tr>
+                            <td class="fieldlabel" width="50%">$!resourceManager.getStringResource("AccountContact.lblEmail")</td>
+                            <td class="fieldvalue" width="50%">$!Account.getAttribute("CustEmail").getFormattedData()</td>
+                        </tr>     
+                        <tr>
+                            <td class="fieldlabel" width="50%">$!resourceManager.getStringResource("AccountContact.lblStatementFaxNumber")</td>
+                            <td class="fieldvalue" width="50%">$!Account.getAttribute("StatementToFaxno").getFormattedData()</td>
+                        </tr>     
+                        <tr>
+                            <td class="fieldlabel" width="50%">$!resourceManager.getStringResource("AccountContact.lblStatementEmail")</td>
+                            <td class="fieldvalue" width="50%">$!Account.getAttribute("StatementToEmail").getFormattedData()</td>
+                        </tr>     
+                        <tr>
+                            <td class="fieldlabel" width="50%">$!resourceManager.getStringResource("AccountContact.lblPrimaryContact")</td>
+                            <td class="fieldvalue" width="50%">$!Account.getAttribute("Contact1Name").getFormattedData()</td>
+                        </tr>
+                        <tr>
+                            <td class="fieldlabel" width="50%">$!resourceManager.getStringResource("AccountContact.lblPrimaryPhone")</td>
+                            <td class="fieldvalue" width="50%">$!Account.getAttribute("Contact1Phone").getFormattedData()</td>
+                        </tr>     
+                        <tr>
+                            <td class="fieldlabel" width="50%">$!resourceManager.getStringResource("AccountContact.lblSecondaryContact")</td>
+                            <td class="fieldvalue" width="50%">$!Account.getAttribute("Contact2Name").getFormattedData()</td>
+                        </tr>     
+                        <tr>
+                            <td class="fieldlabel" width="50%">$!resourceManager.getStringResource("AccountContact.lblSecondaryPhone")</td>
+                            <td class="fieldvalue" width="50%">$!Account.getAttribute("Contact2Phone").getFormattedData()</td>
+                        </tr>   
+                        <tr>
+                            <td class="header" width="100%" colspan="2">$!resourceManager.getString("NewCustAcqAccountDetails.vm.header.Security")</td>
+                        </tr>
+                        <tr>
+                            <td class="fieldlabel" width="50%">$!resourceManager.getStringResource("AccountSecurity.label.SecurityWord")</td>
+                            <td class="fieldvalue" width="50%">$!Account.getAttribute("Codeword").getFormattedData()</td>
+                        </tr>            
+                        <tr>
+                            <td class="fieldlabel" width="50%">$!resourceManager.getStringResource("AccountSecurity.label.SocialSecurityNumber")</td>
+                            <td class="fieldvalue" width="50%">$!Account.getAttribute("Ssn").getFormattedData()</td>
+                        </tr>     
+                        <tr>
+                            <td class="fieldlabel" width="50%">$!resourceManager.getStringResource("AccountSecurity.label.Remarks")</td>
+                            <td class="fieldvalue" width="50%" align="left">$!Account.getAttribute("Remark").getFormattedData()</td>
+                        </tr> 
+                        <tr>
+                            <td class="fieldlabel" width="50%">$!resourceManager.getStringResource("AccountSecurity.label.SicCode")</td>
+                            <td class="fieldvalue" width="50%">$!Account.getAttribute("SicCode").getFormattedData()</td>
+                        </tr> 
+                        <tr>
+                            <td class="fieldlabel" width="50%">$!resourceManager.getStringResource("AccountSecurity.label.SalesCode")</td>
+                            <td class="fieldvalue" width="50%">$!Account.getAttribute("SalesCode").getFormattedData()</td>
+                        </tr> 
+                        <tr>
+                            <td class="fieldlabel" width="50%">$!resourceManager.getStringResource("AccountSecurity.label.PurchaseOrder")</td>
+                            <td class="fieldvalue" width="50%">$!Account.getAttribute("PurchaseOrder").getFormattedData()</td>
+                        </tr> 
+                        <tr>
+                            <td class="header" width="100%" colspan="2">$!resourceManager.getStringResource("NewCustAcqAccountDetails.vm.header.ServiceCenters")</td>
+                        </tr>
+                        <tr>
+                            <td class="fieldlabel" width="50%">$!resourceManager.getStringResource("AccountServiceCenters.lblBilling")</td>
+                            <td class="fieldvalue" width="50%">$!Account.getAttribute("BillingServiceCenterId").getFormattedData()</td>
+                        </tr>                
+                        <tr>
+                            <td class="fieldlabel" width="50%">$!resourceManager.getStringResource("AccountServiceCenters.lblRemittance")</td>
+                            <td class="fieldvalue" width="50%">$!Account.getAttribute("RemitServiceCenterId").getFormattedData()</td>
+                        </tr>    
+                        <tr>
+                            <td class="fieldlabel" width="50%">$!resourceManager.getStringResource("AccountServiceCenters.lblServiceInquiry")</td>
+                            <td class="fieldvalue" width="50%">$!Account.getAttribute("InquiryServiceCenterId").getFormattedData()</td>
+                        </tr>    
+                        <tr>
+                            <td class="fieldlabel" width="50%">$!resourceManager.getStringResource("AccountServiceCenters.lblPrint")</td>
+                            <td class="fieldvalue" width="50%">$!Account.getAttribute("PrintServiceCenterId").getFormattedData()</td>
+                        </tr>    
+                        <tr>
+                            <td class="fieldlabel" width="50%">$!resourceManager.getStringResource("AccountServiceCenters.lblCollections")</td>
+                            <td class="fieldvalue" width="50%">$!Account.getAttribute("CollectionServiceCenterId").getFormattedData()</td>
+                        </tr>                          
+                    </table>  
+                </td>
+                <td width="50%" cellspacing="0" cellpadding="0"  valign="top"> 
+                    ##################################################
+                    ## Billing and Rating
+                    ##################################################  
+                    <table  width="100%" cellspacing="0" cellpadding="0">
+                        <tr>
+                            <td class="title" width="50%">
+                                $!resourceManager.getStringResource("NewCustAcqAccountDetails.vm.title.BillingAndRating")
+                            </td>
+                            <td class="title" width="50%" align="right">
+                            	#if ($TemplateUtility.isWorkflowActionAuthorized("service-openitemidmap-reprioritize-dlg") == true)
+	                                <a class="title" href="http://www.csgsystems.com?object=Account&action=new-cust-acq-account-billing-and-rating-edit-dlg">
+	                                <img border="0"  src="memory:/images/arrow_edit.gif"  >&nbsp;
+	                                $!resourceManager.getStringResource("NewCustAcq.link.Edit")
+	                                </a>
+                                #end
+                            </td>
+                        </tr>
+                    </table>                    
+                   <table class="white"  width="100%" cellspacing="1" cellpadding="1">
+                        <tr>
+                            <td class="header" width="100%" colspan="2">$!resourceManager.getStringResource("NewCustAcqAccountDetails.vm.header.Billing")</td>
+                        </tr>
+                        <tr>
+                            <td class="fieldlabel" width="50%">$!resourceManager.getString("NewCustAcqAccountDetails.vm.label.BillDispatchMethod")</td>
+                            <td class="fieldvalue" width="50%">$!Account.getAttribute("BillDispMeth").getFormattedData()</td>
+                        </tr>                
+                        <tr>
+                            <td class="fieldlabel" width="50%">$!resourceManager.getString("NewCustAcqAccountDetails.vm.label.BillFormatOption")</td>
+                            <td class="fieldvalue" width="50%">$!Account.getAttribute("BillFmtOpt").getFormattedData()</td>
+                        </tr>    
+                        <tr>
+                            <td class="fieldlabel" width="50%">$!resourceManager.getString("NewCustAcqAccountDetails.vm.label.BillHoldCode")</td>
+                            <td class="fieldvalue" width="50%">$!Account.getAttribute("BillHoldCode").getFormattedData()</td>
+                        </tr>    
+                        <tr>
+                            <td class="fieldlabel" width="50%">$!resourceManager.getString("NewCustAcqAccountDetails.vm.label.BillPeriod")</td>
+                            <td class="fieldvalue" width="50%">$!Account.getAttribute("BillPeriod").getFormattedData()</td>
+                        </tr>    
+                        <tr>
+                            <td class="fieldlabel" width="50%">$!resourceManager.getString("NewCustAcqAccountDetails.vm.label.BillInsertGroup")</td>
+                            <td class="fieldvalue" width="50%">$!Account.getAttribute("InsertGrpId").getFormattedData()</td>
+                        </tr>             
+                        <tr>
+                            <td class="fieldlabel" width="50%">$!resourceManager.getString("NewCustAcqAccountDetails.vm.label.BillMessageGroup")</td>
+                            <td class="fieldvalue" width="50%">$!Account.getAttribute("MsgGrpId").getFormattedData()</td>
+                        </tr>  
+
+                        <tr>
+                            <td class="fieldlabel" width="50%">$!resourceManager.getString("NewCustAcqAccountDetails.vm.label.Bill")</td>
+                            <td class="fieldvalue" width="50%">
+                                #if ($Account.getAttributeData("NoBill"))                            
+                                    $!resourceManager.getStringResource("Generic.vm.text.Yes")
+                                #else
+                                    $!resourceManager.getStringResource("Generic.vm.text.No")
+                                #end
+                            </td>
+                        </tr>  
+                        <tr>
+                            <td class="header" width="100%" colspan="2">$!resourceManager.getString("NewCustAcqAccountDetails.vm.header.Rating")</td>
+                        </tr>   
+                        <tr>
+                            <td class="fieldlabel" width="50%">$!resourceManager.getString("NewCustAcqAccountDetails.vm.label.ExchangeRateClass")</td>
+                            <td class="fieldvalue" width="50%">$!Account.getAttribute("ExrateClass").getFormattedData()</td>
+                        </tr> 
+                        <tr>
+                            <td class="fieldlabel" width="50%">$!resourceManager.getString("NewCustAcqAccountDetails.vm.label.Currency")</td>
+                            <td class="fieldvalue" width="50%">$!Account.getAttribute("CurrencyCode").getFormattedData()</td>
+                        </tr>   
+                        <tr>
+                            <td class="fieldlabel" width="50%">$!resourceManager.getString("NewCustAcqAccountDetails.vm.label.RevenueCostCenter")</td>
+                            <td class="fieldvalue" width="50%">$!Account.getAttribute("RevRcvCostCtr").getFormattedData()</td>
+                        </tr>  
+                        <tr>
+                            <td class="fieldlabel" width="50%">$!resourceManager.getString("NewCustAcqAccountDetails.vm.label.OwningCostCenter")</td>
+                            <td class="fieldvalue" width="50%">$!Account.getAttribute("OwningCostCtr").getFormattedData()</td>
+                        </tr>  
+                        <tr>
+                            <td class="fieldlabel" width="50%">$!resourceManager.getString("NewCustAcqAccountDetails.vm.label.CreditRating")</td>
+                            <td class="fieldvalue" width="50%">$!Account.getAttribute("CreditRating").getFormattedData()</td>
+                        </tr> 
+                        <tr>
+                            <td class="fieldlabel" width="50%">$!resourceManager.getString("NewCustAcqAccountDetails.vm.label.CreditThreshold")</td>
+                            <td class="fieldvalue" width="50%">$!Account.getAttribute("CreditThresh").getFormattedData()</td>
+                        </tr>
+                        <tr>
+                            <td class="fieldlabel" width="50%">$!resourceManager.getString("NewCustAcqAccountDetails.vm.label.CreditStatus")</td>
+                            <td class="fieldvalue" width="50%">$!Account.getAttribute("CredStatus").getFormattedData()</td>
+                        </tr>
+                        <tr>
+                            <td class="fieldlabel" width="50%">$!resourceManager.getString("NewCustAcqAccountDetails.vm.label.VIPCode")</td>
+                            <td class="fieldvalue" width="50%">$!Account.getAttribute("VipCode").getFormattedData()</td>
+                        </tr>                           
+                        <tr>
+                            <td class="fieldlabel" width="50%">$!resourceManager.getString("NewCustAcqAccountDetails.vm.label.GlobalContractStatus")</td>
+                            <td class="fieldvalue">
+                                #if ($Account.getAttributeDataAsInteger("GlobalContractStatus")==0 )                            
+                                    $!resourceManager.getString("Generic.vm.text.No")                                   
+                                #else
+                                    $!resourceManager.getString("Generic.vm.text.Yes")
+                                #end                            
+                            </td>
+                        </tr>   
+                        <tr>
+                            <td class="fieldlabel" width="50%">$!resourceManager.getString("NewCustAcqAccountDetails.vm.label.ChargeThreshold")</td>
+                            <td class="fieldvalue" width="50%">$!Account.getAttribute("ChargeThreshold").getFormattedData()</td>
+                        </tr>                          
+                    </table>  
+                </td>                
+            </tr>
+
+            ##################################################
+            ## Extended Attributes
+            ##################################################      
+            #if ($showExtendedData || $showExtendedDataLink)            
+            <tr>
+                <td width="50%" cellspacing="0" cellpadding="0" valign="top">   
+                    <table  width="100%" cellspacing="0" cellpadding="0">
+                        <tr>
+                            <td class="title" width="50%">
+                                $!resourceManager.getString("NewCustAcqAccountDetails.vm.title.ExtendedData")
+                            </td>
+                            <td class="title" width="50%" align="right">
+                                ##if ( $Account.isReadOnly() )
+                                #if ($Account.isReadOnly() == false && $TemplateUtility.isWorkflowActionAuthorized("new-cust-acq-account-extended-data-edit-dlg") == true)
+                                    <img border="0"  src="memory:/images/arrow_edit.gif"  >&nbsp;
+                                    <a class="title" href="http://www.csgsystems.com?object=Account&action=new-cust-acq-account-extended-data-edit-dlg">
+                                    $!resourceManager.getString("Generic.vm.link.Edit")
+                                    </a>                                                                    
+                                #else
+                                    <img border="0"  src="memory:/images/arrow_detail.gif"  >&nbsp;
+                                    <a class="title" href="http://www.csgsystems.com?object=Account&action=account-extended-data-view-dlg">
+                                    $!resourceManager.getString("Generic.vm.link.View")
+                                    </a>                               
+                                #end
+                            </td>
+                        </tr>
+                    </table>
+                    #if (!$AccountExtendedAttributes.isEmpty() && $showExtendedData )
+                        <table class="white"  width="100%" cellspacing="1" cellpadding="1">
+                            <tr>
+                                <td class="header" width="100%" colspan="2">$!resourceManager.getString("NewCustAcqAccountDetails.vm.header.Detail")</td>
+                            </tr>                              
+                            #foreach ( $attribute in $AccountExtendedAttributes )
+                                <tr>
+                                    <td class="fieldlabel" width="50%">$!attribute.getAlternateName()</td>
+                                    <td class="fieldvalue" width="50%">$!attribute.getFormattedData()</td>
+                                </tr>                              
+                            #end
+                        </table>
+                    #end
+                </td>
+                <td width="50%">
+                </td>                
+            </tr>
+            #end                        
+        </table>
+    </body>
+</html>

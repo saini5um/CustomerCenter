@@ -1,0 +1,180 @@
+##################################################
+## Configure constants and global variables
+##################################################  
+## constants
+
+#set ($noteListDisplayRowsPerPage = 0)
+#set ($noteListDisplayMaxPages = 0)
+#set ($page = 1)
+#set ($start = 0)
+#set ($end = 0)
+#set ($pageCount = 0)
+#set ($displayEndRow = 0)
+#set ($displayStartRow = 0) 
+
+## domain data for this screen
+#set ($noteList = false)
+#set ($service = $domainContext.getObject("Service"))
+#if ($service)
+    #set ($noteList = $service.getObject("com.maxis.businessobject.PrepaidNotesList","Service"))
+    #set ($noteCount = 0)
+    $noteList.reset()
+    #if ($noteList)
+        #set ($noteListDisplayRowsPerPage = $noteList.getAttributeDataAsInteger("DisplayRowsPerPage"))
+        #set ($noteListDisplayMaxPages = $noteList.getAttributeDataAsInteger("DisplayPages"))
+        #set ($noteCount = $noteList.getCount())
+    #end
+#end
+
+## screen pagination 
+#if ($session.containsKey("page"))
+    #set ($page = $session.get("page"))
+    #set ($displayStartRow = $noteListDisplayRowsPerPage * ($page - 1)) 
+#end
+#set ($displayEndRow = $displayStartRow + $noteListDisplayRowsPerPage)
+
+## number of pages of data
+#if ($noteCount > 0)
+    #set ($pageCount = $noteCount / $noteListDisplayRowsPerPage)
+    #if (($pageCount * $noteListDisplayRowsPerPage) < $noteCount)
+        ## remainder of records not on full page
+        #set ($pageCount = $pageCount + 1)
+        
+        ## last page
+        #if ($pageCount == $page)
+            #set ($displayEndRow = $noteCount)
+        #end
+    #end
+    
+    #set ($start = $displayStartRow )
+    #set ($end = $displayEndRow - 1)
+#end
+
+##################################################
+## Main - start of html
+##################################################  
+<html>
+    <head>
+        <title>$!resourceManager.getString("AccountSummary_NoteList.vm.title")</title>
+        #defaultStylesheet( $filenameLocalizationUtil )
+    </head>
+    <body>
+    <table  width="100%" cellspacing="2" cellpadding="2"><tr><td class="white" width="100%">
+        <table  width="100%" cellspacing="0" cellpadding="0">
+            ##################################################
+            ## Display title row with view/search links
+            ##################################################    
+            <tr>
+                <td class="white" width="100%" colspan="2" >
+                    <table  width="100%" cellspacing="0" cellpadding="0">
+                        <tr>
+                            <td class="title" width="50%">
+                                #if ($noteCount > 0)
+                                    #set ($displayStartRow = $displayStartRow + 1)
+                                    #if ($displayStartRow == $displayEndRow)
+                                        ## Notes ($displayEndRow of $noteCount)
+                                        #set( $array = [ $displayEndRow, $noteCount ] )
+                                        $!resourceManager.formatStringResource( "AccountSummary_NoteList.vm.title.NotesSingle", $array.toArray() )
+                                    #else
+                                        ## Notes ($displayStartRow - $displayEndRow of $noteCount)
+                                        #set( $array = [ $displayStartRow, $displayEndRow, $noteCount ] )
+                                        $!resourceManager.formatStringResource( "AccountSummary_NoteList.vm.title.NotesMultiple", $array.toArray() )
+                                    #end
+                                #else
+                                    $!resourceManager.getString("AccountSummary_NoteList.vm.title.Notes")
+                                #end
+                            </td>
+                            <td class="title" width="50%" align="right">
+                                <img border="0"  src="memory:/images/arrow_search.gif"  >&nbsp;
+                                <a class="title" href="http://www.csgsystems.com?type=search&object=Account&action=note-search-dlg">
+                                    $!resourceManager.getString("Generic.vm.link.Search")
+                                </a>                                
+                            </td>
+                        </tr>
+                    </table>
+                </td>
+            </tr>
+            ##################################################
+            ## Display header and data rows
+            ##################################################    
+            <tr>
+                <td width="100%" colspan="2" >
+                #if ( $noteCount > 0 )             
+                    <table class="white"  width="100%" cellspacing="1" cellpadding="1">
+                        <tr>
+                            <td class="header" width="10%" align="left">Note Code</th>
+                            <td class="header" width="20%" align="left">Note Text</th>
+                            <td class="header" width="10%" align="left">Reason</th>
+                            <td class="header" width="30%" align="left">Remarks</th>
+                            <td class="header" width="10%" align="left">User ID</th>
+                            <td class="header" width="20%" align="left">Date & Time</th>
+                        </tr>
+                        #set ( $indexRange = [ ${start}..${end} ] )
+                        #foreach ( $index in $indexRange )
+                            #set ( $note = $noteList.getAt($index) )
+                            <tr>
+                                <td class="datalabel" align="left">
+                                    <a href="http://www.csgsystems.com?object=Note&subtype=Account&action=note-details-dlg&index=$index">
+                                    $!note.getAttribute("NoteCode").getFormattedData()
+                                    </a>
+                                </td>
+                                <td class="data" align="left">$!note.getAttribute("NoteText").getFormattedData()</td>
+                                <td class="data" align="left">$!note.getAttribute("Reason").getFormattedData()</td>
+                                <td class="data" align="left">$!note.getAttribute("Remarks").getFormattedData()</td>
+                                <td class="data" align="left">$!note.getAttribute("ChangeWho").getFormattedData()</td>
+                                <td class="data" align="left">$!note.getAttribute("NoteDate").getFormattedData()</td>
+                            </tr>                        
+                        #end
+                    </table>  
+                #else
+                    <table class="white"  width="100%" cellspacing="1" cellpadding="1">
+                        <tr>
+                            <td class="header" width="10%" align="left">Note Code</th>
+                            <td class="header" width="20%" align="left">Note Text</th>
+                            <td class="header" width="10%" align="left">Reason</th>
+                            <td class="header" width="30%" align="left">Remarks</th>
+                            <td class="header" width="10%" align="left">User ID</th>
+                            <td class="header" width="20%" align="left">Date & Time</th>
+                        </tr>
+                    </table>
+                    <br>
+                    $!resourceManager.getString("AccountSummary_NoteList.vm.text.NoNotesFound")
+                #end        
+                </td>
+            </tr>
+        </table>
+        
+    </td></tr></table>
+    ##################################################
+    ## Display pagination
+    ##################################################
+    #if ( $noteCount > 0 )  
+        <table width="100%">
+            <tr>
+            <td width="100%">
+            $!resourceManager.getString("Generic.vm.label.Page")&nbsp;&nbsp;
+            #set ( $indexRange = [ 1..${pageCount} ] )
+            #foreach ( $index in $indexRange )
+                #if ($index == ($noteListDisplayMaxPages+1))
+                    ## large amount of data, user must filter
+                    &nbsp;&nbsp;&nbsp;
+                    <img border="0"  src="memory:/images/arrow_search.gif"  >&nbsp;$!resourceManager.getString("Generic.vm.text.EnterCriteria")
+                #elseif ( $index < ($noteListDisplayMaxPages+1) )
+                    #if ($index == $page)
+                        <b>$index</b>&nbsp;&nbsp;
+                    #else
+                        <a href="http://www.csgsystems.com?type=paging&page=$index">
+                        <b>$index</b>
+                        </a>
+                    #end
+                #end
+            #end
+            </td>
+            </tr>
+        </table>    
+        #end
+    </body>
+</html>
+
+
+

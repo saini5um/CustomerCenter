@@ -1,0 +1,79 @@
+##################################################
+## Configure constants and global variables
+##################################################  
+## constants
+#set ($start = 0)
+#set ($end = 0)
+
+## domain data for this screen
+#set ($serviceExIdList = false)
+#set ($serviceExIdList = $domainContext.getObject("CustomerIdEquipMapList", "ServiceExternalIdAdd"))
+#if ($serviceExIdList)
+	#set ($serviceExIdListCount = $serviceExIdList.getCount()) 
+    #set ($end = $serviceExIdListCount - 1)
+#end
+
+## current row selection
+#if ($session.containsKey("selectedRow"))
+    #set ($selectedRow = $session.get("selectedRow"))
+#else
+    #set ($selectedRow = -1)
+#end
+
+
+
+
+##################################################
+## Main - start of html
+##################################################  
+<html>
+    <head>
+        #defaultStylesheet( $filenameLocalizationUtil )        
+    </head>
+    <body>
+    ##################################################
+    ## Display serviceExId header
+    ##################################################
+        <table class="white"  width="100%" cellspacing="1" cellpadding="1">         
+            <tr>
+                <td class="header" width="137" align="left">$!resourceManager.getString("serviceExternalIdAdd.vm.header.Type")</td>
+                <td class="header" width="155" align="right">$!resourceManager.getString("serviceExternalIdAdd.vm.header.Value")</td>
+                <td class="header" width="90" align="right">$!resourceManager.getString("serviceExternalIdAdd.vm.header.Active")</td>
+                <td class="header" width="90" align="right">$!resourceManager.getString("serviceExternalIdAdd.vm.header.Inactive")</td>
+                <td class="header" width="50" align="right">$!resourceManager.getString("serviceExternalIdAdd.vm.header.Current")</td>
+                <td class="header" width="80" align="right">$!resourceManager.getString("Generic.vm.header.Action")</td>
+            </tr>
+            ##################################################
+            ## Display Account data
+            ##################################################             
+            #if ($serviceExIdListCount > 0)
+                #set ( $indexRange = [ ${start}..${end} ] )
+            	#foreach ( $index in $indexRange )
+                	#set ( $item = $serviceExIdList.getAt($index))
+                	<tr>
+                        <td class="datalabel" valign="top">$!item.getAttribute("ServiceExternalIdType").getFormattedData()</td>
+                        <td class="data"  align="right">$!item.getAttribute("ServiceExternalId").getFormattedData()</td>
+                        <td class="data"  align="right">$!item.getAttribute("ActiveDate").getFormattedData()</td>
+                        <td class="data"  align="right">$!item.getAttribute("InactiveDate").getFormattedData()</td>
+                        <td class="data" align="center">
+                        	#if ($!item.getAttributeDataAsBoolean("IsCurrent"))
+                                <img border="0"  src="memory:/images/checkmark.gif">
+                            #else
+                                &nbsp;
+                            #end
+                        </td>
+                        <td class="data" align="right">
+                            #if($item.getAttributeDataAsBoolean("IsRemovable") && $item.getAttributeDataAsInteger("ServiceExternalIdType") != 33)
+                        	    <a href="http://www.csgsystems.com?object=CustomerIdEquipMapList&subtype=ServiceExternalIdAdd&index=$index&postProcessing=DELETE&sessionPutName=index&sessionPutValue=$index">
+                        	        $!resourceManager.getString("Generic.vm.link.Remove")
+                        	    </a>
+                            #else
+    	                        &nbsp;
+                            #end
+                        </td>
+                    </tr>     
+                #end 
+            #end
+        </table>
+    </body>
+</html>

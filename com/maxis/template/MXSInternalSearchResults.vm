@@ -1,0 +1,155 @@
+##################################################
+## Configure constants and global variables
+##################################################  
+## constants
+
+#set ($accountLocateListDisplayRowsPerPage = 0)
+#set ($accountLocateListDisplayMaxPages = 0)
+
+## domain data for this screen
+#set ($accountLocateList = $domainContext.getObject("MXSAccountSearchList"))
+#set ($accountLocateCount = $accountLocateList.getCount())
+#set ($overflow = false)
+#set ($overflow = $accountLocateList.getError())
+#set ($accountLocateListDisplayRowsPerPage = $accountLocateList.getAttributeDataAsInteger("DisplayRowsPerPage"))
+#set ($accountLocateListDisplayMaxPages = $accountLocateList.getAttributeDataAsInteger("DisplayPages"))    
+#set ($page = 1)
+#set ($start = 0)
+#set ($end = 0)
+#set ($pageCount = 0)
+#set ($displayEndRow = 0)
+#set ($displayStartRow = 0)    
+
+## screen pagination 
+#if ($session.containsKey("page"))
+    #set ($page = $session.get("page"))
+    #set ($displayStartRow = $accountLocateListDisplayRowsPerPage * ($page - 1))
+#else
+    ## first page
+    #set ($displayStartRow = 0)
+    #set ($page = 1)    
+#end
+#set ($displayEndRow = $displayStartRow + $accountLocateListDisplayRowsPerPage)
+
+## number of pages of data
+#if ($accountLocateCount > 0)
+    #set ($pageCount = $accountLocateCount / $accountLocateListDisplayRowsPerPage)
+    #if (($pageCount * $accountLocateListDisplayRowsPerPage) < $accountLocateCount)
+        ## remainder of records not on full page
+        #set ($pageCount = $pageCount + 1)
+        
+        ## last page
+        #if ($pageCount == $page)
+            #set ($displayEndRow = $accountLocateCount)
+        #end
+    #end
+    
+    #set ($start = $displayStartRow )
+    #set ($end = $displayEndRow - 1)
+#end
+
+
+##################################################
+## Main - start of html
+##################################################  
+<html>
+<head>
+    <title>$!resourceManager.getString("AccountLocate.vm.title")</title>
+    #defaultStylesheet( $filenameLocalizationUtil )
+</head>
+<body>  
+	#if( $accountLocateCount > 0 && $accountLocateList.getAttribute("MXSMasa").getDataAsBoolean() )
+        #if( $accountLocateList.getAttribute("MasaFraudCount").getDataAsInteger() > 0 )
+        	$!resourceManager.getString("AccountLocate.vm.text.NotAllAccountsHasBeenDisplayed")
+        #end
+    #end
+    
+    <table width="100%" cellspacing="0" cellpadding="0">
+    <tr>
+        <td class="title" width="100%">
+            #if ( $accountLocateCount > 0 ) 
+                #set ($displayStartRow = $displayStartRow + 1)
+                #if ($displayStartRow == $displayEndRow)
+                    ##Accounts ($displayEndRow of $accountLocateCount)
+                    #set( $array = [ $displayEndRow, $accountLocateCount] )
+                    $!resourceManager.formatStringResource( "AccountLocate.vm.title.AccountsSingle", $array.toArray() )
+                #else
+                    ##Accounts ($displayStartRow - $displayEndRow of $accountLocateCount)
+                    #set( $array = [ $displayStartRow, $displayEndRow, $accountLocateCount] )
+                    $!resourceManager.formatStringResource( "AccountLocate.vm.title.AccountsMultiple", $array.toArray() )
+                #end
+            #else
+                $!resourceManager.getString("AccountLocate.vm.title.Accounts")
+            #end
+        </td>
+    </tr>
+    </table>
+    
+    #if ( $accountLocateCount > 0 ) 
+            ##################################################
+            ## Display header and data rows
+            ##################################################        
+            <table width="100%" cellspacing="1" cellpadding="1">
+                <tr>
+                <td class="header" align="left">$!resourceManager.getString("AccountLocate.vm.header.Account")</td>
+                <td class="header" align="left">$!resourceManager.getString("AccountLocate.vm.header.Company")</td>
+                <td class="header" align="left">$!resourceManager.getString("AccountLocate.vm.header.Address")</td>
+                <td class="header" align="left">$!resourceManager.getString("AccountLocate.vm.header.DateDisplay")</td>               
+                <td class="header" align="left">Col Status</td>               
+                <td class="header" align="left">Write-off</td>               
+                <td class="header" align="left">Outstanding</td>               
+                <td class="header" align="left">Credit Limit</td>               
+                <td class="header" align="left">Risk Category</td>               
+                <td class="header" align="left">Active Services</td>                  
+                </tr>    
+                #set ( $indexRange = [ ${start}..${end} ] )
+                #foreach ( $index in $indexRange )
+                    #set ( $accountSearch = $accountLocateList.getAt($index))
+                    #set ( $accountLocate = $accountSearch.getObject("AccountLocate"))
+                    #set ( $account = $accountSearch.getObject("Account"))
+                    #if  ( !($accountLocateList.getAttribute("MXSMasa").getDataAsBoolean() && ($account.getAttributeDataAsInteger("CollectionStatus") == 3  || $account.getAttributeDataAsInteger("WriteOffStatus") == 1 ) ) )
+	                    <tr>
+	                        <td class="datalabel">
+	                                $!account.getAttribute("AccountExternalId").getFormattedData()
+	                        </td>                         
+	                        <td class="data">
+	                        $!accountLocate.getAttributeData("AccountDisplayName")
+	                        </td>
+	                        <td class="data">
+	                        $!accountLocate.getAttributeData("AddressDisplayValue")
+	                        </td>
+	                        <td class="data">$!accountLocate.getAttribute("DateDisplay").getData()</td>
+	                        <td class="data">$!account.getAttribute("CollectionStatus").getFormattedData()</td>
+	                        <td class="data">$!account.getAttribute("WriteOffStatus").getFormattedData()</td>
+	                        <td class="data">$!accountSearch.getAttribute("SumBalance").getFormattedData()</td>
+	                        <td class="data">$!account.getAttribute("CreditThresh").getFormattedData()</td>
+	                        <td class="data">$!account.getAttribute("CR_20").getFormattedData()</td>
+	                        <td class="data">
+	                            <a href="http://www.csgsystems.com?action=mxs-internal-search-services-dlg&object=MXSAccountSearch&index=$index">
+	                                $!accountSearch.getAttributeData("ActiveServices")
+	                            </a>
+	                        </td>                           
+	                    </tr>      
+                    #end
+                #end
+            </table>
+            ##################################################
+            ## Display pagination
+            ##################################################
+            #DisplayPagination($accountLocateCount $resourceManager $pageCount $accountLocateListDisplayMaxPages $page)     
+        #elseif ($overflow)
+			$overflow.getErrorMessage()
+        #else
+            ######## No Records Found #########
+            <table  width="100%" cellspacing="0" cellpadding="0">
+            <tr>
+                <td width="100%">
+                    <br>$!resourceManager.getString("AccountLocate.vm.text.NoAccountsFound")
+                </td>
+            </tr>        
+            </table>    
+        #end
+</BODY>
+</HTML>
+
+

@@ -1,0 +1,53 @@
+##################################################
+## Configure constants and global variables
+##################################################  
+## constants
+
+
+##################################################
+## Main - start of html
+##################################################  
+<HTML>
+<head>
+    <title>$!resourceManager.getString("AccountLocate_Links.vm.title")</title>
+    #defaultStylesheet( $filenameLocalizationUtil )
+    </head>
+  <body width="535"  background="memory:/images/Launcher_chess_background_lg_long.jpg">
+    ##################################################
+    ## Display additional links
+    ################################################## 
+    <table width="98%" cellspacing="0" cellpadding="0" align="right">
+        <tr>
+            <td class="title" colspan="2" width="100%">$!resourceManager.getString("AccountLocate_Links.vm.title.Shortcuts")</td>
+        </tr>
+        <tr>
+            <td width="50%" align="left">
+            <img border="0"  src="memory:/images/arrow_link.gif"  >&nbsp;
+            <a class="gray" href="http://www.csgsystems.com?action=begin-new-cust-acq-wizard">Create new customer/account</a>
+            </td>
+            <td width="50%" align="left">
+            <img border="0"  src="memory:/images/arrow_link.gif"  >&nbsp;
+            <a class="gray" href="http://www.csgsystems.com?action=global-contracts-view">$!resourceManager.getString( "AccountLocate_Links.vm.link.GlobalContracts" )</a>    
+            </td>
+        </tr>
+        <tr>
+            <td width="50%" align="left">
+            <img border="0"  src="memory:/images/arrow_link.gif"  >&nbsp;
+            <a class="gray" href="http://www.csgsystems.com?action=decision-one-step-connect">$!resourceManager.getString("AccountLocate_Links.vm.link.Connect")</a>    
+            </td>
+            <td width="50%" align="left">
+            <img border="0"  src="memory:/images/arrow_link.gif"  >&nbsp;
+            <a class="gray" href="http://www.csgsystems.com?action=hq-contracts-view">$!resourceManager.getString( "AccountLocate_Links.vm.link.HQContracts" )</a>    
+            </td>
+        </tr>
+        <tr>
+            <td width="50%" align="left">
+            <img border="0"  src="memory:/images/arrow_link.gif"  >&nbsp;
+            <a class="gray" href="http://www.csgsystems.com?action=launch-supervisor-gui">Supervisor Approvals</a>
+            </td>
+            <td width="50%" align="left">&nbsp;
+            </td>
+        </tr>
+    </table>
+  </body>
+</HTML>

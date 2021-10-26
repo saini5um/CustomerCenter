@@ -1,0 +1,387 @@
+##################################################
+## Configure constants and global variables
+##################################################  
+## constants
+#if ($configManager.containsKey("customer_center.account-summary-detail.showExtendedData") )
+    #set ( $showExtendedData = $configManager.getBoolean("customer_center.account-summary-detail.showExtendedData") )
+#else
+    #set ( $showExtendedData = false )
+#end
+
+#set ( $serviceIdListCount = -1 )
+#set ( $invElementListCount = -1)
+
+## domain data for this screen
+#set ( $Service = $domainContext.getObject("Service") )
+#set ($serviceClone = false)
+#if ($Service)
+    #set ( $serviceIdList = $Service.getObject("CustomerIdEquipMapList", "Service") )
+    #set ( $servicePricingPlan = $Service.getObject("ServicePricingPlan", "Service"))
+    #set ($serviceClone = $Service.getObject("Service", "Pending"))
+    #set ($invElementList = $Service.getObject("InvElementList", "Service") )
+#end
+
+#set ($selectedService = $serviceClone)
+#if (!$selectedService)
+    #set ($selectedService = $Service)
+#end
+
+#set ($ServiceExtendedAttributes = $selectedService.getExtendedAttributes())
+##################################################
+## Main - start of html
+##################################################  
+<html>
+    <head>
+        <title>$!resourceManager.getString("ServiceSummaryDetailEdit.vm.title.ServiceDetail")</title>
+        #defaultStylesheet( $filenameLocalizationUtil )
+    </head>
+
+    <body>        
+        <table  width="100%" cellspacing="2" cellpadding="2">
+            <tr>
+                <td class="white" cellspacing="0" cellpadding="0" valign="top">        
+                    ##################################################
+                    ## Service Detail
+                    ##################################################          
+                    <table  width="100%" cellspacing="0" cellpadding="0">
+                        <tr>
+                            <td class="title" width="50%">
+                                $!resourceManager.getString("ServiceSummaryDetailEdit.vm.title.ServiceDetail")
+                            </td>
+                            <td class="title" width="50%" align="right">
+                                #if ($Service.isReadOnly() == false && $TemplateUtility.isWorkflowActionAuthorized("service-detail-edit-dlg") == true)
+                                    <img   src="memory:/images/arrow_edit.gif"  >&nbsp;
+                                    <a class="title" href="http://www.csgsystems.com?object=Service&action=service-detail-edit-dlg">
+                                    $!resourceManager.getString("Generic.vm.link.Edit")
+                                #else
+                                    <img   src="memory:/images/arrow_detail.gif"  >&nbsp;
+                                    <a class="title" href="http://www.csgsystems.com?object=Service&action=service-detail-view-dlg">
+                                    $!resourceManager.getString("Generic.vm.link.View")                                                                    
+                                #end
+                                </a>
+                            </td>
+                        </tr>
+                    </table>
+                    <table  width="100%">
+                        <tr>
+                            <td class="header" colspan="2">$!resourceManager.getString("ServiceSummaryDetailEdit.vm.header.ServiceType")</td>
+                        </tr>
+                        <tr>
+                            <td class="fieldlabel">$!resourceManager.getStringResource("ServiceList.gridServices.EmfConfigId")</td>
+                            <td class="fieldvalue">$!selectedService.getAttribute("EmfConfigId").getFormattedData()</td>
+                        </tr>
+                        <tr>
+                            <td class="fieldlabel">$!resourceManager.getStringResource("ServiceList.gridServices.EquipStatus")</td>
+                            <td class="fieldvalue"></td>
+                        </tr>
+                        <tr>
+                            <td class="fieldlabel">$!resourceManager.getStringResource("ServiceList.gridServices.ExternalIdActiveDate")</td>
+                            <td class="fieldvalue">$!selectedService.getAttribute("ServiceActiveDt").getFormattedData()</td>
+                        </tr>
+                        <tr>
+                            <td class="fieldlabel">$!resourceManager.getStringResource("ServiceList.gridServices.ExternalIdInactiveDate")</td>
+                            <td class="fieldvalue">$!selectedService.getAttribute("ServiceInactiveDt").getFormattedData()</td>
+                        </tr>
+                        <tr>
+                            <td class="header" colspan="2">$!resourceManager.getString("ServiceSummaryDetailEdit.vm.title.ServiceDetail")</td>
+                        </tr>                        
+                        <tr>
+                            <td class="fieldlabel">$!resourceManager.getStringResource("ServiceDetail.label.CurrencyCode")</td>
+                            <td class="fieldvalue">$!selectedService.getAttribute("CurrencyCode").getFormattedData()</td>
+                        </tr>
+                        <tr>
+                            <td class="fieldlabel">$!resourceManager.getStringResource("ServiceDetail.label.RateClass")</td>
+                            <td class="fieldvalue">$!selectedService.getAttribute("RateClass").getFormattedData()</td>
+                        </tr>
+                        <tr>
+                            <td class="fieldlabel">$!resourceManager.getStringResource("ServiceDetail.label.PrivacyLevel")</td>
+                            <td class="fieldvalue">$!selectedService.getAttribute("PrivacyLevel").getFormattedData()</td>
+                        </tr>
+                        <tr>
+                            <td class="fieldlabel">$!resourceManager.getStringResource("ServiceDetail.label.Timezone")</td>
+                            <td class="fieldvalue">$!selectedService.getAttribute("Timezone").getFormattedData()</td>
+                        <tr>
+                            <td class="fieldlabel">$!resourceManager.getStringResource("ServiceDetail.label.Codeword")</td>
+                            <td class="fieldvalue">$!selectedService.getAttribute("Codeword").getFormattedData()</td>
+                        </tr>
+                        <tr>
+                            <td class="fieldlabel">$!resourceManager.getStringResource("ServiceDetail.label.ExrateClass")</td>
+                            <td class="fieldvalue">$!selectedService.getAttribute("ExrateClass").getFormattedData()</td>
+                        </tr>
+                        <tr>
+                            <td class="fieldlabel">$!resourceManager.getStringResource("ServiceDetail.label.PopUnits")</td>
+                            <td class="fieldvalue">$!selectedService.getAttribute("PopUnits").getFormattedData()</td>
+                        </tr>    
+                        <tr>
+                            <td class="fieldlabel">$!resourceManager.getStringResource("ServiceList.gridServices.IsPrepaid")</td>
+                            <td class="fieldvalue">$!selectedService.getAttribute("IsPrepaid").getFormattedData()</td>
+                        </tr>                    
+                      </table>  
+                </td>
+                <td class="white" cellspacing="0" cellpadding="0"  valign="top"> 
+                    ##################################################
+                    ## Name and Address
+                    ##################################################     
+                    <table  width="100%" cellspacing="0" cellpadding="0">
+                        <tr>
+                            <td class="title" width="50%">
+                                $!resourceManager.getString("ServiceSummaryDetailEdit.vm.header.NameAddress")
+                            </td>
+                            <td class="title" width="50%" align="right">
+								#if ($Service.isReadOnly() == false && $TemplateUtility.isWorkflowActionAuthorized("service-address-edit-dlg") == true)
+                                    <img   src="memory:/images/arrow_edit.gif"  >&nbsp;
+                                    <a class="title" href="http://www.csgsystems.com?object=Service&action=service-address-edit-dlg">
+                                    $!resourceManager.getString("Generic.vm.link.Edit")                                    								
+                                #else
+                                    <img src="memory:/images/arrow_detail.gif"  >&nbsp;
+                                    <a class="title" href="http://www.csgsystems.com?object=Service&action=service-address-view-dlg">
+                                    $!resourceManager.getString("Generic.vm.link.View")
+                                #end
+                                </a>
+                            </td>
+                        </tr>
+                    </table>                    
+                   <table  width="100%" cellspacing="1" cellpadding="1">
+                        ##################################################
+                        ## A Address
+                        ##################################################                        
+                        <tr>
+                            <td class="header" colspan="2">$!resourceManager.getString("ServiceSummaryDetailEdit.vm.header.AInformation")</td>
+                        </tr>
+                        <tr>
+                            <td class="fieldlabel">$!resourceManager.getStringResource("ServiceList.gridServices.VirtualFnameLnameCompanyName")</td>
+                            <td class="fieldvalue">$!selectedService.getAttribute("VirtualFnameLnameCompanyName").getFormattedData()</td>
+                        </tr>
+                        <tr>
+                            <td class="fieldlabel">$!resourceManager.getStringResource("ServiceDetail.label.ServiceAddress")</td>
+                            <td class="fieldvalue">
+	                        $!selectedService.getAttribute("FormattedServiceAddress").getFormattedData()
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="fieldlabel">$!resourceManager.getStringResource("ServiceDetail.label.ServiceFranchiseTaxCode")</td>
+                            <td class="fieldvalue">$!selectedService.getAttribute("ServiceFranchiseTaxCode").getFormattedData()</td>
+                        </tr>
+                        <tr>
+                            <td class="fieldlabel">$!resourceManager.getStringResource("ServiceDetail.label.RevRcvCostCtr")</td>
+                            <td class="fieldvalue">$!selectedService.getAttribute("RevRcvCostCtr").getFormattedData()</td>
+                        </tr>
+                        <tr>
+                            <td class="fieldlabel">$!resourceManager.getStringResource("ServiceDetail.label.ServicePhone")</td>
+                            <td class="fieldvalue">$!selectedService.getAttribute("ServicePhone").getFormattedData()</td>
+                        </tr>                        
+                        <tr>
+                            <td class="fieldlabel">$!resourceManager.getStringResource("ServiceDetail.label.ServicePhone2")</td>
+                            <td class="fieldvalue">$!selectedService.getAttribute("ServicePhone2").getFormattedData()</td>
+                        </tr> 
+                        #if ($servicePricingPlan.getAttributeData("EmfType")==2 || $servicePricingPlan.getAttributeData("EmfType")==3)                      
+                            ##################################################
+                            ## B Address
+                            ##################################################                                 
+                            <tr>
+                                <td class="header" colspan="2">$!resourceManager.getString("ServiceSummaryDetailEdit.vm.header.BInformation")</td>
+                            </tr>
+                            <tr>
+                                <td class="fieldlabel">$!resourceManager.getStringResource("ServiceDetail.label.ServiceAddress")</td>
+                                <td class="fieldvalue">
+	                            $!selectedService.getAttribute("FormattedBillingServiceAddress").getFormattedData()
+                                </td>
+                            </tr>  
+                            
+                            <tr>
+                                <td class="fieldlabel">$!resourceManager.getStringResource("ServiceDetail.label.ServiceFranchiseTaxCode")</td>
+                                <td class="fieldvalue">$!selectedService.getAttribute("BServiceFranchiseTaxCode").getFormattedData()</td>
+                            </tr>
+                            <tr>
+                                <td class="fieldlabel">$!resourceManager.getStringResource("ServiceDetail.label.RevRcvCostCtr")</td>
+                                <td class="fieldvalue">$!selectedService.getAttribute("BRevRcvCostCtr").getFormattedData()</td>
+                            </tr>
+                            <tr>
+                                <td class="fieldlabel">$!resourceManager.getStringResource("ServiceDetail.label.ServicePhone")</td>
+                                <td class="fieldvalue">$!selectedService.getAttribute("BServicePhone").getFormattedData()</td>
+                            </tr>                        
+                            <tr>
+                                <td class="fieldlabel">$!resourceManager.getStringResource("ServiceDetail.label.ServicePhone2")</td>
+                                <td class="fieldvalue">$!selectedService.getAttribute("BServicePhone2").getFormattedData()</td>
+                            </tr>   
+                         #end
+                      </table>  
+                </td>
+            </tr>
+            
+            ##################################################
+            ## Extended Attributes
+            ##################################################          
+            #if (!$ServiceExtendedAttributes.isEmpty())            
+            <tr>
+                <td cellspacing="0" cellpadding="0" valign="top">   
+                    <table  width="100%" cellspacing="0" cellpadding="0">
+                        <tr>
+                            <td class="title" width="50%">
+                                $!resourceManager.getString("ServiceSummaryDetailEdit.vm.header.ExtendedData")
+                            </td>
+                            <td class="title" width="50%" align="right">
+                            	#if ($TemplateUtility.isWorkflowActionAuthorized("service-extended-data-edit-dlg") == true)
+	                                <img   src="memory:/images/arrow_edit.gif"  >&nbsp;
+	                                <a class="title" href="http://www.csgsystems.com?object=Service&action=service-extended-data-edit-dlg">
+	                                $!resourceManager.getString("Generic.vm.link.Edit")
+	                                </a>
+                                #end
+                            </td>
+                        </tr>
+                    </table>
+                    #if ($showExtendedData)
+                    <table class="white"  width="100%">
+                        <tr>
+                            <td class="header" colspan="2">$!resourceManager.getString("ServiceSummaryDetailEdit.vm.header.Detail")</td>
+                        </tr>                              
+                        #foreach ( $attribute in $ServiceExtendedAttributes )
+                            <tr>
+                                <td class="fieldlabel">$!attribute.getAlternateName()</td>
+                                <td class="fieldvalue">$!attribute.getFormattedData()</td>
+                            </tr>                              
+                        #end
+                    </table>
+                    #end
+                </td>
+                <td>
+                </td>                
+            </tr>
+            #end             
+    </table>
+    
+    ##################################################
+    ## Identifiers
+    ##################################################      
+    <br>         
+    <table  width="100%" cellspacing="0" cellpadding="0">
+        <tr>
+            <td class="title" width="50%">
+                $!resourceManager.getString("ServiceSummaryDetailEdit.vm.header.Identifiers")
+            </td>
+            <td class="title" width="50%" align="right">
+                #if ($Service.isReadOnly() == false && $TemplateUtility.isWorkflowActionAuthorized("service-externalId-add") == true)
+	                <img border="0"  src="memory:/images/arrow_add.gif"  >&nbsp;
+	                <a class="title" href="http://www.csgsystems.com?object=Service&action=service-externalId-add">
+	                    $!resourceManager.getString("Generic.vm.link.Add")
+	                </a>
+                #end
+            </td>
+        </tr>
+    </table>                    
+    #set ( $serviceIdListLastIndex = $serviceIdList.getCount() - 1 )
+    #if ( $serviceIdListLastIndex >= 0 )
+        <table  width="100%" cellspacing="1" cellpadding="1">                        
+            <tr>                            
+                <td class="header" width="35%">$!resourceManager.getString("ServiceSummaryDetailEdit.vm.header.Type")</td>
+                <td class="header" width="15%">$!resourceManager.getString("ServiceSummaryDetailEdit.vm.header.Identifier")</td>
+                <td class="header" width="20%">$!resourceManager.getString("ServiceSummaryDetailEdit.vm.header.ActiveDate")</td>
+                <td class="header" width="20%">$!resourceManager.getString("ServiceSummaryDetailEdit.vm.header.InactiveDate")</td>
+                <td class="header" width="10%">$!resourceManager.getString("Generic.vm.header.Action")</td>                
+            </tr>                        
+            #set ( $indexRange = [ 0..${serviceIdListLastIndex} ] )
+            #foreach ( $index in $indexRange )
+                #set ( $item = $serviceIdList.getAt($index) )
+                #set ( $item = $item.getObject("CustomerIdEquipMap", "Pending") )
+                #set ($itemAction = 0)
+                #set ($pendingAction = 0)
+                #set ($orderableObjectState = $OrderManager.getOrderableObjectState($item))
+                
+                #set ($itemAction    = $orderableObjectState.get(0))
+                #set ($pendingAction = $orderableObjectState.get(1))
+                <tr>
+                    <td class="fieldlabel" width="35%">
+						#if( $item.getAttributeDataAsBoolean( "CanModify" ) )                    
+                        <a href="http://www.csgsystems.com?object=CustomerIdEquipMap&subtype=Service&action=service-external-id-detail-edit-dlg&index=$index">                                    
+                        #else
+                        <a href="http://www.csgsystems.com?object=CustomerIdEquipMap&subtype=Service&action=service-external-id-readonly-dlg&index=$index">                                    
+                        #end
+                        $!item.getAttribute("ServiceExternalIdType").getFormattedData()
+                        </a>
+                    </td>
+                    <td class="fieldvalue" width="15%">$!item.getAttribute("ServiceExternalId").getFormattedData()</td>
+                    <td class="fieldvalue" width="20%">$!item.getAttribute("ActiveDate").getFormattedData()</td>
+                    <td class="fieldvalue" width="20%">$!item.getAttribute("InactiveDate").getFormattedData()</td>
+                    <td class="fieldvalue" width="10%">
+                        #if     ($pendingAction == 3)
+                            $!resourceManager.getString("ServiceSummaryDetailEdit.vm.text.ToBeCancelled")
+                        #else
+    	                    #if (!$item.getAttributeDataAsBoolean("IsFromInventory") && $item.getAttribute("InactiveDate").isEmpty() && $TemplateUtility.isWorkflowActionAuthorized("disconnect-service-external-id") == true && $item.getAttributeDataAsInteger("ServiceExternalIdType") != 33)
+    	                      <a href="http://www.csgsystems.com?object=CustomerIdEquipMap&subtype=Service&action=disconnect-service-external-id&index=$index">                                    
+    	                      $!resourceManager.getString("Generic.vm.link.Disconnect")
+    	                      </a>
+    		                #else
+                                &nbsp;
+    		                #end
+    		            #end
+                    </td>
+                </tr>
+            #end
+        </table>                            
+     #end          
+
+    ##################################################
+    ## Inventory
+    ##################################################      
+    <br>         
+    <table  width="100%" cellspacing="0" cellpadding="0">
+        <tr>
+            <td class="title" width="50%">
+                $!resourceManager.getString("ServiceSummaryDetailEdit.vm.header.Inventory")
+            </td>
+            <td class="title" width="50%" align="right">
+                <img border="0"  src="memory:/images/arrow_add.gif"  >&nbsp;
+                <a class="title" href="http://www.csgsystems.com?object=Service&action=new-cust-acq-wiz-inventory-search-dlg">
+                    $!resourceManager.getString("ServiceSummaryDetailEdit.vm.header.ManageAssignedInventory")
+                </a>
+            </td>
+        </tr>
+    </table>                    
+    #set ( $invElementListCount = $invElementList.getCount() - 1 )
+    #if ( $invElementListCount >= 0 )
+        <table  width="100%" cellspacing="1" cellpadding="1">                        
+            <tr>                            
+                <td class="header" width="30%">$!resourceManager.getString("ServiceSummaryDetailEdit.vm.header.Identifier")</td>
+                <td class="header" width="20%">$!resourceManager.getString("ServiceSummaryDetailEdit.vm.header.Type")</td>
+                <td class="header" width="20%">$!resourceManager.getString("ServiceSummaryDetailEdit.vm.header.ContainerType")</td>
+                <td class="header" width="15%">$!resourceManager.getString("ServiceSummaryDetailEdit.vm.header.StartDate")</td>
+                <td class="header" width="15%">$!resourceManager.getString("ServiceSummaryDetailEdit.vm.header.EndDate")</td>                
+            </tr>                        
+            #set ( $indexRange = [ 0..${invElementListCount} ] )
+            #foreach ( $index in $indexRange )
+                #set ( $item = $invElementList.getAt($index) )
+                #set ($itemAction = 0)
+                #set ($pendingAction = 0)
+                #set ($orderableObjectState = $OrderManager.getOrderableObjectState($item))
+                
+                #set ($itemAction    = $orderableObjectState.get(0))
+                #set ($pendingAction = $orderableObjectState.get(1))
+                <tr>
+                    <td class="datalabel" align="left">
+                        <a href="http://www.csgsystems.com?object=InvElement&subtype=Service&action=service-inventory-detail-view&index=$index">
+                        #if ($item.getAttributeData("VirtualIsVisible") == true)                                    
+                          $!item.getAttribute("ExternalId").getFormattedData()
+                        #else
+                          *********
+                        #end
+                        </a>
+                    </td>
+                    <td class="data" align="right">$!item.getAttribute("InventoryTypeId").getFormattedData()</td>
+                    <td class="data" align="left">$!item.getAttribute("TopLevelContainerId").getFormattedData() / $!item.getAttribute("TopLevelContainerType").getFormattedData()</td>
+                    <td class="data" align="right">$!item.getAttribute("StartDateTime").getFormattedData()</td>
+                    <td class="data" align="right">
+                    
+                    #if     ($pendingAction == 3)
+                        $!resourceManager.getString("ServiceSummaryDetailEdit.vm.text.ToBeCancelled")
+                    #else
+                        $!item.getAttribute("EndDateTime").getFormattedData()
+                    #end
+                    </td>  
+                </tr>
+            #end
+        </table>                            
+     #end        
+     
+
+    </body>
+</html>

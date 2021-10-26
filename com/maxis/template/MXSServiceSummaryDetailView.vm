@@ -1,0 +1,292 @@
+##################################################
+## Configure constants and global variables
+##################################################  
+## constants
+#if ($configManager.containsKey("customer_center.account-summary-detail.showExtendedData") )
+    #set ( $showExtendedData = $configManager.getBoolean("customer_center.account-summary-detail.showExtendedData") )
+#else
+    #set ( $showExtendedData = false )
+#end
+
+#set ( $serviceIdListCount = -1 )
+#set ( $serviceStatusListCount = -1 )
+
+## domain data for this screen
+#set ( $Service = $domainContext.getObject("Service") )
+#if ($Service)
+    #set ( $serviceIdList = $Service.getObject("CustomerIdEquipMapList", "Service") )
+    #set ( $servicePricingPlan = $Service.getObject("ServicePricingPlan", "Service"))
+    #set ( $serviceStatusList = $Service.getObject("ServiceStatusList", "Service") )
+    #if ( $serviceStatusList )
+        #set ($serviceStatusListCount = $serviceStatusList.getCount() - 1)
+    #end
+#end
+#set ( $ServiceExtendedAttributes = $Service.getExtendedAttributes() )
+##################################################
+## Main - start of html
+##################################################  
+<html>
+    <head>
+        <title>$!resourceManager.getString("ServiceSummaryDetailView.vm.title.ServiceDetail")</title>
+        #defaultStylesheet( $filenameLocalizationUtil )
+    </head>
+
+    <body>
+    <table  width="100%" cellspacing="2" cellpadding="2">
+        <tr>
+            <td class="white" cellspacing="0" cellpadding="0" valign="top">        
+                ##################################################
+                ## Service Detail
+                ##################################################          
+                <table  width="100%" cellspacing="0" cellpadding="0">
+                    <tr>
+                        <td class="title" width="100%">
+                            $!resourceManager.getString("ServiceSummaryDetailView.vm.title.ServiceDetail")
+                        </td>
+                    </tr>
+                </table>
+                <table  width="100%">
+                    <tr>
+                        <td class="header" colspan="2">$!resourceManager.getString("ServiceSummaryDetailView.vm.header.ServiceType")</td>
+                    </tr>
+                    <tr>
+                        <td class="fieldlabel">$!resourceManager.getStringResource("ServiceList.gridServices.EmfConfigId")</td>
+                        <td class="fieldvalue">$!Service.getAttribute("EmfConfigId").getFormattedData()</td>
+                    </tr>
+                    <tr>
+                        <td class="fieldlabel">$!resourceManager.getStringResource("ServiceList.gridServices.EquipStatus")</td>
+                        <td class="fieldvalue"></td>
+                    </tr>
+                    <tr>
+                        <td class="fieldlabel">$!resourceManager.getStringResource("ServiceList.gridServices.ExternalIdActiveDate")</td>
+                        <td class="fieldvalue">$!Service.getAttribute("ServiceActiveDt").getFormattedData()</td>
+                    </tr>
+                    <tr>
+                        <td class="fieldlabel">$!resourceManager.getStringResource("ServiceList.gridServices.ExternalIdInactiveDate")</td>
+                        <td class="fieldvalue">$!Service.getAttribute("ServiceInactiveDt").getFormattedData()</td>
+                    </tr>
+                    <tr>
+                        <td class="header" colspan="2">$!resourceManager.getString("ServiceSummaryDetailView.vm.title.ServiceDetail")</td>
+                    </tr>                        
+                    <tr>
+                        <td class="fieldlabel">$!resourceManager.getStringResource("ServiceDetail.label.CurrencyCode")</td>
+                        <td class="fieldvalue">$!Service.getAttribute("CurrencyCode").getFormattedData()</td>
+                    </tr>
+                    <tr>
+                        <td class="fieldlabel">$!resourceManager.getStringResource("ServiceDetail.label.RateClass")</td>
+                        <td class="fieldvalue">$!Service.getAttribute("RateClass").getFormattedData()</td>
+                    </tr>
+                    <tr>
+                        <td class="fieldlabel">$!resourceManager.getStringResource("ServiceDetail.label.PrivacyLevel")</td>
+                        <td class="fieldvalue">$!Service.getAttribute("PrivacyLevel").getFormattedData()</td>
+                    </tr>
+                    <tr>
+                        <td class="fieldlabel">$!resourceManager.getStringResource("ServiceDetail.label.Timezone")</td>
+                        <td class="fieldvalue">$!Service.getAttribute("Timezone").getFormattedData()</td>
+                    </tr>
+                    <tr>
+                        <td class="fieldlabel">$!resourceManager.getStringResource("ServiceDetail.label.Codeword")</td>
+                        <td class="fieldvalue">$!Service.getAttribute("Codeword").getFormattedData()</td>
+                    </tr>
+                    <tr>
+                        <td class="fieldlabel">$!resourceManager.getStringResource("ServiceDetail.label.ExrateClass")</td>
+                        <td class="fieldvalue">$!Service.getAttribute("ExrateClass").getFormattedData()</td>
+                    </tr>
+                    <tr>
+                        <td class="fieldlabel">$!resourceManager.getStringResource("ServiceDetail.label.PopUnits")</td>
+                        <td class="fieldvalue">$!Service.getAttribute("PopUnits").getFormattedData()</td>
+                    </tr>    
+                    <tr>
+                        <td class="fieldlabel">$!resourceManager.getStringResource("ServiceList.gridServices.IsPrepaid")</td>
+                        <td class="fieldvalue">$!Service.getAttribute("IsPrepaid").getFormattedData()</td>
+                    </tr>                    
+                  </table>  
+            </td>
+            <td class="white" cellspacing="0" cellpadding="0"  valign="top"> 
+                ##################################################
+                ## Name and Address
+                ##################################################     
+                <table  width="100%" cellspacing="0" cellpadding="0">
+                    <tr>
+                        <td class="title" width="100%">
+                            $!resourceManager.getStringResource("ServiceSummaryDetailView.vm.header.NameAddress")
+                        </td>
+                    </tr>
+                </table>                    
+               <table  width="100%">
+                    ##################################################
+                    ## A Address
+                    ##################################################                        
+                    <tr>
+                        <td class="header" colspan="2">$!resourceManager.getStringResource("ServiceSummaryDetailView.vm.header.AInformation")</td>
+                    </tr>
+                    <tr>
+                        <td class="fieldlabel">$!resourceManager.getStringResource("ServiceList.gridServices.VirtualFnameLnameCompanyName")</td>
+                        <td class="fieldvalue">$!Service.getAttribute("VirtualFnameLnameCompanyName").getFormattedData()</td>
+                    </tr>
+                    <tr>
+                        <td class="fieldlabel">$!resourceManager.getStringResource("ServiceDetail.label.ServiceAddress")</td>
+                        <td class="fieldvalue">
+                        $!Service.getAttribute("ServiceAddress1").getFormattedData()
+                        #if ($Service.getAttribute("ServiceAddress2").getFormattedData())
+                            <br>$!Service.getAttribute("ServiceAddress2").getFormattedData()
+                        #end
+                        #if ($Service.getAttribute("ServiceAddress3").getFormattedData())
+                            <br>$!Service.getAttribute("ServiceAddress3").getFormattedData()
+                        #end
+                        #if ($Service.getAttribute("ServiceCity").getFormattedData())
+                            <br>$!Service.getAttribute("ServiceCity").getFormattedData()
+                            #if ($Service.getAttribute("ServiceState").getFormattedData())
+                                , $!Service.getAttribute("ServiceState").getFormattedData()  $!Service.getAttribute("ServiceZip").getFormattedData()
+                            #end
+                        #else
+                            <br>$!Service.getAttribute("ServiceState").getFormattedData()  $!Service.getAttribute("ServiceZip").getFormattedData()
+                        #end
+                       
+                        #if ($Service.getAttribute("ServiceCounty").getFormattedData())
+                            <br>$!Service.getAttribute("ServiceCounty").getFormattedData()
+                        #end
+                        #if ($Service.getAttribute("ServiceCountryCode").getFormattedData())
+                            <br>$!Service.getAttribute("ServiceCountryCode").getFormattedData()
+                        #end
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="fieldlabel">$!resourceManager.getStringResource("ServiceDetail.label.ServiceFranchiseTaxCode")</td>
+                        <td class="fieldvalue">$!Service.getAttribute("ServiceFranchiseTaxCode").getFormattedData()</td>
+                    </tr>
+                    <tr>
+                        <td class="fieldlabel">$!resourceManager.getStringResource("ServiceDetail.label.RevRcvCostCtr")</td>
+                        <td class="fieldvalue">$!Service.getAttribute("RevRcvCostCtr").getFormattedData()</td>
+                    </tr>
+                    <tr>
+                        <td class="fieldlabel">$!resourceManager.getStringResource("ServiceDetail.label.ServiceDayPhone")</td>
+                        <td class="fieldvalue">$!Service.getAttribute("ServicePhone").getFormattedData()</td>
+                    </tr>                        
+                    <tr>
+                        <td class="fieldlabel">$!resourceManager.getStringResource("ServiceDetail.label.ServiceEveningPhone")</td>
+                        <td class="fieldvalue">$!Service.getAttribute("ServicePhone2").getFormattedData()</td>
+                    </tr> 
+                    #if ($servicePricingPlan.getAttributeData("EmfType")==2 || $servicePricingPlan.getAttributeData("EmfType")==3)                      
+                        ##################################################
+                        ## B Address
+                        ##################################################                                 
+                        <tr>
+                            <td class="header" colspan="2">$!resourceManager.getStringResource("ServiceSummaryDetailView.vm.header.BInformation")</td>
+                        </tr>
+                        <tr>
+                            <td class="fieldlabel">$!resourceManager.getStringResource("ServiceDetail.label.ServiceAddress")</td>
+                            <td class="fieldvalue">
+                            $!Service.getAttribute("BServiceAddress1").getFormattedData()
+                            #if ($Service.getAttribute("BServiceAddress2").getFormattedData())
+                                <br>$!Service.getAttribute("BServiceAddress2").getFormattedData()
+                            #end
+                            #if ($Service.getAttribute("BServiceAddress3").getFormattedData())
+                                <br>$!Service.getAttribute("BServiceAddress3").getFormattedData()
+                            #end
+                            #if ($Service.getAttribute("BServiceCity").getFormattedData())
+                                <br>$!Service.getAttribute("BServiceCity").getFormattedData()
+                                #if ($Service.getAttribute("BServiceState").getFormattedData())
+                                    , $!Service.getAttribute("BServiceState").getFormattedData()  $!Service.getAttribute("BServiceZip").getFormattedData()
+                                #end
+                            #else
+                                <br>$!Service.getAttribute("BServiceState").getFormattedData()  $!Service.getAttribute("BServiceZip").getFormattedData()
+                            #end
+                           
+                            #if ($Service.getAttribute("BServiceCounty").getFormattedData())
+                                <br>$!Service.getAttribute("BServiceCounty").getFormattedData()
+                            #end
+                            #if ($Service.getAttribute("BServiceCountryCode").getFormattedData())
+                                <br>$!Service.getAttribute("BServiceCountryCode").getFormattedData()
+                            #end
+                            </td>
+                        </tr>  
+                        
+                        <tr>
+                            <td class="fieldlabel">$!resourceManager.getStringResource("ServiceDetail.label.ServiceFranchiseTaxCode")</td>
+                            <td class="fieldvalue">$!Service.getAttribute("BServiceFranchiseTaxCode").getFormattedData()</td>
+                        </tr>
+                        <tr>
+                            <td class="fieldlabel">$!resourceManager.getStringResource("ServiceDetail.label.RevRcvCostCtr")</td>
+                            <td class="fieldvalue">$!Service.getAttribute("BRevRcvCostCtr").getFormattedData()</td>
+                        </tr>
+                        <tr>
+                            <td class="fieldlabel">$!resourceManager.getStringResource("ServiceDetail.label.ServicePhone")</td>
+                            <td class="fieldvalue">$!Service.getAttribute("BServicePhone").getFormattedData()</td>
+                        </tr>                        
+                        <tr>
+                            <td class="fieldlabel">$!resourceManager.getStringResource("ServiceDetail.label.ServicePhone2")</td>
+                            <td class="fieldvalue">$!Service.getAttribute("BServicePhone2").getFormattedData()</td>
+                        </tr>   
+                     #end
+                  </table>  
+            </td>
+        </tr>
+        
+        ##################################################
+        ## Extended Attributes
+        ##################################################                
+        #if (!$ServiceExtendedAttributes.isEmpty() && $showExtendedData)            
+        <tr>
+            <td cellspacing="0" cellpadding="0" valign="top">   
+                <table  width="100%" cellspacing="0" cellpadding="0">
+                    <tr>
+                        <td class="title" width="100%">
+                            $!resourceManager.getStringResource("ServiceSummaryDetailView.vm.header.ExtendedData")
+                        </td>
+                    </tr>
+                </table>
+                <table class="white"  width="100%" cellspacing="1" cellpadding="1">
+                    <tr>
+                        <td class="header" colspan="2">$!resourceManager.getStringResource("ServiceSummaryDetailView.vm.header.Detail")</td>
+                    </tr>                              
+                    #foreach ( $attribute in $ServiceExtendedAttributes )
+                        <tr>
+                            <td class="fieldlabel">$!attribute.getAlternateName()</td>
+                            <td class="fieldvalue">$!attribute.getFormattedData()</td>
+                        </tr>                              
+                    #end
+                </table>
+            </td>
+            <td>
+            </td>                
+        </tr>
+        #end             
+    </table>      
+
+    ##################################################
+    ## Status History
+    ##################################################        
+    #if ( $serviceStatusListCount >= 0 )
+        <br>
+        <table  width="100%" cellspacing="0" cellpadding="0">
+            <tr>
+                <td class="title" width="100%">
+                    $!resourceManager.getStringResource("ServiceSummaryDetailView.vm.header.StatusHistory")
+                </td>
+            </tr>
+        </table>                    
+        <table  width="100%" cellspacing="1" cellpadding="1">
+            <tr>                            
+                <td class="header" width="20%">$!resourceManager.getStringResource("ServiceSummaryDetailView.vm.header.Type")</td>
+                <td class="header" width="25%">$!resourceManager.getStringResource("ServiceSummaryDetailView.vm.header.ActiveDate")</td>
+                <td class="header" width="25%">$!resourceManager.getStringResource("ServiceSummaryDetailView.vm.header.InactiveDate")</td>
+                <td class="header" width="20%">$!resourceManager.getStringResource("ServiceSummaryDetailView.vm.header.Reason")</td>
+                <td class="header" width="10%">User ID</td>
+            </tr>                        
+            #set ( $indexRange = [ 0..${serviceStatusListCount} ] )
+            #foreach ( $index in $indexRange )
+                #set ( $item = $serviceStatusList.getAt($index) )
+                <tr>
+                    <td class="fieldlabel" width="20%">$!item.getAttribute("StatusId").getFormattedData()</td>
+                    <td class="fieldvalue" width="25%">$!item.getAttribute("ActiveDt").getFormattedData()</td>
+                    <td class="fieldvalue" width="25%">$!item.getAttribute("InactiveDt").getFormattedData()</td>
+                    <td class="fieldvalue" width="20%">$!item.getAttribute("StatusReasonId").getFormattedData()</td>
+                    <td class="fieldvalue" width="10%">$!item.getAttribute("ChgWho").getFormattedData()</td>
+                </tr>
+            #end
+        </table>  
+    #end
+            
+    </body>
+</html>

@@ -1,0 +1,59 @@
+##################################################
+## Configure constants and global variables
+##################################################  
+## constants
+
+## domain data for this screen
+#set ($serviceDisconnect = $domainContext.getObject("ServiceDisconnect"))
+
+##################################################
+## Main - start of html
+##################################################  
+<html>
+    <head>
+        <title>$!resourceManager.getString("ServiceDisconnect4.vm.title")</title>
+         #defaultStylesheet( $filenameLocalizationUtil )        
+    </head>
+    <body>
+
+    <table class="white"  width="60%" cellspacing="1" cellpadding="1">
+        <tr>
+            <td class="title" width="100%" valign="top" colspan="2">
+                <table  width="100%" cellspacing="0" cellpadding="0">
+                    <tr>
+                        <td width="2%" valign="top">                
+                            <img border="0"  src="memory:/images/arrow_down.gif"  >&nbsp;&nbsp;
+                        </td>
+                        <td valign="top">                
+                            <b>$!resourceManager.getString("ServiceDisconnect4.vm.title.DisconnectService")</b>
+                        </td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+        <tr>
+            <td class="header" width="100%" colspan="2" align="left">$!resourceManager.getString("ServiceDisconnect4.vm.header.DisconnectDetail")</td>
+        </tr>            
+        <tr>
+            <td class="datalabel" width="50%" align="left">$!resourceManager.getString("ServiceDisconnect4.vm.label.ServiceId")</td>
+            <td class="data" width="50%" align="right">$!serviceDisconnect.getAttributeData("ServiceInternalId")</td>
+        </tr>        
+        <tr>
+            <td class="datalabel" width="50%" align="left">$!resourceManager.getString("ServiceDisconnect4.vm.label.Name")</td>
+            <td class="data" width="50%" align="right">$!service.getAttribute("EmfConfigId").getFormattedData()</td>
+        </tr>
+        <tr>
+            <td class="datalabel" width="50%" align="left">$!resourceManager.getString("ServiceDisconnect4.vm.label.DisconnectReason")</td>
+            <td class="data" width="50%" align="right">$!serviceDisconnect.getAttribute("DisconnectReason").getFormattedData()</td>
+        </tr>
+        <tr>
+            <td class="datalabel" width="50%" align="left">$!resourceManager.getString("ServiceDisconnect4.vm.label.DisconnectDate")</td>
+            <td class="data" width="50%" align="right">$!serviceDisconnect.getAttribute("InactiveDate").getFormattedData()</td>
+        </tr>  
+        <tr>
+            <td class="datalabel" width="50%" align="left">$!resourceManager.getString("ServiceDisconnect4.vm.label.Annotation")</td>
+            <td class="data" width="50%" align="right">$!serviceDisconnect.getAttribute("Annotation").getFormattedData()</td>
+        </tr>  
+    </table> 
+    </body>
+</html>

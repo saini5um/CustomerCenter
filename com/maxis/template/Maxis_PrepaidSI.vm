@@ -1,0 +1,366 @@
+##################################################
+## Configure constants and global variables
+##################################################  
+## constants
+
+#set ( $serviceIdListCount = -1 )
+#set ( $serviceStatusListCount = -1 )
+
+## domain data for this screen
+#set ( $Service = $domainContext.getObject("Service") )
+#if ($Service)
+    #set ( $prepaidServiceList = $Service.getObject("com.maxis.businessobject.PrepaidServiceList", "Service") )
+#end
+
+#if ($prepaidServiceList)
+##    $prepaidServiceList.reset()
+    #set ($prepaidServiceCount = $prepaidServiceList.getCount())
+    #set ($prepaidService = $prepaidServiceList.getAt(0))
+#end
+
+##################################################
+## Main - start of html
+##################################################  
+<html>
+    <head>
+        <title>Prepaid SI</title>
+        #defaultStylesheet( $filenameLocalizationUtil )
+    </head>
+
+    <body>
+    <table  width="100%" cellspacing="2" cellpadding="2">
+        <tr>
+            <td class="white" cellspacing="0" cellpadding="0" valign="top">        
+                ##################################################
+                ## Prepaid Information
+                ##################################################          
+                <table  width="100%" cellspacing="0" cellpadding="0">
+                    <tr>
+                        <td class="title" width="100%">Prepaid SI</td>
+                    </tr>
+                </table>
+                <table  width="100%">
+                    <tr>
+                        <td class="header" colspan="2">Prepaid Information</td>
+                    </tr>
+                    <tr>
+                        <td class="fieldlabel">Welcome Card Upload Date</td>
+                        <td class="fieldvalue">$!Service.getAttribute("ServiceActiveDt").getFormattedData()</td>
+                    </tr>
+                    <tr>
+                        <td class="fieldlabel">Voucher Bar Status</td>
+                        <td class="fieldvalue">$!prepaidService.getAttribute("VoucherBarStatus").getFormattedData()</td>
+                    </tr>
+                    <tr>
+                        <td class="fieldlabel">Call Bar Status</td>
+                        <td class="fieldvalue">$!prepaidService.getAttribute("CallBarStatus").getFormattedData()</td>
+                    </tr>
+                    <tr>
+                        <td class="fieldlabel">Installation Date</td>
+                        <td class="fieldvalue">$!Service.getAttribute("ServiceActiveDt").getFormattedData()</td>
+                    </tr>
+                    <tr>
+                        <td class="fieldlabel">First Call Date</td>
+                        <td class="fieldvalue">$!prepaidService.getAttribute("FirstCallDate").getFormattedData()</td>
+                    </tr>
+                    <tr>
+                        <td class="fieldlabel">Activation Date</td>
+                        <td class="fieldvalue">$!prepaidService.getAttribute("ActivationDate").getFormattedData()</td>
+                    </tr>
+                    <tr>
+                        <td class="fieldlabel">Deactivation Date</td>
+                        <td class="fieldvalue">$!prepaidService.getAttribute("DeactivationDate").getFormattedData()</td>
+                    </tr>
+                    <tr>
+                        <td class="fieldlabel">Deactivated At</td>
+                        <td class="fieldvalue">$!prepaidService.getAttribute("DeactivatedAt").getFormattedData()</td>
+                    </tr>
+                    <tr>
+                        <td class="fieldlabel">Balance Forfeited Date</td>
+                        <td class="fieldvalue">$!prepaidService.getAttribute("BalanceForfeitedDate").getFormattedData()</td>
+                    </tr>
+                    <tr>
+                        <td class="fieldlabel">Balance Forfeited At</td>
+                        <td class="fieldvalue">$!prepaidService.getAttribute("BalanceForfeitedAt").getFormattedData()</td>
+                    </tr>
+                    <tr>
+                        <td class="fieldlabel">Expiration Date</td>
+                        <td class="fieldvalue">$!prepaidService.getAttribute("ExpirationDate").getFormattedData()</td>
+                    </tr>
+                    <tr>
+                        <td class="fieldlabel">Deleted At</td>
+                        <td class="fieldvalue">$!prepaidService.getAttribute("ExpiredAt").getFormattedData()</td>
+                    </tr>
+                    <tr>
+                        <td class="fieldlabel">Subscriber Status</td>
+                        <td class="fieldvalue">$!prepaidService.getAttribute("SubscriberStatus").getFormattedData()</td>
+                    </tr>
+                    <tr>
+                        <td class="fieldlabel">Free Counter - Plan</td>
+                        <td class="fieldvalue">$!Service.getAttribute("Plan Counter_2401").getFormattedData()</td>
+                    </tr>
+                    <tr>
+                        <td class="fieldlabel">Amount</td>
+                        <td class="fieldvalue">$!prepaidService.getAttribute("Balance1").getFormattedData()</td>
+                    </tr>
+                    <tr>
+                        <td class="fieldlabel">SMS Bundle</td>
+                        <td class="fieldvalue">$!prepaidService.getAttribute("Balance2").getFormattedData()</td>
+                    </tr>
+                    <tr>
+                        <td class="fieldlabel">Balance 3</td>
+                        <td class="fieldvalue">$!prepaidService.getAttribute("Balance3").getFormattedData()</td>
+                    </tr>
+                    <tr>
+                        <td class="fieldlabel">No of Voucher Bar</td>
+                        <td class="fieldvalue">$!prepaidService.getAttribute("NoVoucherBar").getFormattedData()</td>
+                    </tr>
+                  </table>  
+            </td>
+            <td class="white" cellspacing="0" cellpadding="0"  valign="top"> 
+                ##################################################
+                ## Last Updated Date
+                ##################################################     
+                <table  width="100%" cellspacing="0" cellpadding="0">
+                    <tr>
+                        <td class="title" align="right" width="100%">Last Updated: $!prepaidService.getAttribute("LastUpdateDate").getFormattedData()</td>
+                    </tr>
+                </table>                    
+               <table  width="100%">
+                    ##################################################
+                    ## Special Day Charging
+                    ##################################################                        
+                    <tr>
+                        <td class="header" colspan="2">Special Day Charging</td>
+                    </tr>
+                    <tr>
+                        <td class="fieldlabel">Special Day</td>
+                        <td class="fieldvalue">$!Service.getAttribute("Special Day_2420").getFormattedData()</td>
+                    </tr>
+                    <tr>
+                        <td class="fieldlabel">Free Change Counter</td>
+                        <td class="fieldvalue">$!Service.getAttribute("Special Day Counter_2421").getFormattedData()</td>
+                    </tr>
+                    ##################################################
+                    ## Bolt On
+                    ##################################################                        
+                    <tr>
+                        <td class="header" colspan="2">Bolt On</td>
+                    </tr>
+                    <tr>
+                        <td class="fieldlabel">Tarriff Type</td>
+                        <td class="fieldvalue">$!Service.getAttribute("Bolt On Tarriff Type_2430").getFormattedData()</td>
+                    </tr>
+                    <tr>
+                        <td class="fieldlabel">SMS Bundle Type</td>
+                        <td class="fieldvalue">$!Service.getAttribute("Bolt On SMS Bundle Type_2431").getFormattedData()</td>
+                    </tr>
+                    <tr>
+                        <td class="fieldlabel">Free Change Counter</td>
+                        <td class="fieldvalue">$!Service.getAttribute("Bolt On Counter_2432").getFormattedData()</td>
+                    </tr>
+                  </table>  
+            </td>
+        </tr>
+    </table>      
+
+    ##################################################
+    ## IP Language
+    ##################################################        
+        <table  width="100%" cellspacing="0" cellpadding="0">
+            <tr>
+                <td class="title" width="100%">IP Language</td>
+            </tr>
+        </table>                    
+        <table  width="100%" cellspacing="1" cellpadding="1">
+            <tr>                            
+                <td class="header" width="30%">Type</td>
+                <td class="header" width="60%">Language</td>
+                <td class="header" width="10%">Action</td>
+            </tr>                        
+            <tr>
+                <td class="fieldlabel" width="30%">IP Language</td>
+                <td class="fieldvalue" width="60%">$!prepaidService.getAttribute("IPLanguage").getFormattedData()</td>
+                <td class="fieldvalue" width="10%">Modify</td>
+            </tr>
+        </table>  
+
+    ##################################################
+    ## Family and Friends
+    ##################################################        
+        <table  width="100%" cellspacing="0" cellpadding="0">
+            <tr>
+                <td class="title" width="50%">Family and Friends</td>
+                <td class="title" align="right" width="50%">Free Counter: $!Service.getAttribute("FnF Counter_2500").getFormattedData()</td>
+            </tr>
+        </table>                    
+        <table  width="100%" cellspacing="1" cellpadding="1">
+            <tr>                            
+                <td class="header" width="30%">Type</td>
+                <td class="header" width="60%">MSISDN</td>
+                <td class="header" width="10%">Action</td>
+            </tr>                        
+            <tr>
+                <td class="fieldlabel" width="30%">Slot #1:</td>
+                <td class="fieldvalue" width="60%">$!Service.getAttribute("FnF Slot 1_2501").getFormattedData()</td>
+                <td class="fieldvalue" width="10%"><a href="http://www.csgsystems.com?action=service-corridor-create-dlg">
+                </td>
+            </tr>
+            <tr>
+                <td class="fieldlabel" width="30%">Slot #2:</td>
+                <td class="fieldvalue" width="60%">$!Service.getAttribute("FnF Slot 2_2502").getFormattedData()</td>
+                <td class="fieldvalue" width="10%">Modify</td>
+            </tr>
+            <tr>
+                <td class="fieldlabel" width="30%">Slot #3:</td>
+                <td class="fieldvalue" width="60%">$!Service.getAttribute("FnF Slot 3_2503").getFormattedData()</td>
+                <td class="fieldvalue" width="10%">Modify</td>
+            </tr>
+            <tr>
+                <td class="fieldlabel" width="30%">Slot #4:</td>
+                <td class="fieldvalue" width="60%">$!Service.getAttribute("FnF Slot 4_2504").getFormattedData()</td>
+                <td class="fieldvalue" width="10%">Modify</td>
+            </tr>
+            <tr>
+                <td class="fieldlabel" width="30%">Slot #5:</td>
+                <td class="fieldvalue" width="60%">$!Service.getAttribute("FnF Slot 5_2505").getFormattedData()</td>
+                <td class="fieldvalue" width="10%">Modify</td>
+            </tr>
+            <tr>
+                <td class="fieldlabel" width="30%">Slot #6:</td>
+                <td class="fieldvalue" width="60%">$!Service.getAttribute("FnF Slot 6_2506").getFormattedData()</td>
+                <td class="fieldvalue" width="10%">Modify</td>
+            </tr>
+            <tr>
+                <td class="fieldlabel" width="30%">Slot #7:</td>
+                <td class="fieldvalue" width="60%">$!Service.getAttribute("FnF Slot 7_2507").getFormattedData()</td>
+                <td class="fieldvalue" width="10%">Modify</td>
+            </tr>
+            <tr>
+                <td class="fieldlabel" width="30%">Slot #8:</td>
+                <td class="fieldvalue" width="60%">$!Service.getAttribute("FnF Slot 8_2508").getFormattedData()</td>
+                <td class="fieldvalue" width="10%">Modify</td>
+            </tr>
+            <tr>
+                <td class="fieldlabel" width="30%">Slot #9:</td>
+                <td class="fieldvalue" width="60%">$!Service.getAttribute("FnF Slot 9_2509").getFormattedData()</td>
+                <td class="fieldvalue" width="10%">Modify</td>
+            </tr>
+            <tr>
+                <td class="fieldlabel" width="30%">Slot #10:</td>
+                <td class="fieldvalue" width="60%">$!Service.getAttribute("FnF Slot 10_2510").getFormattedData()</td>
+                <td class="fieldvalue" width="10%">Modify</td>
+            </tr>
+        </table>  
+            
+    ##################################################
+    ## Favourite Areas
+    ##################################################        
+        <table  width="100%" cellspacing="0" cellpadding="0">
+            <tr>
+                <td class="title" width="50%">Favourite Areas</td>
+                <td class="title" align="right" width="50%">Free Counter: $!Service.getAttribute("FA Counter_2550").getFormattedData()</td>
+            </tr>
+        </table>                    
+        <table  width="100%" cellspacing="1" cellpadding="1">
+            <tr>                            
+                <td class="header" width="30%">Type</td>
+                <td class="header" width="60%">Country</td>
+                <td class="header" width="10%">Action</td>
+            </tr>                        
+            <tr>
+                <td class="fieldlabel" width="30%">Slot #1:</td>
+                <td class="fieldvalue" width="60%">$!Service.getAttribute("FA Slot 1_2551").getFormattedData()</td>
+                <td class="fieldvalue" width="10%">Modify</td>
+            </tr>
+            <tr>
+                <td class="fieldlabel" width="30%">Slot #2:</td>
+                <td class="fieldvalue" width="60%">$!Service.getAttribute("FA Slot 2_2552").getFormattedData()</td>
+                <td class="fieldvalue" width="10%">Modify</td>
+            </tr>
+            <tr>
+                <td class="fieldlabel" width="30%">Slot #3:</td>
+                <td class="fieldvalue" width="60%">$!Service.getAttribute("FA Slot 3_2553").getFormattedData()</td>
+                <td class="fieldvalue" width="10%">Modify</td>
+            </tr>
+            <tr>
+                <td class="fieldlabel" width="30%">Slot #4:</td>
+                <td class="fieldvalue" width="60%">$!Service.getAttribute("FA Slot 4_2554").getFormattedData()</td>
+                <td class="fieldvalue" width="10%">Modify</td>
+            </tr>
+            <tr>
+                <td class="fieldlabel" width="30%">Slot #5:</td>
+                <td class="fieldvalue" width="60%">$!Service.getAttribute("FA Slot 5_2555").getFormattedData()</td>
+                <td class="fieldvalue" width="10%">Modify</td>
+            </tr>
+            <tr>
+                <td class="fieldlabel" width="30%">Slot #6:</td>
+                <td class="fieldvalue" width="60%">$!Service.getAttribute("FA Slot 6_2556").getFormattedData()</td>
+                <td class="fieldvalue" width="10%">Modify</td>
+            </tr>
+            <tr>
+                <td class="fieldlabel" width="30%">Slot #7:</td>
+                <td class="fieldvalue" width="60%">$!Service.getAttribute("FA Slot 7_2557").getFormattedData()</td>
+                <td class="fieldvalue" width="10%">Modify</td>
+            </tr>
+            <tr>
+                <td class="fieldlabel" width="30%">Slot #8:</td>
+                <td class="fieldvalue" width="60%">$!Service.getAttribute("FA Slot 8_2558").getFormattedData()</td>
+                <td class="fieldvalue" width="10%">Modify</td>
+            </tr>
+            <tr>
+                <td class="fieldlabel" width="30%">Slot #9:</td>
+                <td class="fieldvalue" width="60%">$!Service.getAttribute("FA Slot 9_2559").getFormattedData()</td>
+                <td class="fieldvalue" width="10%">Modify</td>
+            </tr>
+            <tr>
+                <td class="fieldlabel" width="30%">Slot #10:</td>
+                <td class="fieldvalue" width="60%">$!Service.getAttribute("FA Slot 10_2560").getFormattedData()</td>
+                <td class="fieldvalue" width="10%">Modify</td>
+            </tr>
+        </table>  
+            
+    ##################################################
+    ## Home Zone
+    ##################################################        
+        <table  width="100%" cellspacing="0" cellpadding="0">
+            <tr>
+                <td class="title" width="50%">Home Zone</td>
+                <td class="title" align="right" width="50%">Free Counter: $!Service.getAttribute("HZ Counter_2600").getFormattedData()</td>
+            </tr>
+        </table>                    
+        <table  width="100%" cellspacing="1" cellpadding="1">
+            <tr>                            
+                <td class="header" width="30%">Type</td>
+                <td class="header" width="60%">Home Zone</td>
+                <td class="header" width="10%">Action</td>
+            </tr>                        
+            <tr>
+                <td class="fieldlabel" width="30%">Slot #1:</td>
+                <td class="fieldvalue" width="60%">$!Service.getAttribute("HZ Slot 1 _2601").getFormattedData()</td>
+                <td class="fieldvalue" width="10%">Modify</td>
+            </tr>
+            <tr>
+                <td class="fieldlabel" width="30%">Slot #2:</td>
+                <td class="fieldvalue" width="60%">$!Service.getAttribute("HZ Slot 2_2602").getFormattedData()</td>
+                <td class="fieldvalue" width="10%">Modify</td>
+            </tr>
+            <tr>
+                <td class="fieldlabel" width="30%">Slot #3:</td>
+                <td class="fieldvalue" width="60%">$!Service.getAttribute("HZ Slot 3_2603").getFormattedData()</td>
+                <td class="fieldvalue" width="10%">Modify</td>
+            </tr>
+            <tr>
+                <td class="fieldlabel" width="30%">Slot #4:</td>
+                <td class="fieldvalue" width="60%">$!Service.getAttribute("HZ Slot 4_2604").getFormattedData()</td>
+                <td class="fieldvalue" width="10%">Modify</td>
+            </tr>
+            <tr>
+                <td class="fieldlabel" width="30%">Slot #5:</td>
+                <td class="fieldvalue" width="60%">$!Service.getAttribute("HZ Slot 5_2605").getFormattedData()</td>
+                <td class="fieldvalue" width="10%">Modify</td>
+            </tr>
+        </table>  
+
+    </body>
+</html>

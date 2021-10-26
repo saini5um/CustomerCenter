@@ -1,0 +1,218 @@
+##################################################
+## Configure constants and global variables
+##################################################  
+## constants
+
+#set ($componentListDisplayRowsPerPage = 0)
+#set ($componentListDisplayMaxPages = 0)
+#set ($page = 1)
+#set ($start = 0)
+#set ($end = 0)
+#set ($pageCount = 0)
+#set ($displayEndRow = 0)
+#set ($displayStartRow = 0) 
+
+## domain data for this screen
+#set ($serviceDomain = false)
+#set ($accountDomain = false)
+#set ($serviceLevel = false)
+#if ($session.containsKey("ServiceLevel"))
+    #set ($serviceLevel = $session.get("ServiceLevel"))
+    #if ($serviceLevel)
+        #set ($serviceDomain = false)
+        #set ($serviceDomain = $domainContext.getObject("Service"))
+    #else
+        #set ($accountDomain = false)
+        #set ($accountDomain = $domainContext.getObject("Account"))
+    #end
+#end
+
+#set ($provisioningPanel = false)
+#if ($session.containsKey("ProvisioningPanel"))
+    #set ($provisioningPanel = $session.get("ProvisioningPanel"))
+#end
+
+#set ($componentList = false)
+#set ($transientShoppingCartDomain = false)
+#set ($transientShoppingCartDomain = $domainContext.getObject("TransientShoppingCart"))
+#if ($transientShoppingCartDomain)
+    #set ($componentList = $transientShoppingCartDomain.getCollection("PackageComponentDefList","TransientShoppingCart"))
+#end
+
+#if ($componentList)
+    #set ($componentListDisplayRowsPerPage = $componentList.getAttributeDataAsInteger("DisplayRowsPerPage"))
+    #set ($componentListDisplayMaxPages = $componentList.getAttributeDataAsInteger("DisplayPages"))
+
+    #set ($componentCount = $componentList.getCount())
+#else
+    #set ($componentCount = 0)
+#end
+
+## screen pagination 
+#if ($session.containsKey("page"))
+    #set ($page = $session.get("page"))
+    #set ($displayStartRow = $componentListDisplayRowsPerPage * ($page - 1))
+#end
+#set ($displayEndRow = $displayStartRow + $componentListDisplayRowsPerPage )
+    
+## number of pages of data
+#if ($componentCount > 0)
+    #set ($pageCount = $componentCount / $componentListDisplayRowsPerPage)
+    #if (($pageCount * $componentListDisplayRowsPerPage ) < $componentCount)
+        ## remainder of records not on full page
+        #set ($pageCount = $pageCount + 1)
+        
+        ## last page
+        #if ($pageCount == $page)
+            #set ($displayEndRow = $componentCount)
+        #end
+    #end
+    
+    #set ($start = $displayStartRow)
+    #set ($end = $displayEndRow - 1)
+#end
+
+##################################################
+## Main - start of html
+##################################################  
+<HTML>
+  <HEAD>
+      <TITLE>$!resourceManager.getString("OrderedComponents.vm.title")</title>
+      #defaultStylesheet( $filenameLocalizationUtil )
+  </HEAD>
+  <BODY>
+
+    <TABLE  width="100%" cellspacing="2" cellpadding="2"><TR><TD class="white" width="100%">
+        <TABLE  width="100%" cellspacing="0" cellpadding="0">
+            ##################################################
+            ## Display title row with view/search links
+            ##################################################   
+			#set ($SingleTitle = "OrderedComponents.vm.title.ComponentsSingle")
+			#set ($MultipleTitle = "OrderedComponents.vm.title.ComponentsMultiple")
+			#set ($ItemTitle = "OrderedComponents.vm.title.Components")			
+	
+        	        #if ($provisioningPanel == false)
+			   #set ($LinkAction = [])
+			   #set ($LinkURL = [])
+			   #set ($LinkSrc = [])
+			   #set ($LinkText = [])
+                        #else
+			   #set ($LinkAction = ["ordered-component-member-view-dlg"])
+			   #set ($LinkURL = ["collection=PackageComponentDefList&event=add-all&index=1"])
+			   #set ($LinkSrc = ["arrow_search.gif"])
+			   #set ($LinkText = ["OrderedComponents.vm.link.AddAll"])
+                        #end
+            
+            ##DisplayTitleRow($TemplateUtility $resourceManager $componentCount $displayStartRow $displayEndRow $SingleTitle $MultipleTitle $ItemTitle $LinkAction $LinkURL $LinkSrc $LinkText)       	<tr>
+	    <td class="white" width="100%" colspan="2" >
+	        <table  width="100%" cellspacing="0" cellpadding="0">
+	            <tr>
+	                <td class="title" width="20%">
+	                    #if ($componentCount > 0)
+	                        #set ($displayStartRow = $displayStartRow + 1)
+	                        #if ($displayStartRow == $displayEndRow)
+	                            ## Items ( $displayEndRow of $componentCount )
+	                            #set($array = [ $displayEndRow, $componentCount ])
+	                            $!resourceManager.formatStringResource( "$SingleTitle", $array.toArray() )
+	                        #else
+	                            ## Items ( $displayStartRow - $displayEndRow of $componentCount )
+	                            #set($array = [ $displayStartRow, $displayEndRow, $componentCount ])
+	                            $!resourceManager.formatStringResource( "$MultipleTitle", $array.toArray() )
+	                        #end
+	                    #else
+	                        ## Items
+	                        $!resourceManager.getString("$ItemTitle")
+	                    #end
+	                </td>
+	                <td class="title" align="right">
+		                #set ($arrayElement = 0)
+		                #foreach ($CurrentText in $LinkText)
+			                	&nbsp;&nbsp;
+			                    <img border="0"  src="memory:/images/$LinkSrc.get($arrayElement)"  >&nbsp;
+			                    <a class="title" href="http://www.csgsystems.com?$LinkURL.get($arrayElement)&action=$LinkAction.get($arrayElement)">
+			                        $!resourceManager.getString("$LinkText.get($arrayElement)")
+			                    </a>
+			                #set ($arrayElement = $arrayElement + 1)			                
+		                #end
+	                </td>
+	            </tr>
+	        </table>
+	    </td>
+	</tr>	
+                                  
+            ##################################################
+            ## Display header and data rows
+            ##################################################                 
+            <TR>
+                <TD width="100%" colspan="2" >
+                    <TABLE class="white"  width="100%" cellspacing="1" cellpadding="1">
+                        <TR>
+                            <TD class="header" align="left" width="30%">$resourceManager.getString("OrderedComponents.vm.header.Description")</TD>
+                            <TD class="header" align="center" width="20%">$resourceManager.getString("OrderedComponents.vm.header.PackageInstId")</TD> 
+                            <TD class="header" align="center" width="20%">Package</TD> 
+                            <TD class="header" align="center" width="10%">$resourceManager.getString("OrderedComponents.vm.header.MinMax")</TD> 
+                            <TD class="header" align="center" width="10%">$resourceManager.getString("OrderedComponents.vm.header.Level")</TD> 
+                            <TD class="header" align="center" width="10%">$resourceManager.getString("OrderedComponents.vm.header.Action")</TD> 
+                        </TR>
+    
+                        #if ($componentCount > 0)             
+                            #set ($indexRange = [${start}..${end}])
+                            #foreach ($index in $indexRange)
+                                #set ($component = $componentList.getAt($index))
+                                <TR>
+                                    <TD class="datalabel" align="left" width="30%">
+                                        #if ($provisioningPanel == false)
+                                            <a href="http://www.csgsystems.com?collection=PackageComponentDefList&action=component-member-view&event=detail&index=$index">
+                                            $component.getFormattedAttributeData("DisplayValue")
+                                            </a>
+                                        #else
+                                            <a href="http://www.csgsystems.com?collection=PackageComponentDefList&subtype=TransientShoppingCart&action=ordered-component-member-view-dlg&event=link&index=$index">
+                                            $component.getFormattedAttributeData("DisplayValue")
+                                            </a>
+                                        #end
+                                    </TD>
+                                    <TD class="data" align="left" width="20%">
+                                        $component.getAttributeDataAsString("DisplayPackageDefInstId")
+                                    </TD>
+                                    <TD class="data" align="left" width="20%">
+                                        $component.getObject("PackageDefinition", "PackageComponentDef").getAttribute("DisplayValue").getFormattedData()
+                                    </TD>
+                                    <TD class="data" align="right" width="10%">
+                                        $component.getAttributeDataAsString("MinMaxDisplay")
+                                    </TD>
+                                    <TD class="data" align="left" width="10%">
+                                        #if ($component.getAttributeDataAsInteger("ComponentLevel") == 1)
+                                            $resourceManager.getString("OrderedComponents.vm.text.AccountLevel")
+                                        #elseif($component.getAttributeDataAsInteger("ComponentLevel") == 2)
+                                            $resourceManager.getString("OrderedComponents.vm.text.ServiceLevel")
+                                        #end
+                                    </TD>
+                                    <TD class="data" align="left" width="10%">
+                                        #if ($provisioningPanel)
+                                            <a href="http://www.csgsystems.com?collection=PackageComponentDefList&event=add&index=$index">
+                                                $resourceManager.getString("OrderedComponents.vm.text.Add")
+                                            </a>
+                                        #else
+                                            <a href="http://www.csgsystems.com?collection=PackageComponentDefList&event=remove&topic=PackageComponentDef&index=$index">
+                                                $resourceManager.getString("OrderedComponents.vm.text.Remove")
+                                            </a>
+                                        #end
+                                    </TD>
+                                </TR>                        
+                            #end
+                        #else
+                            <br>
+                            $!resourceManager.getString("OrderedComponents.vm.text.NoComponentsFound")
+                        #end
+                    </TABLE>  
+                </TD>
+            </TR>
+        </TABLE>
+    </TD></TR></TABLE>
+
+    ##################################################
+    ## Display pagination
+    ##################################################
+    #DisplayPagination($componentCount $resourceManager $pageCount $componentListDisplayMaxPages $page)
+  </BODY>
+</HTML>

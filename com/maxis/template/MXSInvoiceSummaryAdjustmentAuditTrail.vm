@@ -1,0 +1,187 @@
+##################################################
+## Configure constants and global variables
+##################################################
+## constants
+
+#set ($BLOCK_SIZE = $configManager.getInteger("theme.single-table-view.blockSize"))
+#set ($MAX_BLOCKS = $configManager.getInteger("theme.single-table-view.maxBlocks"))
+#set ($page = 1)
+#set ($start = 0)
+#set ($end = 0)
+#set ($pageCount = 0)
+#set ($displayEndRow = 0)
+#set ($displayStartRow = 0)
+
+## domain data for this screen
+#set ($adjustmentList = false)
+#set ($adjustmentList = $domainContext.getObject("AdjustmentList", "AuditTrail"))
+#set ($overflow = $adjustmentList.getError())
+
+#if ($adjustmentList)
+    #if (!$adjustmentList.isFaulted())
+        $adjustmentList.reset()
+    #end
+    #set ($adjustmentCount = $adjustmentList.getCount())
+#else
+    #set ($adjustmentCount = 0)
+#end
+
+## screen pagination
+#if ($session.containsKey("page"))
+    #set ($page = $session.get("page"))
+    #set ($displayStartRow = $BLOCK_SIZE * ($page - 1))
+#end
+#set ($displayEndRow = $displayStartRow + $BLOCK_SIZE)
+
+## number of pages of data
+#if ($adjustmentCount > 0)
+    #set ($pageCount = $adjustmentCount / $BLOCK_SIZE)
+    #if (  ($pageCount * $BLOCK_SIZE) < $adjustmentCount)
+        ## remainder of records not on full page
+        #set ($pageCount = $pageCount + 1)
+
+        ## last page
+        #if ($pageCount == $page)
+            #set ($displayEndRow = $adjustmentCount)
+        #end
+    #end
+
+    #set ($start = $displayStartRow )
+    #set ($end = $displayEndRow - 1)
+#end
+
+##################################################
+## Main - start of html
+##################################################
+<html>
+    <head>
+        <title>$!resourceManager.getString("InvoiceSummary_AdjustmentAuditTrail.vm.title.Adjustments")</title>
+        #defaultStylesheet( $filenameLocalizationUtil )
+    </head>
+    <body>
+    <table  width="100%" cellspacing="2" cellpadding="2"><tr><td class="white" width="100%">
+        <table  width="100%" cellspacing="0" cellpadding="0">
+            ##################################################
+            ## Display title row with view/search links
+            ##################################################
+            <tr>
+                <td class="white" width="100%" colspan="2" >
+                    <table  width="100%" cellspacing="0" cellpadding="0">
+                        <tr>
+                            <td class="title" width="30%">
+                                #if ($adjustmentCount > 0)
+                                    #set ($displayStartRow = $displayStartRow + 1)
+                                    #if ($displayStartRow == $displayEndRow)
+                                        ## Adjustments ($displayEndRow of $adjustmentCount)
+                                        #set( $array = [ $displayEndRow, $adjustmentCount ] )
+                                        $resourceManager.formatStringResource( "InvoiceSummary_AdjustmentAuditTrail.vm.title.AdjustmentsSingle", $array.toArray() )
+                                    #else
+                                        ## Adjustments ($displayStartRow - $displayEndRow of $adjustmentCount)
+                                        #set( $array = [ $displayStartRow, $displayEndRow, $adjustmentCount ] )
+                                        $resourceManager.formatStringResource( "InvoiceSummary_AdjustmentAuditTrail.vm.title.AdjustmentsMultiple", $array.toArray() )
+                                    #end
+                                #else
+                                    $!resourceManager.getString("InvoiceSummary_AdjustmentAuditTrail.vm.title.Adjustments")
+                                #end
+                            </td>
+
+                        </tr>
+                    </table>
+                </td>
+            </tr>
+            ##################################################
+            ## Display header and data rows
+            ##################################################
+            <tr>
+                <td width="100%" colspan="2" >
+                #if ( $adjustmentCount > 0 )
+                    <table class="white"  width="100%" cellspacing="1" cellpadding="1">
+                        <tr>
+                            <td class="header" align="center">$!resourceManager.getString("InvoiceSummary_AdjustmentAuditTrail.vm.header.TrackingId")</th>
+                            <td class="header" align="center">$!resourceManager.getString("UserID")</th>
+                            <td class="header" align="center">$!resourceManager.getString("Date")</th>
+                            <td class="header" align="center">$!resourceManager.getString("InvoiceSummary_AdjustmentAuditTrail.vm.header.Reason")</th>
+                            <td class="header" align="center">$!resourceManager.getString("InvoiceSummary_AdjustmentAuditTrail.vm.header.BilledOnInvoice")</th>
+                            <td class="header" align="center">$!resourceManager.getString("InvoiceSummary_AdjustmentAuditTrail.vm.header.RequestStatus")</th>
+                            <td class="header" align="center">$!resourceManager.getString("InvoiceSummary_AdjustmentAuditTrail.vm.header.Amount")</th>
+
+                        </tr>
+                        #set ( $indexRange = [ ${start}..${end} ] )
+                		#foreach ( $index in $indexRange )
+                			#set ( $item = $adjustmentList.getAt($index))
+	                        <tr>
+	                            <td class="data" align="right">$!item.getFormattedAttributeData("TrackingId")</td>
+	                            <td class="data" align="right">&nbsp;</td>
+	                            <td class="data" align="right">&nbsp;</td>
+	                            <td class="data" aligh="right">$!item.getAttributeData("AdjReasonCode")</td>
+	                            <td class="data" align="right">
+	                                #if ($item.getAttributeDataAsInteger("BillRefNo") > 0)
+	                                    $!item.getAttributeData("BillRefNo")
+	                                #else
+	                                    $!resourceManager.getString("InvoiceSummary_AdjustmentAuditTrail.vm.text.NotBilled")
+	                                #end
+	                            </td>
+	                            <td class="data" align="right">$!item.getFormattedAttributeData("RequestStatus")</td>
+	                            <td class="data" align="right">$!item.getFormattedAttributeData("TotalAmt")</td>
+	                        </tr>
+                        #end
+
+
+                    </table>
+                #elseif ($overflow)
+					$overflow.getErrorMessage()
+		        #else
+		            ######## No Records Found #########
+                	<table class="white"  width="100%" cellspacing="1" cellpadding="1">
+                		<tr>
+                            <td class="header" align="center">$!resourceManager.getString("InvoiceSummary_AdjustmentAuditTrail.vm.header.TrackingId")</th>
+                            <td class="header" align="center">$!resourceManager.getString("MXSInvoiceSummaryAdjustmentAuditTrail.vm.title.UserID")</th>
+                            <td class="header" align="center">$!resourceManager.getString("MXSInvoiceSummaryAdjustmentAuditTrail.vm.title.Date")</th>
+                            <td class="header" align="center">$!resourceManager.getString("InvoiceSummary_AdjustmentAuditTrail.vm.header.Reason")</th>
+                            <td class="header" align="center">$!resourceManager.getString("InvoiceSummary_AdjustmentAuditTrail.vm.header.BilledOnInvoice")</th>
+                            <td class="header" align="center">$!resourceManager.getString("InvoiceSummary_AdjustmentAuditTrail.vm.header.RequestStatus")</th>
+                            <td class="header" align="center">$!resourceManager.getString("InvoiceSummary_AdjustmentAuditTrail.vm.header.Amount")</th>
+                        </tr>
+	                    <tr>
+	                    	$!resourceManager.getString("InvoiceSummary_AdjustmentAuditTrail.vm.text.NoAdjustmentsFound")
+	                    </tr>
+	                </table>
+                #end
+            </td>
+        </tr>
+    </table>
+
+    ##################################################
+    ## Display pagination
+    ##################################################
+    #if ( $adjustmentCount > 0 )
+        <table width="100%">
+            <tr>
+            <td width="100%">
+            $!resourceManager.getString("Generic.vm.label.Page")&nbsp;&nbsp;
+            #set ( $indexRange = [ 1..${pageCount} ] )
+            #foreach ( $index in $indexRange )
+                #if ($index == ($MAX_BLOCKS+1))
+                    ## large amount of data, user must filter
+                    &nbsp;&nbsp;&nbsp;
+                    <img border="0"  src="memory:/images/arrow_search.gif"  >&nbsp;$!resourceManager.getString("Generic.vm.text.EnterCriteria")
+                #elseif ( $index < ($MAX_BLOCKS+1) )
+                    #if ($index == $page)
+                        <b>$index</b>&nbsp;&nbsp;
+                    #else
+                        <a href="http://www.csgsystems.com?type=paging&page=$index">
+                        <b>$index</b>
+                        </a>
+                    #end
+                #end
+            #end
+            </td>
+            </tr>
+        </table>
+    #end
+
+    </body>
+</html>
+
+
+

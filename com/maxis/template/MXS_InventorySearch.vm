@@ -1,0 +1,199 @@
+##################################################
+## Configure constants and global variables
+##################################################  
+## constants
+
+#set ($invElementListDisplayRowsPerPage = 0)
+#set ($invElementListDisplayMaxPages = 0)
+
+## domain data for this screen
+#set ($invElementList = false) 
+#set ($invElementListCount = -1)
+#set ($overflow = false)
+
+## use inventory list
+
+#if ($session.containsKey("clear-screen"))
+    #if ($session.get("clear-screen"))
+        #set ($invElementListCount = -1)
+    #else
+        #set ($invElementList = $domainContext.getObject("InvElementList","Available"))
+        #if ($invElementList)
+    		#set ($invElementListDisplayRowsPerPage = $invElementList.getAttributeDataAsInteger("DisplayRowsPerPage"))
+    		#set ($invElementListDisplayMaxPages = $invElementList.getAttributeDataAsInteger("DisplayPages"))        
+            #set ($invElementListCount = $invElementList.getCount())
+            #set ($overflow = $invElementList.getError())
+        #end
+    #end
+#end
+    
+#set ($page = 1)
+#set ($start = 0)
+#set ($end = 0)
+#set ($pageCount = 0)
+#set ($displayEndRow = 0)
+#set ($displayStartRow = 0)    
+
+## screen pagination 
+#if ($session.containsKey("page"))
+    #set ($page = $session.get("page"))
+    #set ($displayStartRow = $invElementListDisplayRowsPerPage * ($page - 1))
+#else
+    ## first page
+    #set ($displayStartRow = 0)
+    #set ($page = 1)    
+#end
+#set ($displayEndRow = $displayStartRow + $invElementListDisplayRowsPerPage)
+
+## number of pages of data
+#if ($invElementListCount > 0)
+    #set ($pageCount = $invElementListCount / $invElementListDisplayRowsPerPage)
+    #if (($pageCount * $invElementListDisplayRowsPerPage) < $invElementListCount)
+        ## remainder of records not on full page
+        #set ($pageCount = $pageCount + 1)
+        
+        ## last page
+        #if ($pageCount == $page)
+            #set ($displayEndRow = $invElementListCount)
+        #end
+    #end
+    
+    #set ($start = $displayStartRow )
+    #set ($end = $displayEndRow - 1)
+#end
+
+
+##################################################
+## Main - start of html
+##################################################  
+<html>
+<head>
+    <title>$!resourceManager.getString("InventorySearch.vm.title")</title>
+    #defaultStylesheet( $filenameLocalizationUtil )
+</head>
+<body>  
+
+
+    <table  width="100%" cellspacing="0" cellpadding="0">
+    <tr>
+        <td class="title">
+            #if ( $invElementListCount > 0 ) 
+                #set ($displayStartRow = $displayStartRow + 1)
+                #if ($displayStartRow == $displayEndRow)
+                    #set( $array = [ $displayEndRow, $invElementListCount] )
+                    $!resourceManager.formatStringResource( "InventorySearch.vm.title.Single", $array.toArray() )
+                #else
+                    #set( $array = [ $displayStartRow, $displayEndRow, $invElementListCount] )
+                    $!resourceManager.formatStringResource( "InventorySearch.vm.title.Multiple", $array.toArray() )
+                #end            
+            #else
+                $!resourceManager.getString("InventorySearch.vm.title.Inventory")
+            #end
+        </td> 
+        #if ($session.containsKey("swap-screen"))  
+            <td class="title" width="50%" align="right">
+                <img border="0"  src="memory:/images/arrow_search.gif"  >&nbsp;                            
+                <a class="title" href="http://www.csgsystems.com?type=search&object=InvElementList&subtype=Available&action=inventory-available-search-dlg">
+                    $!resourceManager.getString( "Generic.vm.link.Search" )
+                </a>
+            </td>              
+        #end
+    </tr>
+    </table>
+
+    ##################################################
+    ## display list of addresses found
+    ##################################################        
+    #if ( $invElementListCount > 0 ) 
+        <TABLE width="100%" cellspacing="1" cellpadding="1" >
+            <TR>
+                <Td class="header" width="10%" align="left">$!resourceManager.getString("InventorySearch.vm.header.Identifier")</Td>  
+                <Td class="header" width="20%" align="right">$!resourceManager.getString("InventorySearch.vm.header.Type")</Td>               
+                <Td class="header" width="30%" align="right">$!resourceManager.getString("InventorySearch.vm.header.ContainerAndType")</Td>               
+                ##Added by Lee Wynn, Teoh (25/05/2005)
+                <Td class="header" width="10%" align="right">$!resourceManager.getString("MXS.InventoryReserved.vm.header.HLR")</td>    
+                <Td class="header" width="20%" align="right">$!resourceManager.getString("MXS.InventoryReserved.vm.header.SalesChannel")</td>
+                ######################################
+                <Td class="header" align="right">$!resourceManager.getString("Generic.vm.link.Actions")</Td>               
+            </TR>    
+            #set ( $indexRange = [ ${start}..${end} ] )
+            #foreach ( $index in $indexRange )
+                #set ( $item = $invElementList.getAt($index))       
+                <TR>
+                    <TD class="datalabel">
+                        #################
+                        ## View inventory details
+                        #################                    
+                        <a href="http://www.csgsystems.com?type=view&object=InvElement&subtype=Available&action=inventory-edit&index=$index">
+                            $!item.getAttribute("ExternalId").getFormattedData()
+                        </a>                    
+                    </TD>
+                    <TD class="data" align="right">$!item.getAttribute("InventoryTypeId").getFormattedData()</TD>                    
+                    <TD class="data" align="right">
+                        #if ($item.getAttributeData("TopLevelContainerId"))
+                            $!item.getAttribute("TopLevelContainerId").getFormattedData() / $!item.getAttribute("TopLevelContainerType").getFormattedData()
+                        #end
+                    </TD> 
+                    ############################################################
+                    ##Added by Lee Wynn, Teoh (25/05/2005)
+                    <TD class="data" align="right">$!item.getAttributeData("LocationId")</TD>
+                    <TD class="data" align="right">$!item.getAttributeData("SalesChannelId")</TD>
+                    ############################################################
+                    <TD class="data" align="right">
+                        #if ($item.getAttributeDataAsBoolean("VirtualIsAvailable"))
+                            #################
+                            ## Reserve or Assign inventory
+                            #################
+                            <a href="http://www.csgsystems.com?linktype=popup&object=InvElement&subtype=Available&index=$index"> 
+                                $!resourceManager.getString("Generic.vm.link.Actions")
+                            </a>      
+                        #end
+                    </TD>                        
+                </TR>           
+            #end
+    </TABLE>
+    
+    ##################################################
+    ## Display pagination
+    ##################################################
+    <table width="100%">
+        <tr>
+        <td width="100%">
+        $!resourceManager.getString("Generic.vm.label.Page")&nbsp;&nbsp;
+        #set ( $indexRange = [ 1..${pageCount} ] )
+        #foreach ( $index in $indexRange )
+            #if ($index == ($invElementListDisplayMaxPages+1))
+                ## large amount of data, user must filter
+                &nbsp;&nbsp;&nbsp;
+                <br><img border="0"  src="memory:/images/arrow_search.gif"  >&nbsp;$!resourceManager.getString("Generic.vm.text.EnterCriteria")
+            #elseif ( $index < ($invElementListDisplayMaxPages+1) )
+                #if ($index == $page)
+                    <b>$index</b>&nbsp;&nbsp;
+                #else
+                    <a href="http://www.csgsystems.com?type=paging&page=$index">
+                    <b>$index</b>
+                    </a>
+                #end
+            #end
+        #end
+        </td>
+        </tr>
+    </table>    
+    #elseif ($overflow)
+        $overflow.getErrorMessage()
+    #else
+        #if ($pageCount > 0)
+        ######## No Records Found #########
+        <table  width="260" cellspacing="0" cellpadding="0">
+        <tr>
+            <td width="100%">
+                <br>$!resourceManager.getString("InventorySearch.vm.text.NoneFound")
+            </td>
+        </tr>        
+        </table>
+        #end
+    #end
+
+
+</BODY>
+</HTML>

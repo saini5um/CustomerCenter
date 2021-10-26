@@ -1,0 +1,51 @@
+##  $obj : Object section of column URL (i.e. Payment)
+##  $objSubType : Sub type object of domainContext.getObject (i.e. Account)
+##  $objList : List object of domainContext.getObject (i.e. PaymentList)
+##  $SingleTitle : Text displayed for single record (i.e. AccountSummary_PaymentList.vm.title.PaymentsSingle)
+##  $MultipleTitle : Text displayed for multiple records (i.e. AccountSummary_PaymentList.vm.title.PaymentsMultiple)
+##  $ItemTitle : Title text displayed (i.e. AccountSummary_PaymentList.vm.title.Payments)
+##  $LinkAction : Array of actions, action section of the links URL (i.e. "acct-payment-add-dlg", "acct-payment-search-dlg")
+##  $LinkURL : Array of URL's, URL for the links minus the "&action=" section (i.e. "type=add&object=PaymentList&subtype=Account", "type=search&object=PaymentList&subtype=Account")
+##  $LinkSrc : Array of image files (i.e. "arrow_add.gif", "arrow_search.gif")
+##  $LinkText : Array of text to be displayed (i.e. "AccountSummary_PaymentList.vm.link.AddInvoicePayment", "Generic.vm.link.Search")
+##  $Message : Text to be displayed if no records are found (i.e. "AccountSummary_PaymentList.vm.text.NoneFound")
+##  $UseSelectedRow : Array of flags used to determine if column should be highlighted and defaulted (i.e. ["false", "false"] = do not highlight row and do not default, ["true", "false"] = highlight row but do not default, ["true", "true"] = highlight row and default)
+##  $columnHeadings : Array of text to be displayed for the column heading (i.e. "AccountSummary_PaymentList.vm.header.Type", "AccountSummary_PaymentList.vm.header.PostDate")
+##  $columnAttributeNames : Array of attributes to be displayed and/or custom macros (i.e. "MACRO", "PostDate")
+##  $columnActions : Array of actions, action section of the column URL unless a custom macro is used for URL's not in the standard format (i.e. "decision-payment-viewmodify", "null")
+##  $columnMacros : Array of custom macros to be used to display the columns data (i.e. "pTTDescription", "null")
+##  $columnMacroObjects : Array of objects to be passed to the custom macro (i.e. $paymentTransTypeDescription, "null")
+##  $columnWidth : Array of column widths, total should equal 100 (i.e. "50", "50")
+##  $ObjectArray : Should not be modified - additional objects can be added to the end of the array if needed
+##  #ExecuteListRender : Call to main macro located in CollectionList.vm
+
+##################################################
+## Configure constants passed to macro
+##################################################  
+#set ($obj = "Note")
+#set ($objSubType = "Account")
+#set ($objList = "NoteList")
+ 
+#set ($SingleTitle = "AccountSummary_NoteList.vm.title.NotesSingle")
+#set ($MultipleTitle = "AccountSummary_NoteList.vm.title.NotesMultiple")
+#set ($ItemTitle = "AccountSummary_NoteList.vm.title.Notes")
+
+#set ($LinkAction = ["note-create-dlg", "note-search-dlg"])
+#set ($LinkURL = ["type=add&object=Note&subtype=Account", "type=search&object=Account"])
+#set ($LinkSrc = ["arrow_add.gif", "arrow_search.gif"])
+#set ($LinkText = ["Generic.vm.link.Add", "Generic.vm.link.Search"])
+
+#set ($Message = "AccountSummary_NoteList.vm.text.NoNotesFound")
+
+#set ($UseSelectedRow = ["false","false"])
+
+#set ($columnHeadings = ["AccountSummary_NoteList.vm.header.NoteCode", "External ID", "AccountSummary_NoteList.vm.header.Text", "AccountSummary_NoteList.vm.header.Comments", "MXSAccountSummaryNoteList.vm.header.UserID", "MXSAccountSummaryNoteList.vm.header.DateTime"])
+#set ($columnAttributeNames = ["NoteCode", "EquipExternalId", "NoteText", "Comments", "ChgWho", "ChgDate"])
+#set ($columnActions = ["note-details-dlg", "null", "null", "null", "null", "null"])
+#set ($columnMacros = ["null", "null", "null", "null", "null", "null"])
+#set ($columnMacroObjects = ["null", "null", "null", "null", "null", "null"])
+#set ($columnWidth = ["10", "10", "25", "25", "10", "20"])
+
+#set ($ObjectArray = [$domainContext, $session, $filenameLocalizationUtil, $securityMgr, $resourceManager, $TemplateUtility, $strUtils])
+
+#ExecuteListRender($ObjectArray $obj $objSubType $objList $SingleTitle $MultipleTitle $ItemTitle $LinkAction $LinkURL $LinkSrc $LinkText $Message $columnHeadings $columnAttributeNames $columnActions $columnMacros $columnMacroObjects $columnWidth $UseSelectedRow)

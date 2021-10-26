@@ -1,0 +1,187 @@
+##################################################
+## Configure constants and global variables
+##################################################  
+## constants
+
+#set ($invElementListDisplayRowsPerPage = 0)
+#set ($invElementListDisplayMaxPages = 0)
+
+#set ($page = 1)
+#set ($start = 0)
+#set ($end = 0)
+#set ($pageCount = 0)
+#set ($displayEndRow = 0)
+#set ($displayStartRow = 0) 
+
+#set ($invElementList = false) 
+#set ($invElementCount = -1)
+
+## domain data for this screen
+#set ($invElementList = $domainContext.getObject("InvElementList", "Service"))
+#if ($invElementList)
+    #set ($invElementCount = $invElementList.getCount())
+    #set ($invElementListDisplayRowsPerPage = $invElementList.getAttributeDataAsInteger("DisplayRowsPerPage"))
+    #set ($invElementListDisplayMaxPages = $invElementList.getAttributeDataAsInteger("DisplayPages"))        
+    #if ($invElementCount > 0 )
+        #set ( $invElement = $invElementList.getAt(0) )
+        #if (!$invElement.getAttributeData("ExternalId"))   
+            ## if it is null
+            ## first record is created as a placeholder by the order system
+            #set ($invElementCount = -1)
+        #end
+    #end
+#end
+
+## screen pagination 
+#if ($session.containsKey("page"))
+    #set ($page = $session.get("page"))
+    #set ($displayStartRow = $invElementListDisplayRowsPerPage * ($page - 1))
+#else
+    ## first page
+    #set ($displayStartRow = 0)
+    #set ($page = 1)    
+#end
+#set ($displayEndRow = $displayStartRow + $invElementListDisplayRowsPerPage)
+
+## number of pages of data
+#if ($invElementCount > 0)
+    #set ($pageCount = $invElementCount / $invElementListDisplayRowsPerPage)
+    #if (  ($pageCount * $invElementListDisplayRowsPerPage) < $invElementCount)
+        ## remainder of records not on full page
+        #set ($pageCount = $pageCount + 1)
+        
+        ## last page
+        #if ($pageCount == $page)
+            #set ($displayEndRow = $invElementCount)
+        #end
+    #end
+    
+    #set ($start = $displayStartRow )
+    #set ($end = $displayEndRow - 1)
+#end
+
+##################################################
+## Main - start of html
+##################################################  
+<html>
+    <head>
+        <title>$!resourceManager.getString("InventoryAssigned.vm.title")</title>
+        #defaultStylesheet( $filenameLocalizationUtil )
+    </head>
+    <body>
+
+    <table  width="100%" cellspacing="2" cellpadding="2"><tr><td class="white" width="100%">
+        <table  width="100%" cellspacing="0" cellpadding="0">
+            ##################################################
+            ## Display title row with view/search links
+            ##################################################  
+			#set ($SingleTitle = "InventoryAssigned.vm.title.Single")
+			#set ($MultipleTitle = "InventoryAssigned.vm.title.Multiple")
+			#set ($ItemTitle = "InventoryAssigned.vm.title.InvElements")			
+			#set ($LinkAction = ["inventory-add"])
+			#set ($LinkURL = ["type=add&object=InvElement"])
+			#set ($LinkSrc = ["arrow_add.gif"])
+			#set ($LinkText = ["InventoryAssigned.vm.link.AddCustomerOwned"])
+            
+            #DisplayTitleRow($TemplateUtility $resourceManager $invElementCount $displayStartRow $displayEndRow $SingleTitle $MultipleTitle $ItemTitle $LinkAction $LinkURL $LinkSrc $LinkText)                
+            ##################################################
+            ## Display header and data rows
+            ##################################################                 
+            <tr>
+                <td width="100%" colspan="2" >
+                #if ( $invElementCount > 0 )             
+                    <table class="white"  width="100%" cellspacing="1" cellpadding="1">
+                        <tr>
+                            <Td class="header"  align="left">$!resourceManager.getString("InventoryAssigned.vm.header.Identifier")</Td>  
+                            <Td class="header"  align="right">$!resourceManager.getString("InventoryAssigned.vm.header.Type")</Td>               
+                            <Td class="header"  align="right">$!resourceManager.getString("InventoryAssigned.vm.header.ContainerAndType")</Td>               
+                            <Td class="header"  align="right">$!resourceManager.getString("InventoryAssigned.vm.header.ExternalIdType")</Td> 
+                            ##Added by Lee Wynn, Teoh (02/6/2005)
+                            <Td class="header"  align="right">HLR</td>    
+                            <Td class="header"  align="right">SalesChannel</td>
+                            ######################################
+                            <td class="header"  align="right">$!resourceManager.getString("Generic.vm.link.Actions")</td>
+                        </tr>
+                        #set ( $indexRange = [ ${start}..${end} ] )
+                        #foreach ( $index in $indexRange )
+                            #set ( $item = $invElementList.getAt($index) )
+                            #if (!$item.getAttributeDataAsBoolean("FakePlaceHolder"))
+                                #set ($orderableObjectState = $OrderManager.getOrderableObjectState($item))
+                                
+                                #set ($itemAction    = $orderableObjectState.get(0))
+                                #set ($pendingAction = $orderableObjectState.get(1))
+                                <tr>
+                                    <TD class="datalabel">
+                                        #################
+                                        ## view inventory details
+                                        #################  
+                                        <a href="http://www.csgsystems.com?type=view&object=InvElement&subtype=Service&action=acct-inventory-detail-view&index=$index">
+                                        #if ($item.getAttributeData("VirtualIsVisible") == true)                                    
+                                          $!item.getAttribute("ExternalId").getFormattedData()
+                                        #else
+                                          *********
+                                        #end                                        
+                                        </a>                    
+                                    </TD>
+                                    <TD class="data" align="right">$!item.getAttribute("InventoryTypeId").getFormattedData()</TD>                    
+                                    <TD class="data" align="right">
+                                        #if ($item.getAttributeData("TopLevelContainerId"))
+                                            $!item.getAttribute("TopLevelContainerId").getFormattedData() / $!item.getAttribute("TopLevelContainerType").getFormattedData()
+                                        #end
+                                    </TD> 
+
+                                    <TD class="data">                                  
+                                        ## if inventory has multiple types of external ids that can be selected
+                                        #if ($pendingAction == 1 && $item.getAttributeDataAsBoolean("IdTypeHasMultiple"))
+                                            <a href="http://www.csgsystems.com?type=select-external-id-type&object=InvElement&subtype=Service&action=inventory-external-id-type-select&index=$index">$!item.getAttributeDataAsString("DisplayIdType")</a>
+                                        #else
+                                            $!item.getAttributeDataAsString("DisplayIdType")
+                                        #end
+                                    </TD>
+                                    #######################################
+                                    ##Edited by Lee Wynn, Teoh (25/05/2005)
+                                    <TD class="data" align="right">$!item.getAttribute("LocationId").getFormattedData()</TD>
+                                    <TD class="data" align="right">$!item.getAttribute("SalesChannelId").getFormattedData()</TD>
+                                    ######################################                                
+                                    <TD class="data" align="right">
+                                        #################
+                                        ## Unassign or Swap inventory
+                                        #################
+                                        #if     ($pendingAction == 3)
+                                            $!resourceManager.getString("InventoryAssigned.vm.text.ToBeCancelled")
+                                        #else
+                                            #if ($item.getAttribute("EndDateTime").isEmpty())
+                                              #if ($item.getAttributeDataAsInteger("InventoryTypeId") == 680 && $item.getAttributeDataAsInteger("State") == 0 && $item.getAttributeDataAsInteger("StatusId") == 2) 
+                                                <br>
+                                              #else
+                                                <a href="http://www.csgsystems.com?linktype=popup&object=InvElement&subtype=Service&index=$index&itemAction=$itemAction">
+                                                    $!resourceManager.getString("Generic.vm.link.Actions")
+                                                </a>                                                
+                                              #end
+                                            #else
+                                                $!resourceManager.getString("InventoryAssigned.vm.text.Disconnected")
+                                            #end
+                                        #end
+                                    </TD>                                  
+                                </tr>  
+                            #end
+                        #end
+                    </table>  
+                #end        
+                </td>
+                </tr>
+                </table>
+            </td>
+        </tr>
+    </table>
+        
+    ##################################################
+    ## Display pagination
+    ##################################################
+	#DisplayPagination($invElementCount $resourceManager $pageCount $invElementListDisplayMaxPages $page) 
+
+    </body>
+</html>
+
+
+

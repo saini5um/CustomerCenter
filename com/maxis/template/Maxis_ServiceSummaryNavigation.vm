@@ -1,0 +1,565 @@
+##################################################
+## Configure constants and global variables
+##################################################  
+## constants
+#if ($configManager.containsKey("customer_center.service-summary-navigation.showExtendedData") )
+    #set ( $showExtendedData = $configManager.getBoolean("customer_center.service-summary-navigation.showExtendedData") )
+#else
+    #set ( $showExtendedData = false )
+#end
+
+#set ($isInventoryUsed = false)
+#if ($systemParameters.get("INV.INVENTORY_VERSION"))
+    #set ($isInventoryUsed = true)
+#end
+
+## domain data for this screen
+#set ( $Service = $domainContext.getObject("Service") )
+#set ( $serviceIdListCount = -1)
+#set ( $pendingServiceOrderCount = -1)
+
+#if ($Service)
+    #set ( $serviceIdList = $Service.getCollection("CustomerIdEquipMapList", "Service") )
+    #if ( $serviceIdList )
+        #set ( $serviceIdListCount = $serviceIdList.getCount() - 1 )
+    #end    
+             
+    #set ( $pendingServiceOrderList = $Service.getCollection("ServiceOrderList","Service"))
+    #if ( $pendingServiceOrderList )
+        #set ( $pendingServiceOrderCount = $pendingServiceOrderList.getCount() - 1 )
+        
+        ###if ( $Service.getAttributeData("PendingChange") )
+          ##  $Service.setReadOnly(true)
+        ###end
+    #end
+
+    #set ( $prepaidServiceList = $Service.getObject("com.maxis.businessobject.PrepaidServiceList", "Service") )
+    #if ($prepaidServiceList)
+        #set ($prepaidServiceCount = $prepaidServiceList.getCount())
+        #set ($prepaidService = $prepaidServiceList.getAt(0))
+        #set ($subscriberStatus = $prepaidService.getAttribute("SubscriberStatus").getFormattedData())
+    #end
+    #set ( $EmfConfigId = $Service.getAttributeDataAsInteger("EmfConfigId") )
+#end    
+##################################################
+## Main - start of html
+##################################################  
+<html>
+    <head>
+        <title>$!resourceManager.getString("ServiceSummaryNavigation.vm.title.ServiceSummaryNavigation")</title>
+        #defaultStylesheet( $filenameLocalizationUtil )
+    </head>
+    <body>
+
+    ##################################################
+    ## Service
+    ##################################################          
+    <table  width="100%" cellspacing="0" cellpadding="0">
+        <tr>
+            <td class="title" width="50%">
+                $!resourceManager.getString("ServiceSummaryNavigation.vm.header.Service"): <b>$Service.getAttribute("ServiceExternalId").getFormattedData()</b>
+            </td>
+            <td class="title" width="50%" align="right">
+                <img src="memory:/images/arrow_detail.gif">&nbsp;
+                <a class="title" href="http://www.csgsystems.com?template=ServiceSummaryDetailView">
+                    $!resourceManager.getString("Generic.vm.link.Details")
+                </a>
+            </td>
+        </tr>
+    </table>
+
+    ##################################################
+    ## service type
+    ##################################################     
+    <table  width="100%" cellspacing="0" cellpadding="0">
+        <tr>
+            <td class="header" colspan="2">
+                $!resourceManager.getString("ServiceSummaryNavigation.vm.header.ServiceType")
+            </td>
+        </tr>        
+        <tr>
+            <td class="fieldlabel">$!resourceManager.getStringResource("ServiceList.gridServices.EmfConfigId")</td>
+            <td class="fieldvalue">$!Service.getAttribute("EmfConfigId").getFormattedData()</td>
+        </tr>
+        <tr>
+            <td class="fieldlabel">$!resourceManager.getStringResource("ServiceSummaryNavigation.vm.header.Status")</td>
+            <td class="fieldvalue">$!Service.getAttribute("StatusId").getFormattedData()</td>
+        </tr>
+        <tr>
+            <td class="fieldlabel">$!resourceManager.getStringResource("ServiceSummaryNavigation.vm.header.StatusActiveDate")</td>
+            <td class="fieldvalue">$!Service.getAttribute("ActiveDt").getFormattedData()</td>
+        </tr>                        
+        <tr>
+            <td class="fieldlabel">$!resourceManager.getStringResource("ServiceList.gridServices.ExternalIdActiveDate")</td>
+            <td class="fieldvalue">$!Service.getAttribute("ServiceActiveDt").getFormattedData()</td>
+        </tr>
+        <tr>
+            <td class="fieldlabel">$!resourceManager.getStringResource("ServiceList.gridServices.ExternalIdInactiveDate")</td>
+            <td class="fieldvalue">$!Service.getAttribute("ServiceInactiveDt").getFormattedData()</td>
+        </tr>
+        ##################################################
+        ## Identifiers
+        ##################################################                             
+        #if ( $serviceIdListCount >= 0 )
+            <br>
+            <tr>
+                <td class="header" colspan="2">
+                    $!resourceManager.getStringResource("ServiceSummaryNavigation.vm.header.Identifiers")
+                </td>
+            </tr>                        
+            #set ( $indexRange = [ 0..${serviceIdListCount} ] )
+            #foreach ( $index in $indexRange )
+                #set ( $item = $serviceIdList.getAt($index) )
+                #if (!$item.getAttributeDataAsBoolean("IsFromInventory"))
+                    <tr>
+                        <td class="fieldlabel">$!item.getAttribute("ServiceExternalIdType").getFormattedData()</td>
+                        <td class="fieldvalue">$!item.getAttribute("ServiceExternalId").getFormattedData()</td>
+                    </tr>
+                #end
+            #end
+        #end
+        ##################################################
+        ## name and address
+        ##################################################     
+        <br>
+        <tr>
+            <td class="header" colspan="2">
+                $!resourceManager.getStringResource("ServiceSummaryNavigation.vm.header.NameAddress")
+            </td>
+        </tr>                        
+        <tr>
+            <td class="fieldlabel">$!resourceManager.getStringResource("ServiceList.gridServices.VirtualFnameLnameCompanyName")</td>
+            <td class="fieldvalue">$!Service.getAttribute("VirtualFnameLnameCompanyName").getFormattedData()</td>
+        </tr>
+        <tr>
+            <td class="fieldlabel">$!resourceManager.getStringResource("ServiceDetail.label.ServiceAddress")</td>
+            <td class="fieldvalue">
+            $!Service.getAttribute("ServiceAddress1").getFormattedData()
+            #if ($Service.getAttribute("ServiceAddress2").getFormattedData())
+                <br>$!Service.getAttribute("ServiceAddress2").getFormattedData()
+            #end
+            #if ($Service.getAttribute("ServiceAddress3").getFormattedData())
+                <br>$!Service.getAttribute("ServiceAddress3").getFormattedData()
+            #end
+            #if ($Service.getAttribute("ServiceCity").getFormattedData())
+                <br>$!Service.getAttribute("ServiceCity").getFormattedData()
+                #if ($Service.getAttribute("ServiceState").getFormattedData())
+                    , $!Service.getAttribute("ServiceState").getFormattedData()  $!Service.getAttribute("ServiceZip").getFormattedData()
+                #end
+            #else
+                <br>$!Service.getAttribute("ServiceState").getFormattedData()  $!Service.getAttribute("ServiceZip").getFormattedData()
+            #end
+           
+            #if ($Service.getAttribute("ServiceCounty").getFormattedData())
+                <br>$!Service.getAttribute("ServiceCounty").getFormattedData()
+            #end
+            #if ($Service.getAttribute("ServiceCountryCode").getFormattedData())
+                <br>$!Service.getAttribute("ServiceCountryCode").getFormattedData()
+            #end
+            </td>
+        </tr>
+        ##################################################
+        ## Pending Order Information
+        ##################################################       
+        #if ( $pendingServiceOrderCount >= 0 )
+            <br>
+            <tr>
+                <td class="header" colspan="2">
+                    $!resourceManager.getStringResource("ServiceSummaryNavigation.vm.header.ServiceOrders")
+                </td>
+            </tr>                        
+            #set ( $indexRange = [ 0..${pendingServiceOrderCount} ] )
+            #foreach ( $index in $indexRange )
+                #set ( $item = $pendingServiceOrderList.getAt($index) )
+                <tr>
+                    <td class="fieldlabel">
+                        <a href="http://www.csgsystems.com?template=OrderSummaryDetail&object=ServiceOrder&subtype=Service&index=$index">
+                        $!item.getAttribute("ServiceOrderTypeId").getFormattedData()
+                        </a>
+                    </td>
+                    <td class="fieldvalue">$!item.getAttribute("OrderStatusId").getFormattedData()</td>
+                </tr>
+            #end
+        #end
+        ########################
+    </table>
+
+    ##################################################
+    ## Service and Product links
+    ##################################################            
+    <br>
+    <table  width="100%" cellspacing="1" cellpadding="1">
+        <tr>
+            <td width="50%">
+                 <table  width="100%" cellspacing="0" cellpadding="0">
+                    <tr>
+                    <td class="title">
+                        $!resourceManager.getString("ServiceSummaryNavigation.vm.header.Service")
+                    </td>    
+                    <td class="title" align="right">
+                        <img border="0"  src="memory:/images/arrow_detail.gif"  >&nbsp;
+                        <a class="title" href="http://www.csgsystems.com?template=ServiceSummaryServices">
+                            $!resourceManager.getString("Generic.vm.link.Details")
+                        </a>
+                    </td>
+                    </tr>
+                </table>                                        
+            </td>
+            <td width="50%">
+                <table  width="100%" cellspacing="0" cellpadding="0">
+                    <tr>
+                    <td class="title">
+                        $!resourceManager.getString("ServiceSummaryNavigation.vm.header.Product")
+                    </td>    
+                    <td class="title" align="right">
+                        <img border="0"  src="memory:/images/arrow_detail.gif"  >&nbsp;
+                        <a class="title" href="http://www.csgsystems.com?template=ServiceSummaryProducts">
+                            $!resourceManager.getString("Generic.vm.link.Details")
+                        </a>
+                    </td>
+                    </tr>
+                </table>       
+            </td>
+        </tr>            
+        <tr>
+           <td width="100%" colspan="2">
+                ##################################################
+                ## individual list links for each service and product item
+                ##################################################   
+                <table  width="100%" cellspacing="1" cellpadding="1">
+                    <tr>
+                        <td width="50%" align="left">
+                        <img border="0"  src="memory:/images/arrow_link.gif"  >&nbsp;
+                        <a class="gray" href="http://www.csgsystems.com?template=ServiceSummary_OpenItemIdMapList">$!resourceManager.getString("ServiceSummaryNavigation.vm.link.ChargeRules")</a>
+                        </td>
+                        <td width="50%" align="left">
+                        <img border="0"  src="memory:/images/arrow_link.gif"  >&nbsp;
+                        <a class="gray" href="http://www.csgsystems.com?template=ServiceSummary_CustomerIdEquipMapList">$!resourceManager.getString("ServiceSummaryNavigation.vm.link.Identifiers")</a>
+                        </td>				
+                    </tr>
+                    <tr>
+                        <td width="50%" align="left">
+                        <img border="0"  src="memory:/images/arrow_link.gif"  >&nbsp;
+                        <a class="gray" href="http://www.csgsystems.com?template=ServiceSummary_CorridorList">$!resourceManager.getString("ServiceSummaryNavigation.vm.link.Corridors")</a>
+                        </td>
+                        <td width="50%" align="left">
+                        <img border="0"  src="memory:/images/arrow_link.gif"  >&nbsp;
+                        <a class="gray" href="http://www.csgsystems.com?template=ServiceSummary_ServiceComponentList">$!resourceManager.getString("ServiceSummaryNavigation.vm.link.Components")</a>
+                        </td>			
+                    </tr>
+                    <tr>
+                        <td width="50%" align="left">
+                            <img border="0"  src="memory:/images/arrow_link.gif"  >&nbsp;
+                            <a class="gray" href="http://www.csgsystems.com?template=ServiceSummary_ServiceZoneList">$!resourceManager.getString("ServiceSummaryNavigation.vm.link.Zones")</a>
+                        </td>
+                        <td width="50%" align="left">
+                            <img border="0"  src="memory:/images/arrow_link.gif"  >&nbsp;
+                            <a class="gray" href="http://www.csgsystems.com?template=ServiceSummary_ServiceProductList">$!resourceManager.getString("ServiceSummaryNavigation.vm.link.Products")</a>
+                        </td>		
+                    </tr>
+                    <tr>
+                        <td width="50%" align="left">
+                            <img border="0"  src="memory:/images/arrow_link.gif"  >&nbsp;
+                            <a class="gray" href="http://www.csgsystems.com?template=ServiceSummary_SpecialDestinationList">$!resourceManager.getString("ServiceSummaryNavigation.vm.link.SpecialDestinations")</a>
+                        </td>
+                        <td width="50%" align="left">
+                            <img border="0"  src="memory:/images/arrow_link.gif"  >&nbsp;
+                            <a class="gray" href="http://www.csgsystems.com?template=ServiceSummary_ServiceContractList">$!resourceManager.getString("ServiceSummaryNavigation.vm.link.Contracts")</a>
+                        </td>			
+                    </tr>
+                    <tr>
+                        <td width="50%" align="left">
+                            <img border="0"  src="memory:/images/arrow_link.gif"  >&nbsp;
+                            <a class="gray" href="http://www.csgsystems.com?template=ServiceSummary_RTUnitCreditBalanceList">$!resourceManager.getString("ServiceSummaryNavigation.vm.link.UnitCreditBalances")</a>
+                        </td>
+                        <td width="50%" align="left">
+                        	<img border="0"  src="memory:/images/arrow_link.gif"  >&nbsp;
+                        	<a class="gray" href="http://www.csgsystems.com?template=ServiceSummary_ServiceChargeList">$!resourceManager.getString("ServiceSummaryNavigation.vm.link.Charges")</a>
+                        </td>		
+                    </tr>    
+			        #if ($isInventoryUsed)                    
+                        <tr>
+                            <td>&nbsp;</td>
+                            <td width="50%" align="left">
+                                <img border="0"  src="memory:/images/arrow_link.gif"  >&nbsp;
+                                <a class="gray" href="http://www.csgsystems.com?template=ServiceSummary_InvElementList">$!resourceManager.getString("ServiceSummaryNavigation.vm.link.Inventory")</a>                            
+                            </td>
+                        </tr>                        
+			        #end
+                                           
+
+                    ##################################################
+                    ## Prepaid SI
+                    ##################################################        
+                    #if ( $EmfConfigId > 1000 && $EmfConfigId < 2000 )
+                    #if ( $subscriberStatus == "Expired" || $subscriberStatus == "Installed")
+                    <tr height="5">
+                        <td class="white" width="100%" colspan="2" ></td>
+                    </tr>                        
+                    <tr>            
+                        <td width="100%" colspan="2">
+                             <table  width="100%" cellspacing="0" cellpadding="0">
+                                <tr>
+                                <td class="title">
+                                    $!resourceManager.getString("Generic.vm.header.Other")
+                                </td>    
+                                </tr>
+                            </table>                                        
+                        </td>  
+                    </tr>              
+                    <tr>
+                       <td width="100%" colspan="2">
+                            <table class="white"  width="100%" cellspacing="1" cellpadding="1">
+                                <tr>
+                                    <td width="50%" align="left">
+                                    <img border="0"  src="memory:/images/arrow_link.gif">&nbsp;
+                                    <a class="gray" href="http://www.csgsystems.com?template=Maxis_PrepaidSI">Prepaid SI</a>
+                                    </td>
+                                    <td width="50%" align="left">
+                                    <img border="0"  src="memory:/images/arrow_link.gif">&nbsp;
+                                    Call Bar/Unbar
+                                    </td>                            
+                                </tr>                           
+                            </table>
+                        </td>
+                    </tr>
+                    <tr>
+                       <td width="100%" colspan="2">
+                            <table class="white"  width="100%" cellspacing="1" cellpadding="1">
+                                <tr>
+                                    <td width="50%" align="left">
+                                    <img border="0"  src="memory:/images/arrow_link.gif">&nbsp;
+                                    <a class="gray" href="http://www.csgsystems.com?template=Maxis_PrepaidNotes">Notes</a>
+                                    </td>
+                                    <td width="50%" align="left">
+                                    <img border="0"  src="memory:/images/arrow_link.gif">&nbsp;
+                                    Voucher Bar/Unbar
+                                    </td>                            
+                                </tr>                           
+                            </table>
+                        </td>
+                    </tr>
+                    <tr>
+                       <td width="100%" colspan="2">
+                            <table class="white"  width="100%" cellspacing="1" cellpadding="1">
+                                <tr>
+                                    <td width="50%" align="left">
+                                    </td>
+                                    <td width="50%" align="left">
+                                    <img border="0"  src="memory:/images/arrow_link.gif">&nbsp;
+                                    Voucher Info
+                                    </td>                            
+                                </tr>                           
+                            </table>
+                        </td>
+                    </tr>
+                    <tr>
+                       <td width="100%" colspan="2">
+                            <table class="white"  width="100%" cellspacing="1" cellpadding="1">
+                                <tr>
+                                    <td width="50%" align="left">
+                                    </td>
+                                    <td width="50%" align="left">
+                                    <img border="0"  src="memory:/images/arrow_link.gif">&nbsp;
+                                    Voucher Status
+                                    </td>                            
+                                </tr>                           
+                            </table>
+                        </td>
+                    </tr>
+                    <tr>
+                       <td width="100%" colspan="2">
+                            <table class="white"  width="100%" cellspacing="1" cellpadding="1">
+                                <tr>
+                                    <td width="50%" align="left">
+                                    </td>
+                                    <td width="50%" align="left">
+                                    <img border="0"  src="memory:/images/arrow_link.gif">&nbsp;
+                                    Manual Adjustment
+                                    </td>                            
+                                </tr>                           
+                            </table>
+                        </td>
+                    </tr>
+                    <tr>
+                       <td width="100%" colspan="2">
+                            <table class="white"  width="100%" cellspacing="1" cellpadding="1">
+                                <tr>
+                                    <td width="50%" align="left">
+                                    </td>
+                                    <td width="50%" align="left">
+                                    <img border="0"  src="memory:/images/arrow_link.gif">&nbsp;
+                                    Manual Reload
+                                    </td>                            
+                                </tr>                           
+                            </table>
+                        </td>
+                    </tr>
+                    <tr>
+                       <td width="100%" colspan="2">
+                            <table class="white"  width="100%" cellspacing="1" cellpadding="1">
+                                <tr>
+                                    <td width="50%" align="left">
+                                    </td>
+                                    <td width="50%" align="left">
+                                    <img border="0"  src="memory:/images/arrow_link.gif">&nbsp;
+                                    Voucher Reload
+                                    </td>                            
+                                </tr>                           
+                            </table>
+                        </td>
+                    </tr>
+                    <tr>
+                       <td width="100%" colspan="2">
+                            <table class="white"  width="100%" cellspacing="1" cellpadding="1">
+                                <tr>
+                                    <td width="50%" align="left">
+                                    </td>
+                                    <td width="50%" align="left">
+                                    <img border="0"  src="memory:/images/arrow_link.gif">&nbsp;
+                                    <a class="gray" href="http://www.csgsystems.com?template=Maxis_PrepaidSI">Event History</a>
+                                    </td>                            
+                                </tr>                           
+                            </table>
+                        </td>
+                    </tr>
+                    #else
+                    <tr height="5">
+                        <td class="white" width="100%" colspan="2" ></td>
+                    </tr>                        
+                    <tr>            
+                        <td width="100%" colspan="2">
+                             <table  width="100%" cellspacing="0" cellpadding="0">
+                                <tr>
+                                <td class="title">
+                                    $!resourceManager.getString("Generic.vm.header.Other")
+                                </td>    
+                                </tr>
+                            </table>                                        
+                        </td>  
+                    </tr>              
+                    <tr>
+                       <td width="100%" colspan="2">
+                            <table class="white"  width="100%" cellspacing="1" cellpadding="1">
+                                <tr>
+                                    <td width="50%" align="left">
+                                    <img border="0"  src="memory:/images/arrow_link.gif">&nbsp;
+                                    <a class="gray" href="http://www.csgsystems.com?template=Maxis_PrepaidSI">Prepaid SI</a>
+                                    </td>
+                                    <td width="50%" align="left">
+                                    <img border="0"  src="memory:/images/arrow_link.gif">&nbsp;
+                                    <a class="gray" href="http://www.csgsystems.com?template=Maxis_PrepaidSI">Call Bar/Unbar</a>
+                                    </td>                            
+                                </tr>                           
+                            </table>
+                        </td>
+                    </tr>
+                    <tr>
+                       <td width="100%" colspan="2">
+                            <table class="white"  width="100%" cellspacing="1" cellpadding="1">
+                                <tr>
+                                    <td width="50%" align="left">
+                                    <img border="0"  src="memory:/images/arrow_link.gif">&nbsp;
+                                    <a class="gray" href="http://www.csgsystems.com?template=Maxis_PrepaidNotes">Notes</a>
+                                    </td>
+                                    <td width="50%" align="left">
+                                    <img border="0"  src="memory:/images/arrow_link.gif">&nbsp;
+                                    <a class="gray" href="http://www.csgsystems.com?template=Maxis_PrepaidSI">Voucher Bar/Unbar</a>
+                                    </td>                            
+                                </tr>                           
+                            </table>
+                        </td>
+                    </tr>
+                    <tr>
+                       <td width="100%" colspan="2">
+                            <table class="white"  width="100%" cellspacing="1" cellpadding="1">
+                                <tr>
+                                    <td width="50%" align="left">
+                                    </td>
+                                    <td width="50%" align="left">
+                                    <img border="0"  src="memory:/images/arrow_link.gif">&nbsp;
+                                    <a class="gray" href="http://www.csgsystems.com?template=Maxis_PrepaidSI">Voucher Info</a>
+                                    </td>                            
+                                </tr>                           
+                            </table>
+                        </td>
+                    </tr>
+                    <tr>
+                       <td width="100%" colspan="2">
+                            <table class="white"  width="100%" cellspacing="1" cellpadding="1">
+                                <tr>
+                                    <td width="50%" align="left">
+                                    </td>
+                                    <td width="50%" align="left">
+                                    <img border="0"  src="memory:/images/arrow_link.gif">&nbsp;
+                                    <a class="gray" href="http://www.csgsystems.com?template=Maxis_PrepaidSI">Voucher Status</a>
+                                    </td>                            
+                                </tr>                           
+                            </table>
+                        </td>
+                    </tr>
+                    <tr>
+                       <td width="100%" colspan="2">
+                            <table class="white"  width="100%" cellspacing="1" cellpadding="1">
+                                <tr>
+                                    <td width="50%" align="left">
+                                    </td>
+                                    <td width="50%" align="left">
+                                    <img border="0"  src="memory:/images/arrow_link.gif">&nbsp;
+                                    <a class="gray" href="http://www.csgsystems.com?template=Maxis_PrepaidSI">Manual Adjustment</a>
+                                    </td>                            
+                                </tr>                           
+                            </table>
+                        </td>
+                    </tr>
+                    <tr>
+                       <td width="100%" colspan="2">
+                            <table class="white"  width="100%" cellspacing="1" cellpadding="1">
+                                <tr>
+                                    <td width="50%" align="left">
+                                    </td>
+                                    <td width="50%" align="left">
+                                    <img border="0"  src="memory:/images/arrow_link.gif">&nbsp;
+                                    <a class="gray" href="http://www.csgsystems.com?template=Maxis_PrepaidSI">Manual Reload</a>
+                                    </td>                            
+                                </tr>                           
+                            </table>
+                        </td>
+                    </tr>
+                    <tr>
+                       <td width="100%" colspan="2">
+                            <table class="white"  width="100%" cellspacing="1" cellpadding="1">
+                                <tr>
+                                    <td width="50%" align="left">
+                                    </td>
+                                    <td width="50%" align="left">
+                                    <img border="0"  src="memory:/images/arrow_link.gif">&nbsp;
+                                    <a class="gray" href="http://www.csgsystems.com?template=Maxis_PrepaidSI">Voucher Reload</a>
+                                    </td>                            
+                                </tr>                           
+                            </table>
+                        </td>
+                    </tr>
+                    <tr>
+                       <td width="100%" colspan="2">
+                            <table class="white"  width="100%" cellspacing="1" cellpadding="1">
+                                <tr>
+                                    <td width="50%" align="left">
+                                    </td>
+                                    <td width="50%" align="left">
+                                    <img border="0"  src="memory:/images/arrow_link.gif">&nbsp;
+                                    <a class="gray" href="http://www.csgsystems.com?template=Maxis_PrepaidSI">Event History</a>
+                                    </td>                            
+                                </tr>                           
+                            </table>
+                        </td>
+                    </tr>
+                    #end
+		    #end
+                </table>  
+            </td>
+        </tr>
+    </table>   
+        
+    </body>
+</html>

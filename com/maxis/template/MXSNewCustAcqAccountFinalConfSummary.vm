@@ -1,0 +1,1100 @@
+######################## Setup Constants #######################################
+######################## Display Account Information ###########################
+#macro (vp_display_Account_Information_FinalConf $accountDomain $resourceManager $validationError $TemplateUtility)
+    <TABLE width="100%" cellspacing="0" cellpadding="0"  VSPACE="4">
+    <TR>
+        <td class="title" align="left">
+            $resourceManager.getString("NewCustAcqFinalConf.header.Account")
+            #set($displayName = $TemplateUtility.getAccountBillFullNameAndCompany($accountDomain))
+            :&nbsp;$!displayName
+        </td>
+        <td class="title" align="right">
+            <img border="0"  src="memory:/images/arrow_detail.gif">&nbsp;        
+            <a class="title" href="http://www.csgsystems.com?linktype=account-actions-popup-menu">
+                $resourceManager.getString( "NewCustAcqFinalConf.link.Actions" )
+            </a>
+        </td>
+    </TR>
+    </TABLE>
+#end
+######################### Display Financial Information ########################
+#macro (vp_display_Financial_Information_FinalConf $domainContext $accountDomain $resourceManager $validationError)
+    #set ($accountExternalIdList = $accountDomain.getCollection("AccountIdList","Account"))
+    #vp_display_AccountExternalIdList_Information_FinalConf($accountExternalIdList $resourceManager $validationError $accountDomain)
+    #set ($depositList = $accountDomain.getCollection("DepositList","Account"))
+    #vp_display_DepositList_Information_FinalConf($depositList $resourceManager $validationError)
+    #set ($accountChargeRuleList = $accountDomain.getCollection("OpenItemIdMapList","Account"))
+    #vp_display_AccountChargeRuleList_Information_FinalConf($accountChargeRuleList $resourceManager $validationError)
+    #set ($accountCorridorsList = $accountDomain.getCollection("CorridorList","Account"))
+    #vp_display_AccountCorridorList_Information_FinalConf($accountCorridorsList $resourceManager $validationError)
+    #set ($accountPaymentList = $accountDomain.getCollection("PaymentList","Account"))
+    #vp_display_AccountPaymentList_Information_FinalConf($accountPaymentList $resourceManager $validationError)
+    #set ($prepaidBalanceList = $accountDomain.getCollection("AccountBalancesList","Account"))
+    #vp_display_PrepaidBalanceList_Information_FinalConf($prepaidBalanceList $resourceManager $validationError)
+    #set ($prepaymentList = $accountDomain.getObject("PrepaymentList","Account"))
+    #vp_display_PrepaymentList_Information_FinalConf($prepaymentList $resourceManager $validationError)
+#end
+######################### Display Service Information ##########################
+#macro (vp_display_ServiceList_Information_FinalConf $accountServiceList $resourceManager $validationError )
+    #set ($countService = $accountServiceList.getCount() - 1 )
+    #set ($service = false)
+    #if ( $countService >=0)
+        #set ($rangeService = [0..${countService} ])
+        #foreach ($indexService in $rangeService)
+            #set ( $service = $accountServiceList.getAt($indexService))
+                    <TABLE width="100%" cellspacing="0" cellpadding="0"  VSPACE="4">
+                    <TR>
+                        <td class="title" align="left">
+                            #if(!$service.isThisObjectValid())
+                                #set ( $validationError = true )
+                                &nbsp;<img border="0" src="memory:/images/warning_12x12.gif">&nbsp;
+                            #end
+                            $resourceManager.getString("NewCustAcqFinalConf.header.Service") 
+                            #if ($service.getAttributeData("EmfConfigId"))
+                                :&nbsp; $!service.getFormattedAttributeData("EmfConfigId")
+                            #end
+                        </td>
+                        <td class="title" align="right">
+                            <img border="0"  src="memory:/images/arrow_detail.gif">&nbsp;                        
+                            <a class="title" href="http://www.csgsystems.com?linktype=service-actions-popup-menu&index=$indexService">
+                                $resourceManager.getString( "NewCustAcqFinalConf.link.Actions" )
+                            </a>
+                        </td>
+                    </TR>
+                    </TABLE>
+                    ###########################################################################################
+                    ## Check for Service Id List
+                    #set ($serviceIdList = false)
+                    #set ($serviceIdList = $service.getCollection("CustomerIdEquipMapList","Service"))
+                    #if ($serviceIdList)
+                        #vp_display_ServiceIdList_Information_FinalConf( $serviceIdList $indexService $resourceManager $validationError)
+                    #end
+                    ###########################################################################################
+                    ## Check for Service Product List
+                    #set ($productList = false)
+                    #set ($productList = $service.getCollection("ProductList","Service"))
+                    #if ($productList)
+                            #vp_display_ServiceProductList_Information_FinalConf( $productList $indexService $resourceManager $validationError)
+                    #end
+                    ###########################################################################################
+                    ## Check for Service Contract List
+                    #set ($customerContractList = false)
+                    #set ($customerContractList = $service.getCollection("CustomerContractList","Service"))
+                    #if ($customerContractList)
+                            #vp_display_ServiceContractList_Information_FinalConf( $customerContractList $indexService $resourceManager $validationError)
+                    #end
+                    ###########################################################################################
+                    ## Check for Service Charge List
+                    #set ($nrcList = false)
+                    #set ($nrcList = $service.getCollection("NrcList","Service"))
+                    #if ($nrcList)
+                            #vp_display_ServiceChargeList_Information_FinalConf( $nrcList $indexService $resourceManager $validationError)
+                    #end
+                    ###########################################################################################
+                    ## Check for Service Component List
+                    #set ($componentList = false)
+                    #set ($componentList = $service.getCollection("ComponentList","Service"))
+                    #if ($componentList)
+                            #vp_display_ServiceComponentList_Information_FinalConf( $componentList $resourceManager $validationError)
+                    #end
+                    ###########################################################################################
+                    ## Check for Assigned Inventory List
+                    #set ($assignedInventoryList = false)
+                    #set ($assignedInventoryList = $service.getCollection("InvElementList","Service"))
+                    #if ($assignedInventoryList)
+                            #vp_display_AssignedInventory_Information_FinalConf($assignedInventoryList $indexService $resourceManager $validationError)
+                    #end                    
+                    ###########################################################################################
+                    ## Check for Service Charge Rule List
+                    #set ($serviceChargeRuleList = false)
+                    #set ($serviceChargeRuleList = $service.getCollection("OpenItemIdMapList","Service"))
+                    #if ($serviceChargeRuleList)
+                        #vp_display_ServiceChargeRuleList_Information_FinalConf($serviceChargeRuleList $indexService $resourceManager $validationError)
+                    #end
+                    ###########################################################################################
+                    ## Check for Service Corridor List
+                    #set ($serviceCorridorList = false)
+                    #set ($serviceCorridorList = $service.getCollection("CorridorList","Service"))
+                    #if ($serviceCorridorList)
+                        #vp_display_ServiceCorridorList_Information_FinalConf ($serviceCorridorList $indexService $resourceManager $validationError)
+                    #end
+                    ###########################################################################################
+                    ## Check for Service Zone List
+                    #set ($serviceZoneList = false)
+                    #set ($serviceZoneList = $service.getCollection("ServiceZoneList","Service"))
+                    #if ($serviceZoneList)
+                        #vp_display_ServiceZoneList_Information_FinalConf ($serviceZoneList $indexService $resourceManager $validationError)
+                    #end
+            #end
+    #end 
+#end
+###################### Display Service Id List ############################
+#macro (vp_display_ServiceIdList_Information_FinalConf $serviceIdList $indexService $resourceManager $validationError)
+##
+    #set ($count = $serviceIdList.getCount() - 1 )
+    #set ($id = false)
+    #if ( $count >=0)
+        <TABLE width="100%" cellspacing="1" cellpadding="1"  VSPACE="4" HSPACE="6"> 
+        <tr>
+            <td class="header" align="left" width="30%">$resourceManager.getString("NewCustAcqFinalConf.header.ExternalID")</td>
+            <td class="header" width="60%" align="right"></td>
+            <td class="header" width="10%" align="right"></td>
+        </tr>        
+        #set ($range = [0..${count} ])
+        #foreach ($index in $range)
+            #set ( $id = $serviceIdList.getAt($index))
+            <TR>
+                <TD class="datalabel">
+                    <a href="http://www.csgsystems.com?baseObject=Account&baseCollection=ServiceList&baseCollectionSubtype=Account&baseCollectionIndex=$indexService&object=CustomerIdEquipMap&subtype=Service&index=$index&action=new-cust-acq-service-externalid-details-dlg">
+                    #if(!$id.isThisObjectValid())
+                        #set ( $validationError = true )
+                        &nbsp;<img border="0" src="memory:/images/warning_12x12.gif">&nbsp;
+                    #end
+                    $!id.getFormattedAttributeData("ServiceExternalIdType")
+                    </a>
+                 </TD>
+                <TD class="data" align="right">$id.getFormattedAttributeData("ServiceExternalId")</TD>
+                <td class="data" width="10%" align="right">
+                    #if ( $id.getAttributeDataAsBoolean( "IsRemovable" ) )
+                        <a href="http://www.csgsystems.com?type=remove&baseObject=Account&baseCollection=ServiceList&baseCollectionSubtype=Account&baseCollectionIndex=$indexService&object=CustomerIdEquipMap&subtype=Service&index=$index">                                    
+                            $!resourceManager.getString( "NewCustAcqFinalConf.link.Remove" )
+                        </a>
+                    #end
+                </td>
+            </TR>
+        #end
+        </table>
+    #end 
+#end
+##################### Display Account Package ##################################
+#macro (vp_display_AccountPackageList_Information_FinalConf $accountPackageList $resourceManager $validationError)
+##
+    #set ($countPackage = $accountPackageList.getCount() - 1 )
+    #set ($package = false)
+    #if ( $countPackage >=0)
+        <TABLE width="100%" cellspacing="1" cellpadding="1"  VSPACE="4" HSPACE="6"> 
+            <tr>
+                <td class="header" align="left" width="30%">$resourceManager.getString("NewCustAcqFinalConf.header.Packages")</td>
+                <td class="header" align="right" width="70%"></td> 
+            </tr>
+        #set ($rangePackage = [0..${countPackage} ])
+        #foreach ($indexPackage in $rangePackage)
+            #set ( $package = $accountPackageList.getAt($indexPackage))
+                <TR>
+                    <TD class="datalabel">
+                        <a href="http://www.csgsystems.com?object=ProductPackage&subtype=Account&action=acct-package-new-detail-dlg&index=$indexPackage">
+                        #if(!$package.isThisObjectValid())
+                            #set ( $validationError = true )
+                            &nbsp;<img border="0" src="memory:/images/warning_12x12.gif">&nbsp;
+                        #end
+                        $package.getFormattedAttributeData("PackageId")
+                        </a>
+                    </TD>
+                    <TD class="data" align="right">
+                        
+                    </TD>
+                </TR>
+        #end
+        </TABLE>
+    #end 
+#end
+###################### Display Account Product List ############################
+#macro (vp_display_AccountProductList_Information_FinalConf $productList $resourceManager $validationError)
+##
+    #set ($countProduct = $productList.getCount() - 1 )
+    #set ($product = false)
+    #if ( $countProduct >=0)
+        <TABLE width="100%" cellspacing="1" cellpadding="1"  VSPACE="4" HSPACE="6"> 
+        <TR>
+            <TD class="header" align="left" width="30%">$resourceManager.getString("NewCustAcqFinalConf.header.Products")</TD>
+            <TD class="header" align="right" width="20%" >$resourceManager.getString("NewCustAcqFinalConf.header.BillToAccount")</TD>
+            <TD class="header" align="right" width="25%" >$resourceManager.getString("NewCustAcqFinalConf.header.BillPeriod")</TD>
+            <TD class="header" align="right" width="25%" ></TD>
+        </TR>
+        #set ($rangeProduct = [0..${countProduct} ])
+        #foreach ($indexProduct in $rangeProduct)
+            #set ( $product = $productList.getAt($indexProduct))
+            <TR>
+                <TD class="datalabel">
+                    <a href="http://www.csgsystems.com?object=Product&subtype=Account&action=product-detail-view&index=$indexProduct">
+                    #if(!$product.isThisObjectValid())
+                        #set ( $validationError = true )
+                        &nbsp;<img border="0" src="memory:/images/warning_12x12.gif">&nbsp;
+                    #end
+                    $product.getFormattedAttributeData("ElementId")
+                    </a>
+                </TD>
+                <TD class="data" align="right" >$!product.getFormattedAttributeData("BillingAccountExternalId")</TD>
+                #if(!$product.getFormattedAttributeData("BillPeriod"))
+                <TD class="data" align="right" >$resourceManager.getString("NewCustAcqFinalConf.text.BillPeriod")</TD>
+                #else
+                <TD class="data" align="right" >$!product.getFormattedAttributeData("BillPeriod")</TD>
+                #end
+                <TD class="data" align="right" ></TD>
+            </TR>
+            ### Warnings for Rate Units/Jurisdiction Products
+            #if ($product.isNewObject())
+                #set ($productElement = $product.getObject("ProductElement", "Product"))
+                #set ($rateKeyList = $product.getObject("ProductRateKeyList", "Product"))
+                #if ($productElement && $rateKeyList)
+                    #if($productElement.getAttributeDataAsBoolean("RateJurisdiction") || $productElement.getAttributeDataAsBoolean("RateUnits"))
+                        #if ($rateKeyList.getCount() == 0)
+                            <TR>
+                                <TD class="data" align="left" colspan="4">
+                                    &nbsp;<img border="0" src="memory:/images/warning_12x12.gif">&nbsp;$resourceManager.getString("NewCustAcqFinalConf.text.JurisdictionProductWarning")
+                                </TD>            
+                            </TR>
+                        #end
+                    #end
+                #end
+            #end
+        #end
+        </TABLE>
+    #end 
+#end
+###################### Display Service Product List ############################
+#macro (vp_display_ServiceProductList_Information_FinalConf $productList $indexService $resourceManager $validationError)
+##
+    #set ($countProduct = $productList.getCount() - 1 )
+    #set ($product = false)
+    #if ( $countProduct >=0)
+        <TABLE width="100%" cellspacing="1" cellpadding="1"  VSPACE="4" HSPACE="6"> 
+        <TR>
+            <td class="header" align="left" width="30%">$resourceManager.getString("NewCustAcqFinalConf.header.Products")</td>
+            <TD class="header" align="right" width="20%" >$resourceManager.getString("NewCustAcqFinalConf.header.BillToAccount")</TD>
+            <TD class="header" align="right" width="25%" >$resourceManager.getString("NewCustAcqFinalConf.header.BillPeriod")</TD>
+            <TD class="header" align="right" width="25%" ></TD>
+        </TR>
+        #set ($rangeProduct = [0..${countProduct} ])
+        #foreach ($indexProduct in $rangeProduct)
+            #set ( $product = $productList.getAt($indexProduct))
+            <TR>
+                <TD class="datalabel">
+                    <a href="http://www.csgsystems.com?objecttree=Account.ServiceList.$indexService&object=Product&subtype=Service&action=product-detail-view&index=$indexProduct">
+                    #if(!$product.isThisObjectValid())
+                        #set ( $validationError = true )
+                        &nbsp;<img border="0" src="memory:/images/warning_12x12.gif">&nbsp;
+                    #end
+                    $product.getFormattedAttributeData("ElementId")
+                    </a>
+                </TD>
+                <TD class="data" align="right" >$!product.getFormattedAttributeData("BillingAccountExternalId")</TD>
+                <TD class="data" align="right" >$!product.getFormattedAttributeData("BillPeriod")</TD>
+                <TD class="data" align="right" ></TD>
+            </TR>
+            ### Warnings for Rate Units/Jurisdiction Products
+            #if ($product.isNewObject())
+                #set ($productElement = $product.getObject("ProductElement", "Product"))
+                #set ($rateKeyList = $product.getObject("ProductRateKeyList", "Product"))
+                #if ($productElement && $rateKeyList)
+                    #if($productElement.getAttributeDataAsBoolean("RateJurisdiction") || $productElement.getAttributeDataAsBoolean("RateUnits"))
+                        #if ($rateKeyList.getCount() == 0)
+                            <TR> 
+                                <TD class="data" align="left" colspan="4">
+                                    &nbsp;<img border="0" src="memory:/images/warning_12x12.gif">&nbsp;$resourceManager.getString("NewCustAcqFinalConf.text.JurisdictionProductWarning")
+                                </TD>            
+                            </TR>
+                        #end
+                    #end
+                #end
+            #end
+        #end
+        </TABLE>
+    #end 
+#end
+###################### Display Account Contract List ###########################
+#macro (vp_display_AccountContractList_Information_FinalConf $customerContractList $resourceManager $validationError)
+##
+    #set ($countContract = $customerContractList.getCount() - 1 )
+    #set ($contract = false)
+    #if ( $countContract >=0)
+        <TABLE width="100%" cellspacing="1" cellpadding="1"  VSPACE="4" HSPACE="6">     
+        <tr>
+            <td class="header" align="left" width="30%">$resourceManager.getString("NewCustAcqFinalConf.header.Contracts")</td>
+            <td class="header" align="right" width="70%"></td>             
+        </tr>
+        #set ($rangeContract = [0..${countContract} ])
+        #foreach ($indexContract in $rangeContract)
+            #set ( $contract = $customerContractList.getAt($indexContract))
+            <TR>
+                <TD class="datalabel">
+                    <a href="http://www.csgsystems.com?object=CustomerContract&subtype=Account&action=contract-detail-view&index=$indexContract">
+                    #if(!$contract.isThisObjectValid())
+                        #set ( $validationError = true )
+                        &nbsp;<img border="0" src="memory:/images/warning_12x12.gif">&nbsp;
+                    #end
+                    $contract.getFormattedAttributeData("ContractType")
+                    </a>
+                </TD>
+                <TD class="data" align="right"></TD>
+            </TR>
+            ### Warnings for Rollover Contracts
+            #if ($contract.isNewObject())
+                #if($contract.getAttributeDataAsInteger("VirtualContractCategory") == 13 || $contract.getAttributeDataAsInteger("VirtualContractCategory") == 16)
+                    #if ($contract.getAttribute("RolloverPeriod").isEmpty() || $contract.getAttribute("RolloverPeriodStart").isEmpty())
+                        <TR>
+                            <TD class="data" align="left" colspan="2">
+                                &nbsp;<img border="0" src="memory:/images/warning_12x12.gif">&nbsp;$resourceManager.getString("NewCustAcqFinalConf.text.RolloverContractWarning")
+                            </TD>          
+                        </TR>        
+                    #end
+                #end
+            #end
+        #end
+        </TABLE>
+    #end 
+#end
+###################### Display Service Contract List ###########################
+#macro (vp_display_ServiceContractList_Information_FinalConf $customerContractList $indexService $resourceManager $validationError)
+##
+    #set ($countContract = $customerContractList.getCount() - 1 )
+    #set ($contract = false)
+    #if ( $countContract >=0)
+        <TABLE width="100%" cellspacing="1" cellpadding="1"  VSPACE="4" HSPACE="6">     
+        <tr>    
+            <td class="header" align="left" width="30%">$resourceManager.getString("NewCustAcqFinalConf.header.Contracts")</td>
+            <td class="header" align="right" width="70%"></td>             
+        </tr>
+        #set ($rangeContract = [0..${countContract} ])
+        #foreach ($indexContract in $rangeContract)
+            #set ( $contract = $customerContractList.getAt($indexContract))
+            <TR>
+                <TD class="datalabel">
+                    <a href="http://www.csgsystems.com?objecttree=Account.ServiceList.$indexService&object=CustomerContract&subtype=Service&action=contract-detail-view&index=$indexContract">
+                    #if(!$contract.isThisObjectValid())
+                        #set ( $validationError = true )
+                        &nbsp;<img border="0" src="memory:/images/warning_12x12.gif">&nbsp;
+                    #end
+                    $contract.getFormattedAttributeData("ContractType")
+                    </a>
+                </TD>
+                <TD class="data" align="right"></TD>         
+            </TR>
+            ### Warnings for Rollover Contracts
+            #if ($contract.isNewObject())
+                #if($contract.getAttributeDataAsInteger("VirtualContractCategory") == 13 || $contract.getAttributeDataAsInteger("VirtualContractCategory") == 16)
+                    #if ($contract.getAttribute("RolloverPeriod").isEmpty() || $contract.getAttribute("RolloverPeriodStart").isEmpty())
+                        <TR>
+                            <TD class="data" align="left" colspan="2">
+                                &nbsp;<img border="0" src="memory:/images/warning_12x12.gif">&nbsp;$resourceManager.getString("NewCustAcqFinalConf.text.RolloverContractWarning")
+                            </TD>          
+                        </TR>        
+                    #end
+                #end
+            #end
+        #end
+        </table>
+    #end 
+#end
+###################### Display Account Charge List #############################
+#macro (vp_display_AccountChargeList_Information_FinalConf $accountChargeList $resourceManager $validationError)
+##
+    #set ($countCharge = $accountChargeList.getCount() - 1 )
+    #set ($charge = false)
+    #if ( $countCharge >=0)
+        <TABLE width="100%" cellspacing="1" cellpadding="1"  VSPACE="4" HSPACE="6">   
+        <TR>
+            <TD class="header" align="left" width="30%" >$resourceManager.getString("NewCustAcqFinalConf.header.Charges")</TD>
+            <TD class="header" align="right" width="20%" >$resourceManager.getString("NewCustAcqFinalConf.header.BillToAccount")</TD>
+            <TD class="header" align="right" width="25%" >$resourceManager.getString("NewCustAcqFinalConf.header.BillPeriod")</TD>
+            <TD class="header" align="right" width="25%" ></TD>
+        </TR>
+        #set ($rangeCharge = [0..${countCharge} ])
+        #foreach ($indexCharge in $rangeCharge)
+            #set ( $charge = $accountChargeList.getAt($indexCharge))
+            <TR>
+                <TD class="datalabel" align="left">
+                    <a href="http://www.csgsystems.com?object=Nrc&subtype=Account&action=nrc-new-detail-view&index=$indexCharge">
+                    #if(!$charge.isThisObjectValid())
+                        #set ( $validationError = true )
+                        &nbsp;<img border="0" src="memory:/images/warning_12x12.gif">&nbsp;
+                    #end
+                    $charge.getFormattedAttributeData("TypeIdNrc")
+                    </a>
+                </TD>
+                <TD class="data" align="right" >$!charge.getFormattedAttributeData("BillingAccountExternalId")</TD>
+                <TD class="data" align="right" ></TD>
+                <TD class="data" align="right" ></TD>
+            </TR>
+        #end
+        </TABLE>
+    #end 
+#end
+###################### Display Service Charge List #############################
+#macro (vp_display_ServiceChargeList_Information_FinalConf $nrcList $indexService $resourceManager $validationError)
+##
+    #set ($countCharge = $nrcList.getCount() - 1 )
+    #set ($charge = false)
+    #if ( $countCharge >=0)
+        <TABLE width="100%" cellspacing="1" cellpadding="1"  VSPACE="4" HSPACE="6">  
+        <TR>
+            <TD class="header" align="left" width="30%" >$resourceManager.getString("NewCustAcqFinalConf.header.Charges")</TD>
+            <TD class="header" align="right" width="20%" >$resourceManager.getString("NewCustAcqFinalConf.header.BillToAccount")</TD>
+            <TD class="header" align="right" width="25%" >$resourceManager.getString("NewCustAcqFinalConf.header.BillPeriod")</TD>
+            <TD class="header" align="right" width="25%" ></TD>
+        </TR>
+        #set ($rangeCharge = [0..${countCharge} ])
+        #foreach ($indexCharge in $rangeCharge)
+            #set ( $charge = $nrcList.getAt($indexCharge))
+            <TR>
+                <TD class="datalabel" align="left">
+                    <a href="http://www.csgsystems.com?objecttree=Account.ServiceList.$indexService&object=Nrc&subtype=Service&action=nrc-new-detail-view&index=$indexCharge">
+                    #if(!$charge.isThisObjectValid())
+                        #set ( $validationError = true )
+                        &nbsp;<img border="0" src="memory:/images/warning_12x12.gif">&nbsp;
+                    #end
+                    $charge.getFormattedAttributeData("TypeIdNrc")
+                    </a>
+                </TD>
+                <TD class="data" align="right" >$!charge.getFormattedAttributeData("BillingAccountExternalId")</TD>
+                <TD class="data" align="right" ></TD>
+                <TD class="data" align="right" ></TD>
+            </TR>   
+        #end
+        </table>
+    #end 
+#end
+###################### Display Account Package Component List ##################
+#macro (vp_display_AccountComponentList_Information_FinalConf $componentList $resourceManager $validationError)
+##
+    #set ($countComponent = $componentList.getCount() - 1 )
+    #set ($component = false)
+    #if ( $countComponent >=0)
+        <TABLE width="100%" cellspacing="1" cellpadding="1"  VSPACE="4" HSPACE="6">
+        <tr>
+            <td class="header" align="left" width="30%">$resourceManager.getString("NewCustAcqFinalConf.header.Components")</td>
+            <td class="header" align="right" width="70%"></td>             
+        </tr>
+        #set ($rangeComponent = [0..${countComponent} ])
+        #foreach ($indexComponent in $rangeComponent)
+            #set ( $component = $componentList.getAt($indexComponent))
+            <TR>
+            #set ( $parentPackageIsNotNew = false )
+            #set ( $parentPackageIsNotNew = $component.getObject("ProductPackage") )
+            <TD class="datalabel">
+            #if ( $parentPackageIsNotNew )
+                ## If the parent package for this component is not a new package, then hyperlink the component details
+                <a href="http://www.csgsystems.com?object=Component&subtype=Account&action=acct-component-new-detail-dlg&index=$indexComponent">
+                $component.getFormattedAttributeData("ComponentId")
+                </a>
+            #else
+                ## If the parent package for this component is a new package, then the package is hyperlinked so don't hyperlink the component
+                $component.getFormattedAttributeData("ComponentId")
+            #end
+            </TD>
+            <td class="data" align="right"></td>
+            </TR>
+        #end
+        </TABLE>
+    #end 
+#end
+###################### Display Service Package Component List ##################
+#macro (vp_display_ServiceComponentList_Information_FinalConf $componentList $resourceManager $validationError)
+##
+    #set ($countComponent = $componentList.getCount() - 1 )
+    #set ($component = false)
+    #if ( $countComponent >=0)
+        <TABLE width="100%" cellspacing="1" cellpadding="1"  VSPACE="4" HSPACE="6">
+        <tr>
+            <td class="header" align="left" width="30%">$resourceManager.getString("NewCustAcqFinalConf.header.Components")</td>
+            <td class="header" align="right" width="70%"></td> 
+        </tr>
+        #set ($rangeComponent = [0..${countComponent} ])
+        #foreach ($indexComponent in $rangeComponent)
+            #set ( $component = $componentList.getAt($indexComponent))
+            <TR>
+                #set ( $parentPackageIsNotNew = false )
+                #set ( $parentPackageIsNotNew = $component.getObject("ProductPackage") )
+                <TD class="datalabel">
+                #if ( $parentPackageIsNotNew )
+                    ## If the parent package for this component is not a new package, then hyperlink the component details
+                    ##<a href="http://www.csgsystems.com?object=Component&subtype=Service&action=service-component-new-detail-dlg&index=$indexComponent">
+                    $component.getFormattedAttributeData("ComponentId")
+                    ##</a>
+                #else
+                    ## If the parent package for this component is a new package, then the package is hyperlinked so don't hyperlink the component
+                    $component.getFormattedAttributeData("ComponentId")
+                #end
+                </td>
+                <td class="data" align="right">
+                
+                </td>
+            </TR>
+        #end
+        </TABLE>
+    #end 
+#end
+###################### Display AccountId List ##################
+#macro (vp_display_AccountExternalIdList_Information_FinalConf $list $resourceManager $validationError $accountDomain)
+##
+
+    #set ($count = -1)
+    #if ($list)
+        #set ($count = $list.getCount() - 1)
+    #end
+    #set ($obj = false)
+    
+    <TABLE width="100%" cellspacing="1" cellpadding="1"  VSPACE="4" HSPACE="6">  
+    <tr>                            
+        <td class="header" width="30%">$resourceManager.getString( "NewCustAcqFinalConf.header.ExternalIDs" )</td>
+        <td class="header" width="60%" align="right"></td>
+        <td class="header" width="10%" align="right"></td>
+    </tr>       
+    ## display rest of ids
+    #if ( $count >=0)
+        #set ($range = [0..${count} ])
+        #foreach ( $index in $range )
+            #set ( $accountId = $list.getAt($index) )
+            <tr>
+                <td class="datalabel" width="30%">
+                    <a href="http://www.csgsystems.com?object=AccountId&subtype=Account&action=newcust-edit-externalid&index=$index">                                    
+                    #if(!$accountId.isThisObjectValid())
+                        #set ( $validationError = true )
+                        &nbsp;<img border="0" src="memory:/images/warning_12x12.gif">&nbsp;
+                    #end
+                    $!accountId.getFormattedAttributeData("AccountExternalIdType")
+                    </a>
+                </td>
+                <td class="data" width="60%" align="right">$!accountId.getFormattedAttributeData("AccountExternalId")</td>
+                <td class="data" width="10%" align="right">
+                    #if ( $accountId.getAttributeDataAsBoolean( "IsRemovable" ) )
+##                        <a href="http://www.csgsystems.com?type=remove&object=AccountId&subtype=Account&index=$index">
+                            $!resourceManager.getString( "NewCustAcqFinalConf.link.Remove" )
+##                        </a>
+                    #end
+                </td>
+            </tr>                  
+        #end
+    #end 
+    </TABLE>    
+#end
+###################### Display Deposit List ##################
+#macro (vp_display_DepositList_Information_FinalConf $list $resourceManager $validationError)
+##
+    #set ($count = -1)
+    #if ($list)
+        #set ($count = $list.getCount() - 1)
+    #end
+    #set ($obj = false)
+    #if ( $count >=0)
+        <TABLE width="100%" cellspacing="1" cellpadding="1"  VSPACE="4" HSPACE="6">  
+        <tr>               
+            <td class="header" align="left" width="30%">$resourceManager.getString("NewCustAcqFinalConf.header.Deposits")</td>
+            <td class="header" align="right" width="60%">$resourceManager.getString("NewCustAcqFinalConf.header.Amount")</td> 
+            <td class="header" align="right" width="10%"></td>
+        </tr>
+        #set ($range = [0..${count} ])
+        #foreach ($index in $range)
+            #set ($obj = $list.getAt($index))
+            <tr>
+                <td class="datalabel" align="left">
+                    <a href="http://www.csgsystems.com?object=Deposit&subtype=Account&action=new-cust-acq-account-deposit-details-dlg&index=$index">
+                    #if(!$obj.isThisObjectValid())
+                        #set ( $validationError = true )
+                        &nbsp;<img border="0" src="memory:/images/warning_12x12.gif">&nbsp;
+                    #end
+                    $!obj.getFormattedAttributeData("DepositType")
+                    </a>
+                </td>
+                <td class="data" align="right">
+                    $!obj.getFormattedAttributeData("DepositAmount")
+                </td>
+                <td class="data" align="right">
+                    <a href="http://www.csgsystems.com?type=remove&object=Deposit&subtype=Account&index=$index">
+                        $resourceManager.getString( "NewCustAcqFinalConf.link.Remove" )
+                    </a>
+                </td>
+            </tr>
+        #end
+        </TABLE>
+    #end 
+#end
+###################### Display AccountCorridor List ##################
+#macro (vp_display_AccountCorridorList_Information_FinalConf $list $resourceManager $validationError)
+##
+    #set ($count = -1)
+    #if ($list)
+        #set ($count = $list.getCount() - 1)
+    #end
+    #set ($obj = false)
+    #if ( $count >=0)
+        <TABLE width="100%" cellspacing="1" cellpadding="1"  VSPACE="4" HSPACE="6">  
+        <tr>   
+            <td class="header" align="left" width="30%">$resourceManager.getString("NewCustAcqFinalConf.header.Corridors")</td>
+            <td class="header" align="right" width="60%"></td>
+            <td class="header" align="right" width="10%"></td>
+        </tr>
+        #set ($range = [0..${count} ])
+        #foreach ($index in $range)
+            #set ($obj = $list.getAt($index))
+            <tr>
+                <td class="datalabel" align="left">
+                    <a href="http://www.csgsystems.com?object=Corridor&subtype=Account&action=new-cust-acq-corridor-details-dlg&index=$index">
+                    #if(!$obj.isThisObjectValid())
+                        #set ( $validationError = true )
+                        &nbsp;<img border="0" src="memory:/images/warning_12x12.gif">&nbsp;
+                    #end
+                    $!obj.getFormattedAttributeData("CorridorPlanId")
+                    </a>
+                </td>
+                <td class="data" align="right"></td>
+                <td class="data" align="right">
+                    <a href="http://www.csgsystems.com?type=remove&object=Corridor&subtype=Account&index=$index">
+                        $resourceManager.getString("NewCustAcqFinalConf.link.Remove")
+                    </a>
+                </td>
+            </tr>
+        #end
+        </TABLE>
+    #end 
+#end
+###################### Display ServiceCorridor List ##################
+#macro (vp_display_ServiceCorridorList_Information_FinalConf $list $indexService $resourceManager $validationError)
+##
+    #set ($count = -1)
+    #if ($list)
+        #set ($count = $list.getCount() - 1)
+    #end
+    #set ($obj = false)
+    #if ( $count >=0)
+        <TABLE width="100%" cellspacing="1" cellpadding="1"  VSPACE="4" HSPACE="6">  
+        <tr>   
+            <td class="header" align="left" width="30%">$resourceManager.getString("NewCustAcqFinalConf.header.Corridors")</td>
+            <td class="header" align="right" width="60%"></td>
+            <td class="header" align="right" width="10%"></td>
+        </tr>
+        #set ($range = [0..${count} ])
+        #foreach ($index in $range)
+            #set ($obj = $list.getAt($index))
+            <tr>
+                <td class="datalabel" align="left">
+                    <a href="http://www.csgsystems.com?baseObject=Account&baseCollection=ServiceList&baseCollectionSubtype=Account&baseCollectionIndex=$indexService&object=Corridor&subtype=Service&index=$index&action=new-cust-acq-corridor-details-dlg">
+                    #if(!$obj.isThisObjectValid())
+                        #set ( $validationError = true )
+                        &nbsp;<img border="0" src="memory:/images/warning_12x12.gif">&nbsp;
+                    #end
+                    $!obj.getFormattedAttributeData("CorridorPlanId")
+                    </a>
+                </td>
+                <td class="data" align="right"></td>            
+                <td class="data" align="right">
+                    <a href="http://www.csgsystems.com?type=remove&baseObject=Account&baseCollection=ServiceList&baseCollectionSubtype=Account&baseCollectionIndex=$indexService&object=Corridor&subtype=Service&index=$index">
+                        $resourceManager.getString("NewCustAcqFinalConf.link.Remove")
+                    </a>
+                </td>
+            </tr>
+        #end
+        </TABLE>
+    #end 
+#end
+###################### Display AccountChargeRule List ##################
+#macro (vp_display_AccountChargeRuleList_Information_FinalConf $list $resourceManager $validationError)
+##
+    #set ($count = -1)
+    #if ($list)
+        #set ($count = $list.getCount() - 1)
+    #end
+    #set ($obj = false)
+    #if ( $count >=0)
+        <TABLE width="100%" cellspacing="1" cellpadding="1"  VSPACE="4" HSPACE="6">  
+        <tr>       
+            <td class="header" align="left" width="30%">$resourceManager.getString("NewCustAcqFinalConf.header.ChargeRules")</td>
+            <td class="header" align="right" width="60%"></td>             
+            <td class="header" align="right" width="10%"></td>             
+        </tr>
+        #set ($range = [0..${count} ])
+        #foreach ($index in $range)
+            #set ($obj = $list.getAt($index))
+            <tr>
+                <td class="datalabel" align="left">
+                    <a href="http://www.csgsystems.com?object=OpenItemIdMap&subtype=Account&action=new-cust-acq-openitemidmap-details-dlg&index=$index">
+                    #if(!$obj.isThisObjectValid())
+                        #set ( $validationError = true )
+                        &nbsp;<img border="0" src="memory:/images/warning_12x12.gif">&nbsp;
+                    #end
+                    $!obj.getFormattedAttributeData("ChargeElementType")
+                    </a>
+                </td>
+                <td class="data" align="right"></td>            
+                <td class="data" align="right">
+                    <a href="http://www.csgsystems.com?type=remove&object=OpenItemIdMap&subtype=Account&index=$index">
+                        $resourceManager.getString("NewCustAcqFinalConf.link.Remove")
+                    </a>
+                </td>            
+            </tr>
+        #end
+        </TABLE>
+    #end 
+#end
+###################### Display ServiceChargeRule List ##################
+#macro (vp_display_ServiceChargeRuleList_Information_FinalConf $list $indexService $resourceManager $validationError)
+##
+    #set ($count = -1)
+    #if ($list)
+        #set ($count = $list.getCount() - 1)
+    #end
+    #set ($obj = false)
+    #if ( $count >=0)
+        <TABLE width="100%" cellspacing="1" cellpadding="1"  VSPACE="4" HSPACE="6">  
+        <tr>      
+            <td class="header" align="left" width="30%">$resourceManager.getString("NewCustAcqFinalConf.header.ChargeRules")</td>
+            <td class="header" align="right" width="60%"></td>                     
+            <td class="header" align="right" width="10%"></td>             
+        </tr>
+        #set ($range = [0..${count} ])
+        #foreach ($index in $range)
+            #set ($obj = $list.getAt($index))
+            <tr>
+                <td class="datalabel" align="left">
+                    <a href="http://www.csgsystems.com?baseObject=Account&baseCollection=ServiceList&baseCollectionSubtype=Account&baseCollectionIndex=$indexService&object=OpenItemIdMap&subtype=Service&index=$index&action=new-cust-acq-openitemidmap-details-dlg">
+                    #if(!$obj.isThisObjectValid())
+                        #set ( $validationError = true )
+                        &nbsp;<img border="0" src="memory:/images/warning_12x12.gif">&nbsp;
+                    #end
+                    $!obj.getFormattedAttributeData("ChargeElementType")
+                    </a>
+                </td>
+                <td class="data" align="right"></td>            
+                <td class="data" align="right">
+                    <a href="http://www.csgsystems.com?type=remove&baseObject=Account&baseCollection=ServiceList&baseCollectionSubtype=Account&baseCollectionIndex=$indexService&object=OpenItemIdMap&subtype=Service&index=$index">
+                        $resourceManager.getString("NewCustAcqFinalConf.link.Remove")
+                    </a>
+                </td>            
+            </tr>
+        #end
+        </TABLE>
+    #end 
+#end
+###################### Display AccountPayment List ##################
+#macro (vp_display_AccountPaymentList_Information_FinalConf $list $resourceManager $validationError)
+##
+    #set ($count = -1)
+    #if ($list)
+        #set ($count = $list.getCount() - 1)
+    #end
+    #set ($obj = false)
+    #if ( $count >=0)
+        <TABLE width="100%" cellspacing="1" cellpadding="1"  VSPACE="4" HSPACE="6">  
+        <tr>    
+            <td class="header" align="left" width="30%">$resourceManager.getString("NewCustAcqFinalConf.header.Payments")</td>
+            <td class="header" align="right" width="60%">$resourceManager.getString("NewCustAcqFinalConf.header.Amount")</td>
+            <td class="header" align="right" width="10%"></td>
+        </tr>
+        #set ($range = [0..${count} ])
+        #foreach ($index in $range)
+            #set ($obj = $list.getAt($index))
+            <tr>
+                <td class="datalabel" align="left">
+                    #if ($obj.getDataAsBoolean("VirtualIsPrePaidIndicator"))
+                        <a href="http://www.csgsystems.com?object=Payment&subtype=Account&action=new-cust-acq-account-payment-dynamic-details-dlg&index=$index">
+                    #else
+                        <a href="http://www.csgsystems.com?object=Payment&subtype=Account&action=new-cust-acq-account-payment-details-dlg&index=$index">
+                    #end
+                    #if(!$obj.isThisObjectValid())
+                        #set ( $validationError = true )
+                        &nbsp;<img border="0" src="memory:/images/warning_12x12.gif">&nbsp;
+                    #end
+                    $!obj.getFormattedAttributeData("TransientPayMethod")     
+                    </a>
+                </td>
+                <td class="data" align="right">
+                    $!obj.getFormattedAttributeData("ExternalAmount")
+                </td>           
+                <td class="data" align="right">
+                    <a href="http://www.csgsystems.com?type=remove&object=Payment&subtype=Account&index=$index">
+                        $resourceManager.getString("NewCustAcqFinalConf.link.Remove")
+                    </a>
+                </td>           
+            </tr>
+        #end
+        </table>
+    #end 
+#end
+###################### Display ServiceZone List ##################
+#macro (vp_display_ServiceZoneList_Information_FinalConf $list $indexService $resourceManager $validationError)
+##
+    #set ($count = -1)
+    #if ($list)
+        #set ($count = $list.getCount() - 1)
+    #end
+    #set ($obj = false)
+    #if ( $count >=0)
+        <TABLE width="100%" cellspacing="1" cellpadding="1"  VSPACE="4" HSPACE="6">  
+        <tr>       
+            <td class="header" align="left" width="30%">$resourceManager.getString("NewCustAcqFinalConf.header.Zones")</td>
+            <td class="header" align="right" width="60%"></td>             
+            <td class="header" align="right" width="10%"></td>             
+        </tr>
+        #set ($range = [0..${count} ])
+        #foreach ($index in $range)
+            #set ($obj = $list.getAt($index))
+            <tr>
+                <td class="datalabel" align="left">
+                    <a href="http://www.csgsystems.com?baseObject=Account&baseCollection=ServiceList&baseCollectionSubtype=Account&baseCollectionIndex=$indexService&object=ServiceZone&subtype=Service&index=$index&action=new-cust-acq-service-zone-details-dlg">
+                    #if(!$obj.isThisObjectValid())
+                        #set ( $validationError = true )
+                        &nbsp;<img border="0" src="memory:/images/warning_12x12.gif">&nbsp;
+                    #end
+                    $!obj.getFormattedAttributeData("ZoneId")
+                    </a>
+                </td>
+                <td class="data" align="right"></td>            
+                <td class="data" align="right">
+                    <a href="http://www.csgsystems.com?type=remove&baseObject=Account&baseCollection=ServiceList&baseCollectionSubtype=Account&baseCollectionIndex=$indexService&object=ServiceZone&subtype=Service&index=$index">
+                        $resourceManager.getString("NewCustAcqFinalConf.link.Remove")
+                    </a>
+                </td>
+            </tr>
+        #end
+        </TABLE>
+    #end 
+#end
+###################### Display PrepaidBalance List ##################
+#macro (vp_display_PrepaidBalanceList_Information_FinalConf $list $resourceManager $validationError)
+##
+    #set ($count = -1)
+    #if ($list)
+        #set ($count = $list.getCount() - 1)
+    #end
+    #set ($obj = false)
+    #if ( $count >=0)
+        <TABLE width="100%" cellspacing="1" cellpadding="1"  VSPACE="4" HSPACE="6">  
+        <tr>   
+            <td class="header" align="left" width="30%">$resourceManager.getString("NewCustAcqFinalConf.header.PrepaidBalance")</td>
+            <td class="header" align="right" width="60%">$resourceManager.getString("NewCustAcqFinalConf.header.Priority")</td>         
+            <td class="header" align="right" width="10%"></td>
+        </tr>
+        #set ($range = [0..${count} ])
+        #foreach ($index in $range)
+            #set ($obj = $list.getAt($index))
+            <tr>
+                <td class="datalabel" align="left">
+                    <a href="http://www.csgsystems.com?object=AccountBalances&subtype=Account&action=new-cust-acq-prepaid-balance-details-dlg&index=$index">
+                    #if(!$obj.isThisObjectValid())
+                        #set ( $validationError = true )
+                        &nbsp;<img border="0" src="memory:/images/warning_12x12.gif">&nbsp;
+                    #end
+                    $!obj.getFormattedAttributeData("BalanceDesc")
+                    </a>
+                </td>
+                <td class="data" align="right">
+                    $!obj.getFormattedAttributeData("Priority")
+                </td>
+                <td class="data" align="right">
+                    <a href="http://www.csgsystems.com?type=remove&object=AccountBalances&subtype=Account&index=$index">
+                        $resourceManager.getString( "NewCustAcqFinalConf.link.Remove" )
+                    </a>
+                </td>
+            </tr>
+        #end
+        </TABLE>
+    #end 
+#end
+###################### Display Prepayment List ##################
+#macro (vp_display_PrepaymentList_Information_FinalConf $list $resourceManager $validationError)
+##
+    #set ($count = -1)
+    #if ($list)
+        #set ($count = $list.getCount() - 1)
+    #end
+    #set ($obj = false)
+    #if ( $count >=0)
+        <TABLE width="100%" cellspacing="1" cellpadding="1"  VSPACE="4" HSPACE="6">  
+        <tr> 
+            <td class="header" align="left" width="30%">$resourceManager.getString("NewCustAcqFinalConf.header.Prepayment")</td>
+            <td class="header" align="right" width="60%">$resourceManager.getString("NewCustAcqFinalConf.header.Amount")</td>
+            <td class="header" align="right" width="10%"></td>
+        </tr>
+        #set ($range = [0..${count} ])
+        #foreach ($index in $range)
+            #set ($obj = $list.getAt($index))
+            <tr>
+                <td class="datalabel" align="left">
+                    <a href="http://www.csgsystems.com?object=Prepayment&subtype=Account&action=new-cust-acq-prepayment-details-dlg&index=$index">
+                    #if(!$obj.isThisObjectValid())
+                        #set ( $validationError = true )
+                        &nbsp;<img border="0" src="memory:/images/warning_12x12.gif">&nbsp;
+                    #end
+                    $!obj.getFormattedAttributeData("VirtualBalanceDesc")
+                    </a>
+                </td>
+                <td class="data" align="right">
+                    $!obj.getFormattedAttributeData("UndesignatedAmount")
+                </td>
+                <td class="data" align="right">
+                    <a href="http://www.csgsystems.com?type=remove&object=Prepayment&subtype=Account&index=$index">
+                        $resourceManager.getString("NewCustAcqFinalConf.link.Remove")
+                    </a>
+                </td>
+            </tr>
+        #end
+        </TABLE>
+    #end 
+#end
+
+###################### Display Reserved Inventory List ##################
+#macro (vp_display_ReservedInventory_Information_FinalConf $list $resourceManager $validationError)
+##
+    #set ($count = -1)
+    #if ($list)
+        #set ($count = $list.getCount() - 1)
+    #end
+    #set ($obj = false)
+    #if ( $count >=0)
+        <TABLE width="100%" cellspacing="1" cellpadding="1"  VSPACE="4" HSPACE="6">  
+        <tr>       
+            <td class="header" align="left" width="30%">$resourceManager.getString("NewCustAcqFinalConf.header.ReservedInventory")</td>
+            <td class="header" align="right" width="70%"></td>             
+        </tr>
+        #set ($range = [0..${count} ])
+        #foreach ($index in $range)
+            #set ($obj = $list.getAt($index))
+            
+                <tr>
+                    <td class="datalabel" align="left">
+                        <a href="http://www.csgsystems.com?object=InvElement&subtype=Reserved&action=acct-inventory-detail-view&index=$index">
+                        #if(!$obj.isThisObjectValid())
+                            #set ( $validationError = true )
+                            &nbsp;<img border="0" src="memory:/images/warning_12x12.gif">&nbsp;
+                        #end
+                        $!obj.getFormattedAttributeData("InventoryTypeId")
+                        </a>
+                    </td>
+                    <td class="data" align="right">
+                      #if ($obj.getAttributeData("VirtualIsVisible") == true)                                    
+                        $!obj.getFormattedAttributeData("ExternalId")
+                      #else
+                        *********
+                      #end                    
+                    </td>                
+                </tr>             
+        #end
+        </TABLE>
+    #end 
+#end
+###################### Display Assigned Inventory List ##################
+#macro (vp_display_AssignedInventory_Information_FinalConf $list $indexService $resourceManager $validationError)
+##
+    #set ($count = -1)
+    #if ($list)
+        #set ($count = $list.getCount() - 1)
+        #if ($count >= 0 )
+            #set ( $invElement = $list.getAt(0) )
+            #if (!$invElement.getAttributeData("ExternalId"))   
+                ## if it is null
+                ## first record is created as a placeholder by the order system
+                ## so reset count back to 0
+                #set ($count = -1)
+            #end
+        #end          
+    #end
+    #set ($obj = false)
+    #if ( $count >=0)
+        <TABLE width="100%" cellspacing="1" cellpadding="1"  VSPACE="4" HSPACE="6">  
+        <tr>       
+            <td class="header" align="left" width="30%">$resourceManager.getString("NewCustAcqFinalConf.header.AssignedInventory")</td>
+            <td class="header" align="right" width="70%"></td>             
+        </tr>
+        #set ($range = [0..${count} ])
+        #foreach ($index in $range)
+            #set ($obj = $list.getAt($index))
+            <tr>
+                <td class="datalabel" align="left">
+                    <a href="http://www.csgsystems.com?baseObject=Account&baseCollection=ServiceList&baseCollectionSubtype=Account&baseCollectionIndex=$indexService&object=InvElement&subtype=Service&index=$index&action=acct-inventory-detail-view">                   
+                    #if(!$obj.isThisObjectValid())
+                        #set ( $validationError = true )
+                        &nbsp;<img border="0" src="memory:/images/warning_12x12.gif">&nbsp;
+                    #end
+                    $!obj.getFormattedAttributeData("InventoryTypeId")
+                    </a>
+                </td>
+                <td class="data" align="right">
+                #if ($obj.getAttributeData("VirtualIsVisible") == true)                                    
+                  $!obj.getFormattedAttributeData("ExternalId")
+                #else
+                  *********
+                #end
+                </td>            
+            </tr>
+        #end
+        </TABLE>
+    #end 
+#end
+##########################################
+## Main
+##
+    
+    <HTML>
+    <head>
+        #defaultStylesheet( $filenameLocalizationUtil )
+    </head>
+    <BODY>
+
+    #set ( $validationError = false)
+    #set ( $accountDomain = false)
+    #set ( $accountDomain = $domainContext.getObject("Account"))
+    #if ( $accountDomain) 
+        #vp_display_Account_Information_FinalConf($accountDomain $resourceManager $validationError $TemplateUtility)
+        #vp_display_Financial_Information_FinalConf($domainContext $accountDomain $resourceManager $validationError)
+        ###########################################################################################
+        ## Check for Packages List
+        #set ($accountPackageList = false)
+        #set ($accountPackageList = $accountDomain.getCollection("ProductPackageList","Account"))
+        #if ($accountPackageList)
+                #vp_display_AccountPackageList_Information_FinalConf($accountPackageList $resourceManager $validationError)
+        #end
+        ###########################################################################################
+        ## Check for Account Product List
+        #set ($productList = false)
+        #set ($productList = $accountDomain.getCollection("ProductList","Account"))
+        #if ($productList)
+                #vp_display_AccountProductList_Information_FinalConf($productList $resourceManager $validationError)
+        #end
+        ###########################################################################################
+        ## Check for Account Contract List
+        #set ($customerContractList = false)
+        #set ($customerContractList = $accountDomain.getCollection("CustomerContractList","Account"))
+        #if ($customerContractList)
+                #vp_display_AccountContractList_Information_FinalConf($customerContractList $resourceManager $validationError)
+        #end
+        ###########################################################################################
+        ## Check for Account Charge List
+        #set ($accountChargeList = false)
+        #set ($accountChargeList = $accountDomain.getCollection("NrcList","Account"))
+        #if ($accountChargeList)
+                #vp_display_AccountChargeList_Information_FinalConf($accountChargeList $resourceManager $validationError)
+        #end
+        ###########################################################################################
+        ## Check for Account Component List
+        #set ($componentList = false)
+        #set ($componentList = $accountDomain.getCollection("ComponentList","Account"))
+        #if ($componentList)
+                #vp_display_AccountComponentList_Information_FinalConf($componentList $resourceManager $validationError)
+        #end
+        ###########################################################################################
+        ## Check for Reserved Inventory List
+        #set ($reservedInventoryList = false)
+        #set ($reservedInventoryList = $accountDomain.getCollection("InvElementList","Reserved"))
+        #if ($reservedInventoryList)
+                #vp_display_ReservedInventory_Information_FinalConf($reservedInventoryList $resourceManager $validationError)
+        #end
+        ###########################################################################################
+        ## Check for Service List
+        #set ($accountServiceList = false)
+        #set ($accountServiceList = $accountDomain.getCollection("ServiceList","Account"))
+        #if ($accountServiceList)
+                #vp_display_ServiceList_Information_FinalConf( $accountServiceList $resourceManager $validationError)
+        #end
+    #end
+    #if ($validationError)
+        <TABLE width="100%" cellspacing="1" cellpadding="1"  VSPACE="4" HSPACE="6">  
+            <TR>
+                <TD align="right">
+                    <img border="0" src="memory:/images/warning_12x12.gif">&nbsp;
+                    $resourceManager.getString("NewCustAcqFinalConf.text.ValidationError")
+                </TD>          
+            </TR>
+        </TABLE>
+    #end
+    </BODY>
+    </HTML>

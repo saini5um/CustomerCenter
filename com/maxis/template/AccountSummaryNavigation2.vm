@@ -1,0 +1,405 @@
+##################################################
+## Configure constants and global variables
+##################################################  
+## constants
+
+#set ( $BLOCK_SIZE = $configManager.getInteger("theme.multiple-table-view.blockSize") )
+#if ($configManager.containsKey("customer_center.account-summary-navigation.showExtendedData") )
+    #set ( $showExtendedData = $configManager.getBoolean("customer_center.account-summary-navigation.showExtendedData") )
+#else
+    #set ( $showExtendedData = false )
+#end
+#set ($refinancePlanCount = 0)
+
+#set ($isInventoryUsed = false)
+#if ($systemParameters.get("INV.INVENTORY_VERSION"))
+    #set ($isInventoryUsed = true)
+#end
+
+## domain data for this screen
+#set ( $Account = $domainContext.getObject("Account") )
+#if ($Account)
+    #set ( $order = $orderMgr.getCurrentOrder() )
+    #if ($order)
+        #set ( $isNewObject = $order.isNewObject())
+    #else
+        #set ( $isNewObject = false )
+    #end
+         
+    ## get list of only Account level service orders on this account
+    #set ( $pendingServiceOrderList = $Account.getCollection("ServiceOrderList","Account"))
+    #if ( $pendingServiceOrderList )
+        #set ( $pendingServiceOrderCount = $pendingServiceOrderList.getCount() - 1 )
+    #end
+
+    ## get list of refinance pland to display if they are using them or not
+    #set ( $refinancePlanList = $Account.getCollection("NrcList","Account-NrcRefinance"))
+    #if ( $refinancePlanList )
+        #set ( $refinancePlanCount = $refinancePlanList.getCount() - 1 )
+    #end    
+#end
+
+##################################################
+## Main - start of html
+##################################################  
+<html>
+    <head>
+        <title>$!resourceManager.getString("AccountSummaryNavigation.vm.title")</title>
+        #defaultStylesheet()
+    </head>
+    <body>
+    ##################################################
+    ## Account
+    ##################################################         
+    <table width="100%" cellspacing="0" cellpadding="0">
+        <tr>
+            <td class="title" width="50%">
+                $resourceManager.getString( "AccountSummaryNavigation.vm.title.Account" ) <b>$Account.getAttribute("AccountExternalId").getFormattedData()</b>
+            </td>
+            <td class="title" width="50%" align="right">
+                <img border="0"  src="memory:/images/arrow_detail.gif">&nbsp;
+                <a class="title" href="http://www.csgsystems.com?template=AccountSummaryDetail">
+                    $!resourceManager.getString("Generic.vm.link.Details")
+                </a>
+            </td>
+        </tr>
+    </table>
+
+    ##################################################
+    ## general info
+    ##################################################                  
+    <table class="white" width="100%" cellspacing="0" cellpadding="0">
+        <tr>
+            <td class="header" colspan="2">$!resourceManager.getString("AccountSummaryNavigation.vm.header.GeneralInformation")</td>
+        </tr>
+        <tr>
+            <td class="fieldlabel">$!resourceManager.getString("AccountSummaryNavigation.vm.label.Name")</td>
+            <td class="fieldvalue">$!Account.getAttribute("BillFullName").getFormattedData()</td>
+        </tr>
+        <tr>
+            <td class="fieldlabel">$!resourceManager.getString("AccountSummaryNavigation.vm.label.Address")</td>
+            <td class="fieldvalue">
+            $!Account.getAttribute("BillAddress1").getFormattedData()<br>
+            $!Account.getAttribute("BillAddress2").getFormattedData()
+            </td>
+        </tr>
+        <tr>
+            <td class="fieldlabel">$!resourceManager.getString("AccountSummaryNavigation.vm.label.AccountCategory")</td>
+            <td class="fieldvalue">$!Account.getAttribute("AccountCategory").getFormattedData()</td>
+        </tr>
+        <tr>
+            <td class="fieldlabel">$!resourceManager.getString("AccountSummaryNavigation.vm.label.RateClass")</td>
+            <td class="fieldvalue">$!Account.getAttribute("RateClassDefault").getFormattedData()</td>
+        </tr>
+        <tr>
+            <td class="fieldlabel">$!resourceManager.getString("AccountSummaryNavigation.vm.label.ParentAccountId")</td>
+            <td class="fieldvalue">$!Account.getAttribute("ParentId").getFormattedData()</td>
+        </tr>
+        <tr>
+            <td class="fieldlabel">$!resourceManager.getString("AccountSummaryNavigation.vm.label.AccountStatus")</td>
+            <td class="fieldvalue">$!Account.getAttribute("AccountStatus").getFormattedData()</td>
+        </tr>                        
+        <tr>
+            <td class="fieldlabel">$!resourceManager.getString("AccountSummaryNavigation.vm.label.ActiveDate")</td>
+            <td class="fieldvalue">$!Account.getAttribute("DateActive").getFormattedData()</td>
+        </tr>
+        <tr>
+            <td class="fieldlabel">$!resourceManager.getString("AccountSummaryNavigation.vm.label.InactiveDate")</td>
+            <td class="fieldvalue">$!Account.getAttribute("DateInactive").getFormattedData()</td>
+        </tr>
+        <tr>
+            <td class="fieldlabel">$!resourceManager.getString("AccountSummaryNavigation.vm.label.BilledAccount")</td>
+            <td class="fieldvalue">$!Account.getAttribute("AccountType").getFormattedData()</td>
+        </tr>
+        <tr>
+            <td class="fieldlabel">$!resourceManager.getString("AccountSummaryNavigation.vm.label.MarketCode")</td>
+            <td class="fieldvalue">$!Account.getAttribute("MktCode").getFormattedData()</td>
+        </tr>
+        
+        <tr>
+            <td class="fieldlabel">$!resourceManager.getString("AccountSummaryNavigation.vm.label.OutstandingBalance")</td>
+            <td class="fieldvalue">$!Account.getAttribute("SumBalance").getFormattedData()</td>
+        </tr>        
+        <tr>
+            <td class="fieldlabel">$!resourceManager.getString("AccountSummaryNavigation.vm.label.InCollections")</td>
+            <td class="fieldvalue">
+                #if ($Account.getAttributeDataAsInteger("CollectionIndicator") > 0)
+                    $!resourceManager.getString("Generic.vm.text.Yes")
+                #else
+                    $!resourceManager.getString("Generic.vm.text.No")
+                #end
+            </td>
+        </tr>   
+        <tr>
+            <td class="fieldlabel">$!resourceManager.getString("AccountSummaryNavigation.vm.label.RefinancePlans")</td>
+            <td class="fieldvalue">
+                #if ($refinancePlanCount > 0)
+                    $!resourceManager.getString("Generic.vm.text.Yes")
+                #else
+                    $!resourceManager.getString("Generic.vm.text.No")
+                #end
+            </td>
+        </tr>  
+                                
+    </table>
+
+
+    ##################################################
+    ## order info
+    ##################################################       
+    #if ($order && !$isNewObject)
+        <table  width="100%" cellspacing="0" cellpadding="0" VSPACE="4">            
+            <tr>
+                <td class="title">
+                    $!resourceManager.getString("AccountSummaryNavigation.vm.title.CurrentOrder") <b>$order.getAttributeData("OrderNumber")</b>
+                </td>
+                <td class="title" align="right">
+                    <img border="0"  src="memory:/images/arrow_detail.gif">&nbsp;
+                    <a class="title" href="http://www.csgsystems.com?sessionPutName=OrderType&sessionPutValue=CURRENT&template=OrderSummaryDetail">
+                        $!resourceManager.getString("Generic.vm.link.Details")
+                    </a>
+                </td>
+            </tr>
+            <tr>
+                <td width="100%" colspan="2" >           
+                    <table class="white"  width="100%" cellspacing="1" cellpadding="1">
+                        <tr>
+                            <td class="header" width="100%" colspan="2">
+                                $!resourceManager.getString("AccountSummaryNavigation.vm.header.OrderInformation")
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="fieldlabel" width="50%">$!resourceManager.getString("AccountSummaryNavigation.vm.label.OrderStatus")</td>
+                            <td class="fieldvalue" width="50%">$!order.getAttribute("OrderStatusId").getFormattedData()</td>
+                        </tr>
+                        <tr>
+                            <td class="fieldlabel" width="50%">$!resourceManager.getString("AccountSummaryNavigation.vm.label.CreateDate")</td>
+                            <td class="fieldvalue" width="50%">$!order.getAttribute("CreateDt").getFormattedData()</td>
+                        </tr>   
+                    </table>
+                </td>
+            </tr>
+       </table>
+   #end
+     
+   <table  width="100%" cellspacing="1" cellpadding="1" VSPACE="4">                 
+        <tr>
+            ##################################################
+            ## financial and product links
+            ##################################################                  
+            <td width="50%">
+                 <table  width="100%" cellspacing="0" cellpadding="0">
+                    <tr>
+                    <td class="title">
+                        $!resourceManager.getString("AccountSummaryNavigation.vm.title.Financial")
+                    </td>    
+                    <td class="title" align="right">
+                        <img border="0"  src="memory:/images/arrow_detail.gif"  >&nbsp;
+                        <a class="title" href="http://www.csgsystems.com?template=AccountSummaryFinancials">
+                            $!resourceManager.getString("Generic.vm.link.Details")
+                        </a>
+                    </td>
+                    </tr>
+                </table>                                        
+            </td>
+            <td width="50%">
+                <table  width="100%" cellspacing="0" cellpadding="0">
+                    <tr>
+                    <td class="title">
+                        $!resourceManager.getString("AccountSummaryNavigation.vm.title.Product")
+                    </td>    
+                    <td class="title" align="right">
+                        <img border="0"  src="memory:/images/arrow_detail.gif"  >&nbsp;
+                        <a class="title" href="http://www.csgsystems.com?template=AccountSummaryProducts">
+                            $!resourceManager.getString("Generic.vm.link.Details")
+                        </a>
+                    </td>
+                    </tr>
+                </table>       
+            </td>
+        </tr>            
+        <tr>
+           <td width="100%" colspan="2">
+                ##################################################
+                ## individual list links for each financial and product item
+                ##################################################   
+                <table class="white"  width="100%" cellspacing="1" cellpadding="1">
+                    <tr>
+                        <td width="50%" align="left">
+                        <img border="0"  src="memory:/images/arrow_link.gif">&nbsp;
+                        <a class="gray" href="http://www.csgsystems.com?template=AccountSummary_PaymentList">$!resourceManager.getString("AccountSummaryNavigation.vm.link.Payments")</a>
+                        </td>
+                        <td width="50%" align="left">
+                        <img border="0"  src="memory:/images/arrow_link.gif">&nbsp;
+                        <a class="gray" href="http://www.csgsystems.com?template=AccountSummary_IdentifierList">$!resourceManager.getString("AccountSummaryNavigation.vm.link.Identifiers")</a>
+                        </td>			
+                    </tr>
+                    <tr>
+                        <td width="50%" align="left">
+                        <img border="0"  src="memory:/images/arrow_link.gif"  >&nbsp;
+                        <a class="gray" href="http://www.csgsystems.com?template=AccountSummary_OpenItemIdMapList">$!resourceManager.getString("AccountSummaryNavigation.vm.link.ChargeRules")</a>
+                        </td>
+                        <td width="50%" align="left">
+                        <img border="0"  src="memory:/images/arrow_link.gif"  >&nbsp;
+                        <a class="gray" href="http://www.csgsystems.com?template=AccountSummary_ProductPackageList">$!resourceManager.getString("AccountSummaryNavigation.vm.link.Packages")</a>
+                        </td>			
+                    </tr>
+                    <tr>
+                        <td width="50%" align="left">
+                        <img src="memory:/images/arrow_link.gif">&nbsp;
+                        <a class="gray" href="http://www.csgsystems.com?template=AccountSummary_DepositList">$!resourceManager.getString("AccountSummaryNavigation.vm.link.Deposits")</a>
+                        </td>
+                        <td width="50%" align="left">
+                        <img border="0"  src="memory:/images/arrow_link.gif"  >&nbsp;
+                        <a class="gray" href="http://www.csgsystems.com?template=AccountSummary_AccountComponentList">$!resourceManager.getString("AccountSummaryNavigation.vm.link.Components")</a>
+                        </td>			
+                    </tr>
+                    <tr>
+                        <td width="50%" align="left">
+                        <img border="0"  src="memory:/images/arrow_link.gif"  >&nbsp;
+                        <a class="gray" href="http://www.csgsystems.com?template=AccountSummary_RefundList">$!resourceManager.getString("AccountSummaryNavigation.vm.link.Refunds")</a>
+                        </td>
+                        <td width="50%" align="left">
+                        <img border="0"  src="memory:/images/arrow_link.gif"  >&nbsp;
+                        <a class="gray" href="http://www.csgsystems.com?template=AccountSummary_AccountProductList">$!resourceManager.getString("AccountSummaryNavigation.vm.link.Products")</a>
+                        </td>			
+                    </tr>
+                    <tr>
+                        <td width="50%" align="left">
+                        <img border="0"  src="memory:/images/arrow_link.gif"  >&nbsp;
+                        <a class="gray" href="http://www.csgsystems.com?template=AccountSummary_TaxExemptionList">$!resourceManager.getString("AccountSummaryNavigation.vm.link.TaxExemptions")</a>
+                        </td>
+                        <td width="50%" align="left">
+                        <img border="0"  src="memory:/images/arrow_link.gif"  >&nbsp;
+                        <a class="gray" href="http://www.csgsystems.com?template=AccountSummary_AccountContractList">$!resourceManager.getString("AccountSummaryNavigation.vm.link.Contracts")</a>
+                        </td>			
+                    </tr>
+                    <tr>
+                        <td width="50%" align="left">
+                        <img border="0"  src="memory:/images/arrow_link.gif"  >&nbsp;
+                        <a class="gray" href="http://www.csgsystems.com?template=AccountSummary_CorridorList">$!resourceManager.getString("AccountSummaryNavigation.vm.link.Corridors")</a>
+                        </td>	
+                        <td width="50%" align="left">
+                        <img border="0"  src="memory:/images/arrow_link.gif"  >&nbsp;
+                        <a class="gray" href="http://www.csgsystems.com?template=AccountSummary_AccountChargeList">$!resourceManager.getString("AccountSummaryNavigation.vm.link.Charges")</a>
+                        </td>			
+                    </tr>
+                        <tr>
+                            <td width="50%" align="left">
+                            <img border="0"  src="memory:/images/arrow_link.gif"  >&nbsp;
+                            <a class="gray" href="http://www.csgsystems.com?template=AccountSummary_OffCycleBillList">$!resourceManager.getString("AccountSummaryNavigation.vm.link.OffCycleBills")</a>
+                            </td>	
+			        #if ($isInventoryUsed == true)
+                            <td width="50%" align="left">
+                            <img border="0"  src="memory:/images/arrow_link.gif"  >&nbsp;
+                            <a class="gray" href="http://www.csgsystems.com?template=AccountSummary_InvElementList">$!resourceManager.getString("AccountSummaryNavigation.vm.link.Inventory")</a>                            
+                            </td>
+                          #end			
+                        </tr>
+                    <tr>
+                        <td width="50%" align="left">
+                        <img border="0"  src="memory:/images/arrow_link.gif"  >&nbsp;
+                        <a class="gray" href="http://www.csgsystems.com?template=AccountSummary_EftTransactionList">$!resourceManager.getString("AccountSummaryNavigation.vm.link.EFTTransactions")</a>
+                        </td>	
+                        <td width="50%" align="left">
+                        <img border="0"  src="memory:/images/arrow_link.gif"  >&nbsp;
+                        <a class="gray" href="http://www.csgsystems.com?template=AccountSummary_HQContractParticipationList">$!resourceManager.getString("AccountSummaryNavigation.vm.link.HQParticipation")</a>
+                        </td>			
+                    </tr>
+                    <tr>
+                        <td width="50%" align="left">
+                        <img border="0"  src="memory:/images/arrow_link.gif"  >&nbsp;
+                        <a class="gray" href="http://www.csgsystems.com?template=AccountSummary_PrepaymentList">$!resourceManager.getString("AccountSummaryNavigation.vm.link.Prepayments")</a>
+                        </td>	
+                        <td width="50%" align="left">
+                        &nbsp;
+                        </td>			
+                    </tr>
+                    <tr>
+                        <td width="50%" align="left">
+                        <img border="0"  src="memory:/images/arrow_link.gif"  >&nbsp;
+                        <a class="gray" href="http://www.csgsystems.com?template=AccountSummary_RefinancePlanList">$!resourceManager.getString("AccountSummaryNavigation.vm.link.RefinancePlan")</a>
+                        </td>	
+                        <td width="50%" align="left">
+                        &nbsp;
+                        </td>			
+                    </tr>
+                    <tr>
+                        <td width="50%" align="left">
+                        <img border="0"  src="memory:/images/arrow_link.gif"  >&nbsp;
+                        <a class="gray" href="http://www.csgsystems.com?template=AccountSummary_AccountCodeGroupList">$!resourceManager.getString("AccountSummaryNavigation.vm.link.AccountCodeGroup")</a>
+                        </td>	
+                        <td width="50%" align="left">
+                        &nbsp;
+                        </td>			
+                    </tr>                    
+                </table>  
+            </td>
+        </tr>
+        <tr height="5">
+            <td class="white" width="100%" colspan="2" ></td>
+        </tr>            
+        <tr>
+        ##################################################
+        ## informational links
+        ##################################################                  
+        #if ( $showExtendedData )
+            <td width="50%">
+        #else
+            <td width="100%" colspan="2">
+        #end
+                <table  width="100%" cellspacing="0" cellpadding="0">
+                    <tr>
+                    <td class="title">
+                        $!resourceManager.getString("AccountSummaryNavigation.vm.title.Informational")
+                    </td>    
+                    </tr>
+                </table>                                        
+            </td>
+            #if ( $showExtendedData )                
+                <td width="50%">
+                     <table  width="100%" cellspacing="0" cellpadding="0">
+                        <tr>
+                        <td class="title">
+                            $!resourceManager.getString("AccountSummaryNavigation.vm.title.Other")
+                        </td>    
+                        </tr>
+                    </table>                                        
+                </td>  
+            #end
+            
+        </tr>              
+        <tr>
+           <td width="100%" colspan="2">
+                ##################################################
+                ## individual list links for each informational item
+                ##################################################   
+                TEST TEST TEST TEST
+                <table class="white"  width="100%" cellspacing="1" cellpadding="1">
+                    <tr>
+                        <td width="50%" align="left">
+                        <img border="0"  src="memory:/images/arrow_link.gif">&nbsp;
+                        <a class="gray" href="http://www.csgsystems.com?template=AccountSummary_NoteList">$!resourceManager.getString("AccountSummaryNavigation.vm.link.Notes")</a>
+                        </td>
+                        <td width="50%" align="left">
+                        #if ( $showExtendedData )
+                            <img border="0"  src="memory:/images/arrow_link.gif">&nbsp;
+                            <a class="gray" href="http://www.csgsystems.com?template=AccountSummary_ExtendedData">$!resourceManager.getString("AccountSummaryNavigation.vm.link.ExtendedData")</a>
+                        #end
+                        </td>			
+                    </tr>   
+                    <tr>
+                        <td width="50%" align="left">
+                        <img border="0"  src="memory:/images/arrow_link.gif">&nbsp;
+                        <td width="50%" align="left">
+                            <img border="0"  src="memory:/images/arrow_link.gif">&nbsp;
+                            <a class="gray" href="http://www.csgsystems.com?template=AccountSummary_AgedDebt">$!resourceManager.getString("AccountSummaryNavigation.vm.link.AgedDebt")</a>
+                        </td>			
+                    </tr>                           
+                </table>
+            </td>
+        </tr>
+    </table>   
+
+    </body>
+</html>

@@ -1,0 +1,140 @@
+##################################################
+## Configure constants and global variables
+##################################################  
+## constants
+
+#set ($DDMFQueryDisplayRowsPerPage = 0)
+#set ($DDMFQueryDisplayMaxPages = 0)
+
+## domain data for this screen
+#set ($defaultersList = $domainContext.getObject("DefaulterList"))
+#set ($defaultersListCount = $defaultersList.getCount())
+
+#set ($DDMFQueryDisplayRowsPerPage = $defaultersList.getAttributeDataAsInteger("DisplayRowsPerPage"))
+#set ($DDMFQueryDisplayMaxPages = $defaultersList.getAttributeDataAsInteger("DisplayPages"))    
+#set ($page = 1)
+#set ($start = 0)
+#set ($end = 0)
+#set ($pageCount = 0)
+#set ($displayEndRow = 0)
+#set ($displayStartRow = 0)    
+
+## screen pagination 
+#if ($session.containsKey("page"))
+    #set ($page = $session.get("page"))
+    #set ($displayStartRow = $DDMFQueryDisplayRowsPerPage * ($page - 1))
+#else
+    ## first page
+    #set ($displayStartRow = 0)
+    #set ($page = 1)    
+#end
+#set ($displayEndRow = $displayStartRow + $DDMFQueryDisplayRowsPerPage)
+
+## number of pages of data
+#if ($defaultersListCount > 0)
+    #set ($pageCount = $defaultersListCount / $DDMFQueryDisplayRowsPerPage)
+    #if (($pageCount * $DDMFQueryDisplayRowsPerPage) < $defaultersListCount)
+        ## remainder of records not on full page
+        #set ($pageCount = $pageCount + 1)
+        
+        ## last page
+        #if ($pageCount == $page)
+            #set ($displayEndRow = $defaultersListCount)
+        #end
+    #end
+    
+    #set ($start = $displayStartRow )
+    #set ($end = $displayEndRow - 1)
+#end
+
+
+##################################################
+## Main - start of html
+##################################################  
+<html>
+<head>
+    <title>$!resourceManager.getString("DDMFQuery.vm.title")</title>
+    #defaultStylesheet( $filenameLocalizationUtil )
+</head>
+<body>  
+
+    <table width="100%" cellspacing="0" cellpadding="0">
+    <tr>
+        <td class="title" width="100%">
+            #if ( $defaultersListCount > 0 ) 
+                #set ($displayStartRow = $displayStartRow + 1)
+                #if ($displayStartRow == $displayEndRow)
+                    ##Accounts ($displayEndRow of $defaultersListCount)
+                    #set( $array = [ $displayEndRow, $defaultersListCount] )
+                    $!resourceManager.formatStringResource( "AccountLocate.vm.title.AccountsSingle", $array.toArray() )
+                #else
+                    ##Accounts ($displayStartRow - $displayEndRow of $defaultersListCount)
+                    #set( $array = [ $displayStartRow, $displayEndRow, $defaultersListCount] )
+                    $!resourceManager.formatStringResource( "AccountLocate.vm.title.AccountsMultiple", $array.toArray() )
+                #end
+            #else
+                Defaulters
+            #end
+        </td>
+    </tr>
+    </table>
+    #if ( $defaultersListCount > 0 ) 
+            ##################################################
+            ## Display header and data rows
+            ##################################################        
+            <table width="100%" cellspacing="1" cellpadding="1">
+                <tr>
+                <td class="header" align="left">Status</td>
+                <td class="header" align="left">Submit By</td>
+                <td class="header" align="left">Input Date</td>
+                <td class="header" align="left">New IC/Old IC</td>               
+                <td class="header" align="left">BRN</td>               
+                <td class="header" align="left">Name</td>               
+                <td class="header" align="left">Account</td>               
+                <td class="header" align="left">Last Enq By</td>               
+                </tr>    
+                #set ( $indexRange = [ ${start}..${end} ] )
+                #foreach ( $index in $indexRange )
+                    #set ( $item = $defaultersList.getAt($index))
+                    <tr>
+                        <td class="data">
+                        $!item.getAttributeData("Status")
+                        </td>
+                        <td class="data">
+                        $!item.getAttributeData("SubmitBy")
+                        </td>
+                        <td class="data">
+                        $!item.getAttributeData("InputDate")
+                        </td>
+                        <td class="datalabel">
+                                $!item.getAttribute("NewIC").getFormattedData()/$!item.getAttribute("OldIC").getFormattedData()
+                        </td>                         
+                        <td class="datalabel">
+                                $!item.getAttribute("BRN").getFormattedData()
+                        </td>                         
+                        <td class="data">
+                        $!item.getAttributeData("Name")
+                        </td>
+                        <td class="data">
+                        $!item.getAttributeData("Account")
+                        </td>
+                        <td class="data">$!item.getAttribute("LastEnqBy").getData()-($!item.getAttribute("LastEnqOn").getFormattedData())</td>
+                    </tr>      
+                #end
+            </table>
+            ##################################################
+            ## Display pagination
+            ##################################################
+            #DisplayPagination($defaultersListCount $resourceManager $pageCount $DDMFQueryDisplayMaxPages $page)     
+        #else
+            ######## No Records Found #########
+            <table  width="100%" cellspacing="0" cellpadding="0">
+            <tr>
+                <td width="100%">
+                    <br>No defaulters found
+                </td>
+            </tr>        
+            </table>    
+        #end
+</BODY>
+</HTML>
